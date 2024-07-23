@@ -10,15 +10,15 @@ import RandomSource from '../../common/model/RandomSource.js';
 
 export default class Population {
 
-  public readonly birds: [ Bird ];
+  public readonly birds: Bird[];
 
-  public constructor( birds: [ Bird ] ) {
+  public constructor( birds: Bird[] ) {
     this.birds = birds;
   }
 
-  public survivalPhase(rand: RandomSource, survivalProbability: ( Bird ) => number ): [ [ Bird ], [ Bird ] ] {
-    var alive: [ Bird ] = [];
-    var dead: [ Bird ] = [];
+  public survivalPhase(rand: RandomSource, survivalProbability: ( Bird ) => number ): [ Bird[], Bird[] ] {
+    var alive: Bird[] = [];
+    var dead: Bird[] = [];
 
     this.birds.forEach( bird => {
       if ( rand.nextValue() <= survivalProbability( bird ) ) {
