@@ -5,6 +5,7 @@
  */
 
 import populationEvolution from '../../populationEvolution.js';
+import RandomSource from '../../common/model/RandomSource.js';
 
 export default class Bird {
 
@@ -12,6 +13,11 @@ export default class Bird {
 
   public constructor( beakSize: number ) {
     this.beakSize = beakSize;
+  }
+
+  public mate( rand: RandomSource, partner: Bird ): [ Bird ] {
+    // TODO
+    return [];
   }
 }
 

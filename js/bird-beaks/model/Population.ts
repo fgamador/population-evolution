@@ -31,6 +31,11 @@ export default class Population {
     this.birds = alive;
     return [ alive, dead ];
   }
+
+  public mateFindingPhase( rand: RandomSource, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
+    // TODO
+    return [];
+  }
 }
 
 populationEvolution.register( 'Population', Population );
