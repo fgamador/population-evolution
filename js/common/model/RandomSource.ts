@@ -1,5 +1,5 @@
 /**
- * TODO Describe this class and its responsibilities.
+ * Wrap JavaScript random-number generator to support deterministic testing.
  *
  * @author Franz Amador (open-source contributor)
  */
@@ -19,6 +19,8 @@ export class TestRandomSource implements RandomSource {
   private nextIndex: number;
 
   public constructor( values: [ number ] ) {
+    assert && assert( values.forEach( value => 0 <= value && value < 1 ), 'values must be in [0, 1)' );
+
     this.values = values;
     this.nextIndex = 0;
   }
