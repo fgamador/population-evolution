@@ -16,7 +16,7 @@ export default class Population {
     this.birds = birds;
   }
 
-  public survivalPhase(rand: RandomSource, survivalProbability: ( Bird ) => number ): [ Bird[], Bird[] ] {
+  public survivalPhase( rand: RandomSource, survivalProbability: ( Bird ) => number ): [ Bird[], Bird[] ] {
     var alive: Bird[] = [];
     var dead: Bird[] = [];
 
