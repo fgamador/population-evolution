@@ -13,7 +13,7 @@ QUnit.module( 'TestRandomSource', function() {
 } );
 
 QUnit.module( 'Population', function() {
-  QUnit.test( 'survival', function( assert ) {
+  QUnit.test( 'survivalPhase', function( assert ) {
     var population = new Population( [ new Bird( 0.3 ), new Bird( 0.5 ), new Bird( 0.4 ), new Bird( 0.6 ) ] );
     var rand = new TestRandomSource( [ 0.5 ] );
     const [ alive, dead ] = population.survivalPhase( rand, bird => bird.beakSize );
