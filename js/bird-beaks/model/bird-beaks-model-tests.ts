@@ -23,4 +23,14 @@ QUnit.module( 'Population', function() {
     assert.equal( JSON.stringify( dead ), '[{"beakSize":0.3},{"beakSize":0.4}]' );
     assert.equal( JSON.stringify( population.birds ), JSON.stringify( alive ) );
   } );
+
+  QUnit.test( 'mateFindingPhase', function( assert ) {
+    var population = new Population( [ new Bird( 0.3 ), new Bird( 0.5 ), new Bird( 0.4 ), new Bird( 0.6 ) ] );
+    var rand = new TestRandomSource( [ 0.5 ] );
+
+    const matedPairs = population.mateFindingPhase( rand, ( bird1, bird2 ) => 1 - Math.abs( bird1.beakSize - bird2.beakSize ) );
+
+    assert.equal( matedPairs.length, 0 ); // dummy
+    // assert.equal( JSON.stringify( matedPairs ), '[{"beakSize":0.5},{"beakSize":0.6}]' );
+  } );
 } );
