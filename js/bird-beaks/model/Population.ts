@@ -37,12 +37,11 @@ export default class Population {
     let unmated = [ ...this.birds ];
 
     for ( let round = 1; round <= rounds; round++ ) {
-      let leftovers: Bird[] = [];
       shuffle( rand, unmated );
 
+      let leftovers: Bird[] = [];
       for ( let i = 1; i < unmated.length; i += 2 ) {
-        const bird1 = unmated[i - 1];
-        const bird2 = unmated[i];
+        const [ bird1, bird2 ] = [ unmated[i - 1], unmated[i] ];
         if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
           result.push( [ bird1, bird2 ] );
         } else {
