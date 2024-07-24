@@ -46,8 +46,7 @@ export default class Population {
         if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
           result.push( [ bird1, bird2 ] );
         } else {
-          leftovers.push( bird1 );
-          leftovers.push( bird2 );
+          leftovers.push( bird1, bird2 );
         }
       }
 
