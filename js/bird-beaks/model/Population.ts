@@ -34,8 +34,14 @@ export default class Population {
 
   public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
     let result: [ Bird, Bird ][] = [];
+    let shuffledBirds = [ ...this.birds ];
+    shuffle( rand, shuffledBirds );
     for ( let i = 1; i < this.birds.length; i += 2 ) {
-      result.push( [ this.birds[i - 1], this.birds[i] ] );
+      const bird1 = this.birds[i - 1];
+      const bird2 = this.birds[i];
+      if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
+        result.push( [ bird1, bird2 ] );
+      }
     }
     return result;
   }
