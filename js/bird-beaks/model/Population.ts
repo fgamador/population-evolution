@@ -17,8 +17,8 @@ export default class Population {
   }
 
   public survivalPhase( rand: RandomSource, survivalProbability: ( Bird ) => number ): [ Bird[], Bird[] ] {
-    var alive: Bird[] = [];
-    var dead: Bird[] = [];
+    let alive: Bird[] = [];
+    let dead: Bird[] = [];
 
     this.birds.forEach( bird => {
       if ( rand.nextValue() <= survivalProbability( bird ) ) {
@@ -32,9 +32,18 @@ export default class Population {
     return [ alive, dead ];
   }
 
-  public mateFindingPhase( rand: RandomSource, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
-    // TODO
-    return [];
+  public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
+    let result: [ Bird, Bird ][] = [];
+    let bird1: Bird = null;
+    for ( let i = 0; i < this.birds.length; i++ ) {
+      if ( bird1 == null ) {
+        bird1 = this.birds[i];
+      } else {
+        result.push( [ bird1, this.birds[i] ] );
+        bird1 = null;
+      }
+    }
+    return result;
   }
 
   public add( newBirds: Bird[] ): void {
@@ -44,9 +53,9 @@ export default class Population {
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle<T>( rand: RandomSource, values: T[] ): void {
-  for ( let i = array.length - 1; i > 0; i-- ) {
+  for ( let i = values.length - 1; i > 0; i-- ) {
     const j = Math.floor( rand.nextValue() * ( i + 1 ) );
-    [ array[i], array[j] ] = [ array[j], array[i] ];
+    [ values[i], values[j] ] = [ values[j], values[i] ];
   }
 }
 
