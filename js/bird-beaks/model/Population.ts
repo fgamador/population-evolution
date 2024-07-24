@@ -34,14 +34,8 @@ export default class Population {
 
   public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
     let result: [ Bird, Bird ][] = [];
-    let bird1: Bird = null;
-    for ( let i = 0; i < this.birds.length; i++ ) {
-      if ( bird1 == null ) {
-        bird1 = this.birds[i];
-      } else {
-        result.push( [ bird1, this.birds[i] ] );
-        bird1 = null;
-      }
+    for ( let i = 1; i < this.birds.length; i += 2 ) {
+      result.push( [ this.birds[i - 1], this.birds[i] ] );
     }
     return result;
   }
