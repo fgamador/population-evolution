@@ -34,15 +34,26 @@ export default class Population {
 
   public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
     let result: [ Bird, Bird ][] = [];
-    let shuffledBirds = [ ...this.birds ];
-    shuffle( rand, shuffledBirds );
-    for ( let i = 1; i < shuffledBirds.length; i += 2 ) {
-      const bird1 = shuffledBirds[i - 1];
-      const bird2 = shuffledBirds[i];
-      if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
-        result.push( [ bird1, bird2 ] );
+    let unmated = [ ...this.birds ];
+
+    for ( let round = 1; round <= rounds; round++ ) {
+      let leftovers: Bird[] = [];
+      shuffle( rand, unmated );
+
+      for ( let i = 1; i < unmated.length; i += 2 ) {
+        const bird1 = unmated[i - 1];
+        const bird2 = unmated[i];
+        if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
+          result.push( [ bird1, bird2 ] );
+        } else {
+          leftovers.push( bird1 );
+          leftovers.push( bird2 );
+        }
       }
+
+      unmated = leftovers;
     }
+
     return result;
   }
 
