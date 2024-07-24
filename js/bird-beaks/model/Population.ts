@@ -6,7 +6,7 @@
 
 import Bird from './Bird.js';
 import populationEvolution from '../../populationEvolution.js';
-import RandomSource from '../../common/model/RandomSource.js';
+import RandomSource, { shuffle } from '../../common/model/RandomSource.js';
 
 export default class Population {
 
@@ -48,14 +48,6 @@ export default class Population {
 
   public add( newBirds: Bird[] ): void {
     // TODO
-  }
-}
-
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle<T>( rand: RandomSource, values: T[] ): void {
-  for ( let i = values.length - 1; i > 0; i-- ) {
-    const j = Math.floor( rand.nextValue() * ( i + 1 ) );
-    [ values[i], values[j] ] = [ values[j], values[i] ];
   }
 }
 

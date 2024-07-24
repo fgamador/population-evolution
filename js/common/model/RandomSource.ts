@@ -32,4 +32,12 @@ export class TestRandomSource implements RandomSource {
   }
 }
 
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+export function shuffle<T>( rand: RandomSource, values: T[] ): void {
+  for ( let i = values.length - 1; i > 0; i-- ) {
+    const j = Math.floor( rand.nextValue() * ( i + 1 ) );
+    [ values[i], values[j] ] = [ values[j], values[i] ];
+  }
+}
+
 populationEvolution.register( 'RandomSource', RandomSource );
