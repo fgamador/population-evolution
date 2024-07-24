@@ -27,7 +27,7 @@ export class TestRandomSource implements RandomSource {
 
   public nextValue(): number {
     const result = this.values[ this.nextIndex ];
-    this.nextIndex = ++this.nextIndex % this.values.length;
+    this.nextIndex = Math.min( ++this.nextIndex, this.values.length - 1 );
     return result;
   }
 }
