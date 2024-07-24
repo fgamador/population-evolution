@@ -4,8 +4,8 @@ import { TestRandomSource } from '../../common/model/RandomSource.js';
 
 QUnit.module( 'Population', function() {
   QUnit.test( 'survivalPhase', function( assert ) {
-    var population = new Population( [ new Bird( 0.3 ), new Bird( 0.5 ), new Bird( 0.4 ), new Bird( 0.6 ) ] );
-    var rand = new TestRandomSource( [ 0.5 ] );
+    let population = new Population( [ new Bird( 0.3 ), new Bird( 0.5 ), new Bird( 0.4 ), new Bird( 0.6 ) ] );
+    let rand = new TestRandomSource( [ 0.5 ] );
 
     const [ alive, dead ] = population.survivalPhase( rand, bird => bird.beakSize );
 
@@ -15,8 +15,8 @@ QUnit.module( 'Population', function() {
   } );
 
   QUnit.test( 'mateFindingPhase no shuffle perfect matches', function( assert ) {
-    var population = new Population( [ new Bird( 0.3 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
-    var rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
+    let population = new Population( [ new Bird( 0.3 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
+    let rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
 
     const matedPairs = population.mateFindingPhase( rand, 1, ( bird1, bird2 ) => 1 - Math.abs( bird1.beakSize - bird2.beakSize ) );
 
@@ -24,8 +24,8 @@ QUnit.module( 'Population', function() {
   } );
 
   QUnit.test( 'mateFindingPhase no shuffle single match', function( assert ) {
-    var population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
-    var rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
+    let population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
+    let rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
 
     const matedPairs = population.mateFindingPhase( rand, 1, ( bird1, bird2 ) => 1 - Math.abs( bird1.beakSize - bird2.beakSize ) );
 
