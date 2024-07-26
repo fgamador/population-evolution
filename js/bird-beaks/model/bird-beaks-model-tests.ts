@@ -18,11 +18,20 @@ QUnit.module( 'Population', function() {
     assert.equal( JSON.stringify( population.birds ), JSON.stringify( alive ) );
   } );
 
+  QUnit.test( 'mateFindingPhase no birds', function( assert ) {
+    let population = new Population( [] );
+    let rand = new TestRandomSource( [] );
+
+    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability );
+
+    assert.equal( JSON.stringify( matedPairs ), '[]' );
+  } );
+
   QUnit.test( 'mateFindingPhase no shuffle perfect matches', function( assert ) {
     let population = new Population( [ new Bird( 0.3 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
     let rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
 
-    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability( bird1, bird2 ) ) );
+    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability );
 
     assert.equal( JSON.stringify( matedPairs ), '[[{"beakSize":0.3},{"beakSize":0.3}],[{"beakSize":0.4},{"beakSize":0.4}]]' );
   } );
@@ -31,7 +40,7 @@ QUnit.module( 'Population', function() {
     let population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.3 ), new Bird( 0.4 ), new Bird( 0.5 ) ] );
     let rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.99, 0.5 ] );
 
-    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability( bird1, bird2 ) );
+    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability );
 
     assert.equal( JSON.stringify( matedPairs ), '[[{"beakSize":0.3},{"beakSize":0.4}]]' );
   } );
@@ -40,7 +49,7 @@ QUnit.module( 'Population', function() {
     let population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.3 ), new Bird( 0.4 ) ] );
     let rand = new TestRandomSource( [ 0.99, 0.99, 0.99, 0.5, 0.5, 0.99, 0.3 ] );
 
-    const matedPairs = population.mateFindingPhase( rand, 2, birdMatingProbability( bird1, bird2 ) );
+    const matedPairs = population.mateFindingPhase( rand, 2, birdMatingProbability );
 
     assert.equal( JSON.stringify( matedPairs ), '[[{"beakSize":0.3},{"beakSize":0.4}],[{"beakSize":0.2},{"beakSize":0.8}]]' );
   } );
@@ -49,7 +58,7 @@ QUnit.module( 'Population', function() {
     let population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.7 ) ] );
     let rand = new TestRandomSource( [ 0.0, 0.99, 0.5 ] );
 
-    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability( bird1, bird2 ) );
+    const matedPairs = population.mateFindingPhase( rand, 1, birdMatingProbability );
 
     assert.equal( JSON.stringify( matedPairs ), '[[{"beakSize":0.7},{"beakSize":0.8}]]' );
   } );
@@ -58,7 +67,7 @@ QUnit.module( 'Population', function() {
     let population = new Population( [ new Bird( 0.2 ), new Bird( 0.8 ), new Bird( 0.7 ) ] );
     let rand = new TestRandomSource( [ 0.99, 0.99, 0.5, 0.0, 0.99, 0.5 ] );
 
-    const matedPairs = population.mateFindingPhase( rand, 2, birdMatingProbability( bird1, bird2 ) );
+    const matedPairs = population.mateFindingPhase( rand, 2, birdMatingProbability );
 
     assert.equal( JSON.stringify( matedPairs ), '[[{"beakSize":0.7},{"beakSize":0.8}]]' );
   } );
