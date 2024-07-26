@@ -36,7 +36,7 @@ export default class Population {
     let result: [ Bird, Bird ][] = [];
     let unmated = [ ...this.birds ];
 
-    for ( let round = 1; round <= rounds; round++ ) {
+    for ( let round = 1; round <= rounds && unmated.length >= 2; round++ ) {
       shuffle( rand, unmated );
 
       let leftovers: Bird[] = [];
