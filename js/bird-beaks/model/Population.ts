@@ -40,6 +40,7 @@ export default class Population {
       shuffle( rand, unmated );
 
       let leftovers: Bird[] = [];
+
       for ( let i = 1; i < unmated.length; i += 2 ) {
         const [ bird1, bird2 ] = [ unmated[i - 1], unmated[i] ];
         if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
@@ -47,6 +48,10 @@ export default class Population {
         } else {
           leftovers.push( bird1, bird2 );
         }
+      }
+
+      if ( unmated.length % 2 == 1 ) {
+        leftovers.push( unmated[ unmated.length - 1 ] );
       }
 
       unmated = leftovers;
