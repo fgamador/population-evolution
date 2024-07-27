@@ -1,5 +1,8 @@
 /**
- * TODO Describe this class and its responsibilities.
+ * A population that can evolve. It goes through a cycle of phases:
+ * - Survival
+ * - Mate-finding
+ * - Breeding
  *
  * @author Franz Amador (open-source contributor)
  */
