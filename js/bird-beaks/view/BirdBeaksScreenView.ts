@@ -10,6 +10,7 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to BirdBeaksScreenView here
@@ -41,6 +42,18 @@ export default class BirdBeaksScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // Time controls, used to play/pause the animation
+    const timeControlNode = new TimeControlNode( model.isPlayingProperty, {
+      playPauseStepButtonOptions: {
+        stepForwardButtonOptions: {
+          listener: () => model.stepOnce()
+        }
+      },
+      right: resetAllButton.left - 40,
+      bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN
+    } );
+    this.addChild( timeControlNode );
   }
 
   /**
