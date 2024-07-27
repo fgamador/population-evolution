@@ -4,7 +4,7 @@
  * @author Franz Amador
  */
 
-import BirdBeaksScreen from './bird-beaks2/BirdBeaksScreen.js';
+import BirdBeaksScreen from './bird-beaks/BirdBeaksScreen.js';
 import PopulationEvolutionStrings from './PopulationEvolutionStrings.js';
 import './common/PopulationEvolutionQueryParameters.js';
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
