@@ -16,9 +16,10 @@ export default class RandomSource {
     return Math.random();
   }
 
-  // https://en.wikipedia.org/wiki/Marsaglia_polar_method
+  // Normally distributed value with specified mean and standard deviation.
+  // Uses Marsaglia polar method (https://en.wikipedia.org/wiki/Marsaglia_polar_method).
   public nextNormalValue( mean: number, stdev: number ): number {
-    assert && assert( mean >= 0, 'mean cannot be negative' ) && assert( stdev >= 0, 'stdev cannot be negative' );
+    assert && assert( stdev >= 0, 'stdev cannot be negative' );
 
     if ( unscaledNormalValue2 != undefined ) {
       const unscaledNormalValue = unscaledNormalValue2;
@@ -42,6 +43,8 @@ export default class RandomSource {
     return mean + stdDev * unscaledNormalValue1;
   }
 
+  // Non-negative normally distributed value with specified mean and standard deviation.
+  // Just resamples until it gets a non-negative value.
   public nextNonNegativeNormalValue( mean: number, stdev: number ): number {
     let value: number;
     do {
