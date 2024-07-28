@@ -1,13 +1,16 @@
 /**
- * TODO Describe this class and its responsibilities.
+ * Model for the bird-beaks evolution sim as a whole.
  *
  * @author Franz Amador
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import populationEvolution from '../../populationEvolution.js';
+import CallbackTimer, { CallbackTimerOptions } from '../../../../axon/js/CallbackTimer.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import populationEvolution from '../../populationEvolution.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import TModel from '../../../../joist/js/TModel.js';
 
 type SelfOptions = {
@@ -18,12 +21,25 @@ type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'ta
 
 export default class BirdBeaksModel implements TModel {
 
+  private timer: CallbackTimer;
+
   // Whether the model is advanced on each call to step.
   public isPlayingProperty: BooleanProperty;
 
+  public timeSpeedProperty: EnumerationProperty<TimeSpeed>;
+
   public constructor( providedOptions: BirdBeaksModelOptions ) {
+
+    this.timer = new CallbackTimer( {
+      interval: 1000,
+      callback: this.stepOnce.bind( this )
+    } );
+    // this.timer.start();
+
     // TODO
     this.isPlayingProperty = new BooleanProperty( true );
+  
+    this.timeSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
   }
 
   /**
@@ -39,7 +55,8 @@ export default class BirdBeaksModel implements TModel {
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      this.stepOnce();
+      // console.log( dt );
+      // this.stepOnce();
     }
   }
 
@@ -48,6 +65,7 @@ export default class BirdBeaksModel implements TModel {
    */
   public stepOnce(): void {
     // TODO
+    console.log( 'stepOnce' );
   }
 }
 

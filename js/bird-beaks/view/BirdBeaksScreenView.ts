@@ -11,6 +11,7 @@ import PopulationEvolutionConstants from '../../common/PopulationEvolutionConsta
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
   //TODO add options that are specific to BirdBeaksScreenView here
@@ -50,6 +51,8 @@ export default class BirdBeaksScreenView extends ScreenView {
           listener: () => model.stepOnce()
         }
       },
+      timeSpeedProperty: model.timeSpeedProperty,
+      timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ],
       right: resetAllButton.left - 40,
       bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN
     } );
