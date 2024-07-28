@@ -45,7 +45,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     // Time controls, used to play/pause the animation
-    const timeControlNode = new TimeControlNode( model.isPlayingProperty, {
+    const timeControlNode = new TimeControlNode( model.isRunningProperty, {
       playPauseStepButtonOptions: {
         playPauseButtonOptions: {
           listenerOptions: {
@@ -56,7 +56,7 @@ export default class BirdBeaksScreenView extends ScreenView {
           listener: () => model.stepOnce()
         }
       },
-      timeSpeedProperty: model.playingSpeedProperty,
+      timeSpeedProperty: model.runSpeedProperty,
       timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ],
       right: resetAllButton.left - 40,
       bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN

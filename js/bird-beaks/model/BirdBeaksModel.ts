@@ -21,23 +21,23 @@ type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'ta
 
 export default class BirdBeaksModel implements TModel {
 
-  public isPlayingProperty: BooleanProperty;
+  public isRunningProperty: BooleanProperty;
 
-  public playingSpeedProperty: EnumerationProperty<TimeSpeed>;
+  public runSpeedProperty: EnumerationProperty<TimeSpeed>;
 
   private timer: CallbackTimer;
 
   public constructor( providedOptions: BirdBeaksModelOptions ) {
 
-    this.isPlayingProperty = new BooleanProperty( true );
+    this.isRunningProperty = new BooleanProperty( true );
   
-    this.playingSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
+    this.runSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
 
     this.timer = new CallbackTimer( {
       interval: 1000,
       callback: this.stepOnce.bind( this )
     } );
-    if ( this.isPlayingProperty.value ) {
+    if ( this.isRunningProperty.value ) {
       this.timer.start();
     }
   }
@@ -50,7 +50,7 @@ export default class BirdBeaksModel implements TModel {
   }
 
   public startStop(): void {
-    if ( this.isPlayingProperty.value ) {
+    if ( this.isRunningProperty.value ) {
       this.timer.start();
     } else{
       this.timer.stop( false );
