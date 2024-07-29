@@ -1,7 +1,7 @@
 /**
  * Model for the bird-beaks evolution sim as a whole.
  *
- * @author Franz Amador
+ * @author Franz Amador <franzamador@gmail.com>
  */
 
 import Bird from './Bird.js';
@@ -11,6 +11,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Population from './Population.js';
 import populationEvolution from '../../populationEvolution.js';
+import PopulationPhase from './PopulationPhase.js';
 import RandomSource from '../../common/model/RandomSource.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import TModel from '../../../../joist/js/TModel.js';
@@ -43,7 +44,9 @@ export default class BirdBeaksModel implements TModel {
 
   private rand: RandomSource;
 
-  private population: Population;
+  public population: Population;
+
+  public phase: EnumerationProperty<PopulationPhase>;
 
   public constructor( providedOptions: BirdBeaksModelOptions ) {
 
@@ -53,6 +56,7 @@ export default class BirdBeaksModel implements TModel {
 
     this.rand = new RandomSource();
     this.population = new Population(Bird.normallyDistributed( this.rand, 1000, 5, 2 ));
+    this.phase = new EnumerationProperty<PopulationPhase>( PopulationPhase.SURVIVAL );
   }
 
   public reset(): void {
@@ -70,8 +74,22 @@ export default class BirdBeaksModel implements TModel {
   }
 
   public update(): void {
-    // TODO
-    console.log( 'update' );
+    switch ( this.phase.value ) {
+      case PopulationPhase.SURVIVAL: {
+        this.phase.value = PopulationPhase.MATE_FINDING;
+        break;
+      }
+
+      case PopulationPhase.MATE_FINDING: {
+        this.phase.value = PopulationPhase.BREEDING;
+        break;
+      }
+
+      case PopulationPhase.BREEDING: {
+        this.phase.value = PopulationPhase.SURVIVAL;
+        break;
+      }
+    }
   }
 }
 

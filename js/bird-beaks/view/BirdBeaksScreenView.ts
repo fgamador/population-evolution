@@ -8,10 +8,12 @@ import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
+import PopulationPhase from '../model/PopulationPhase.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
@@ -22,6 +24,8 @@ type SelfOptions = {
 type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
+
+  private labelValue: StringProperty;
 
   private rect: Rectangle;
 
@@ -36,11 +40,29 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     super( options );
 
-    const label = new StringDisplay( 'Howdy!', {
+    this.labelValue = new StringProperty('');
+    const label = new StringDisplay( this.labelValue, {
       top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
       centerX: this.layoutBounds.maxX / 2
     } );
     this.addChild( label );
+
+    model.phase.link( phase => {
+      switch ( phase ) {
+        case PopulationPhase.SURVIVAL: {
+          this.labelValue.value = 'Survival phase';
+          break;
+        }
+        case PopulationPhase.MATE_FINDING: {
+          this.labelValue.value = 'Mate-finding phase';
+          break;
+        }
+        case PopulationPhase.BREEDING: {
+          this.labelValue.value = 'Breeding phase';
+          break;
+        }
+      }
+    } );
 
     this.rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
     this.addChild( this.rect );
