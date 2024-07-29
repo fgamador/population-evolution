@@ -13,13 +13,13 @@ import RandomSource, { shuffle } from '../../common/model/RandomSource.js';
 
 export default class Population {
 
-  public readonly birds: Bird[];
+  public birds: Bird[];
 
   public constructor( birds: Bird[] ) {
     this.birds = birds;
   }
 
-  public survivalPhase( rand: RandomSource, survivalProbability: ( Bird ) => number ): [ Bird[], Bird[] ] {
+  public survivalPhase( rand: RandomSource, survivalProbability: ( bird: Bird ) => number ): [ Bird[], Bird[] ] {
     let alive: Bird[] = [];
     let dead: Bird[] = [];
 
@@ -35,7 +35,7 @@ export default class Population {
     return [ alive, dead ];
   }
 
-  public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( Bird, Bird ) => number ): [ Bird, Bird ][] {
+  public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( bird1: Bird, bird2: Bird ) => number ): [ Bird, Bird ][] {
     let result: [ Bird, Bird ][] = [];
     let unmated = [ ...this.birds ];
 
