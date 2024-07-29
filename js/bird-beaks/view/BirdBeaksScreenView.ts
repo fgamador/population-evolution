@@ -8,6 +8,7 @@ import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
@@ -21,6 +22,8 @@ type SelfOptions = {
 type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
+
+  private rect: Rectangle;
 
   public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
@@ -38,6 +41,9 @@ export default class BirdBeaksScreenView extends ScreenView {
       centerX: this.layoutBounds.maxX / 2
     } );
     this.addChild( label );
+
+    this.rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )' } );
+    this.addChild( this.rect );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -70,7 +76,7 @@ export default class BirdBeaksScreenView extends ScreenView {
    * Resets the view.
    */
   public reset(): void {
-    //TODO
+    this.rect.setRectHeightFromBottom( 200 );
   }
 
   /**
@@ -78,7 +84,7 @@ export default class BirdBeaksScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-    //TODO
+    this.rect.setRectHeightFromBottom( Math.max( this.rect.getHeight() - 1, 10 ) );
   }
 }
 
