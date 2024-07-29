@@ -10,6 +10,7 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
@@ -32,6 +33,12 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     super( options );
 
+    const label = new StringDisplay( 'Howdy!', {
+      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
+      centerX: this.layoutBounds.maxX / 2
+    } );
+    this.addChild( label );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -44,7 +51,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // Time controls, used to play/pause the animation
+    // Time controls, used to play/pause the simulation
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
