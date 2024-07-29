@@ -4,11 +4,14 @@
  * @author Franz Amador
  */
 
+import Bird from './Bird.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Population from './Population.js';
 import populationEvolution from '../../populationEvolution.js';
+import RandomSource from '../../common/model/RandomSource.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import TModel from '../../../../joist/js/TModel.js';
 
@@ -38,11 +41,18 @@ export default class BirdBeaksModel implements TModel {
 
   private secondsUntilNextUpdate: number;
 
+  private rand: RandomSource;
+
+  private population: Population;
+
   public constructor( providedOptions: BirdBeaksModelOptions ) {
 
     this.isRunningProperty = new BooleanProperty( true );  
     this.runSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
+
+    this.rand = new RandomSource();
+    this.population = new Population(Bird.normallyDistributed( this.rand, 1000, 5, 2 ));
   }
 
   public reset(): void {

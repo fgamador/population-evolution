@@ -10,6 +10,7 @@ import RandomSource from '../../common/model/RandomSource.js';
 
 export default class Bird {
 
+  // seed diameter for which beak is most effective, in mm
   public readonly beakSize: number;
 
   public constructor( beakSize: number ) {
@@ -31,10 +32,18 @@ export default class Bird {
     return 1 - Math.abs( this.beakSize - bird.beakSize );
   }
 
-  public breed( rand: RandomSource, partner: Bird ): [ Bird ] {
+  public breed( rand: RandomSource, partner: Bird ): Bird[] {
     // TODO
     // create each child by "breeding" their beakSizes
     return [];
+  }
+
+  public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
+    let result: Bird[] = [];
+    for (let i = 0; i < count; i++) {
+      result.push( new Bird( rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev ) ) );
+    }
+    return result;
   }
 }
 
