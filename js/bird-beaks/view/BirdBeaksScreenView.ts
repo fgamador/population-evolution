@@ -42,7 +42,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( label );
 
-    this.rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )' } );
+    this.rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
     this.addChild( this.rect );
 
     const resetAllButton = new ResetAllButton( {
