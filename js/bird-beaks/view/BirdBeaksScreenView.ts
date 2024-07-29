@@ -47,13 +47,8 @@ export default class BirdBeaksScreenView extends ScreenView {
     // Time controls, used to play/pause the animation
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
       playPauseStepButtonOptions: {
-        playPauseButtonOptions: {
-          listenerOptions: {
-            release: () => model.startStop()
-          }
-        },
         stepForwardButtonOptions: {
-          listener: () => model.stepOnce()
+          listener: () => model.update()
         }
       },
       timeSpeedProperty: model.runSpeedProperty,

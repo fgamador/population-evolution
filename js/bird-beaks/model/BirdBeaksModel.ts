@@ -5,7 +5,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import CallbackTimer, { CallbackTimerOptions } from '../../../../axon/js/CallbackTimer.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -19,50 +18,50 @@ type SelfOptions = {
 
 type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
+// Seconds to wait for next call to model.update.
+function updateIntervalForTimeSpeed(timeSpeed: TimeSpeed): number {
+  switch (timeSpeed) {
+    case TimeSpeed.FAST:
+      return 0.25;
+    case TimeSpeed.NORMAL:
+      return 0.5;
+    default:
+      return 1.0;
+  }
+}
+
 export default class BirdBeaksModel implements TModel {
 
   public isRunningProperty: BooleanProperty;
 
   public runSpeedProperty: EnumerationProperty<TimeSpeed>;
 
-  private timer: CallbackTimer;
+  private secondsUntilNextUpdate: number;
 
   public constructor( providedOptions: BirdBeaksModelOptions ) {
 
-    this.isRunningProperty = new BooleanProperty( true );
-  
+    this.isRunningProperty = new BooleanProperty( true );  
     this.runSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
-
-    this.timer = new CallbackTimer( {
-      interval: 1000,
-      callback: this.stepOnce.bind( this )
-    } );
-    if ( this.isRunningProperty.value ) {
-      this.timer.start();
-    }
+    this.secondsUntilNextUpdate = 0;
   }
 
-  /**
-   * Resets the model.
-   */
   public reset(): void {
-    // TODO
+    this.isRunningProperty.reset();
+    this.runSpeedProperty.reset();
+    this.secondsUntilNextUpdate = 0;
   }
 
-  public startStop(): void {
-    if ( this.isRunningProperty.value ) {
-      this.timer.start();
-    } else{
-      this.timer.stop( false );
-    }
+  public step( dt: number ): void {
+    if ( !this.isRunningProperty.value || ( this.secondsUntilNextUpdate -= dt ) > 0 )
+      return;
+
+    this.secondsUntilNextUpdate = updateIntervalForTimeSpeed( this.runSpeedProperty.value );
+    this.update();
   }
 
-  /**
-   * Steps the model one step. Called directly when using the step button of the time control.
-   */
-  public stepOnce(): void {
+  public update(): void {
     // TODO
-    console.log( 'stepOnce' );
+    console.log( 'update' );
   }
 }
 
