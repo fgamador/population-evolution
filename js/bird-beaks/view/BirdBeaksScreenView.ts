@@ -84,7 +84,9 @@ export default class BirdBeaksScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-    this.rect.setRectHeightFromBottom( Math.max( this.rect.getHeight() - 1, 10 ) );
+    if ( this.rect.getHeight() > 10 ) {
+      this.rect.setRectHeightFromBottom( this.rect.getHeight() - 5 );
+    }
   }
 }
 
