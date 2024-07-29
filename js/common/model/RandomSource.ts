@@ -9,7 +9,7 @@ import populationEvolution from '../../populationEvolution.js';
 export default class RandomSource {
 
   // Marsaglia polar method generates two values. Stash the second one here.
-  private unscaledNormalValue2: number = undefined;
+  private unscaledNormalValue2: number | undefined = undefined;
 
   // Uniform value in [0, 1)
   public nextValue(): number {
@@ -18,12 +18,12 @@ export default class RandomSource {
 
   // Normally distributed value with specified mean and standard deviation.
   // Uses Marsaglia polar method (https://en.wikipedia.org/wiki/Marsaglia_polar_method).
-  public nextNormalValue( mean: number, stdev: number ): number {
-    assert && assert( stdev >= 0, 'stdev cannot be negative' );
+  public nextNormalValue( mean: number, stdDev: number ): number {
+    assert && assert( stdDev >= 0, 'stdev cannot be negative' );
 
-    if ( unscaledNormalValue2 != undefined ) {
-      const unscaledNormalValue = unscaledNormalValue2;
-      unscaledNormalValue2 = undefined;
+    if ( this.unscaledNormalValue2 != undefined ) {
+      const unscaledNormalValue = this.unscaledNormalValue2;
+      this.unscaledNormalValue2 = undefined;
       return mean + stdDev * unscaledNormalValue;
     }
 
@@ -32,9 +32,9 @@ export default class RandomSource {
     let s: number;
 
     do {
-      x = nextValue() * 2 - 1;
-      y = nextValue() * 2 - 1;
-      s = u * u + v * v;
+      x = this.nextValue() * 2 - 1;
+      y = this.nextValue() * 2 - 1;
+      s = x * x + y * y;
     } while ( s >= 1 || s == 0 );
 
     const temp = Math.sqrt( -2.0 * Math.log(s) / s );
@@ -48,7 +48,7 @@ export default class RandomSource {
   public nextNonNegativeNormalValue( mean: number, stdev: number ): number {
     let value: number;
     do {
-      value = nextNormalValue( mean, stdev );
+      value = this.nextNormalValue( mean, stdev );
     } while ( value < 0 );
     return value;
   }
@@ -56,10 +56,10 @@ export default class RandomSource {
 
 export class TestRandomSource extends RandomSource {
 
-  private values: [ number ];
+  private values: number[];
   private nextIndex: number;
 
-  public constructor( values: [ number ] ) {
+  public constructor( values: number[] ) {
     assert && assert( values.forEach( value => 0 <= value && value < 1 ), 'values must be in [0, 1)' );
 
     super();
