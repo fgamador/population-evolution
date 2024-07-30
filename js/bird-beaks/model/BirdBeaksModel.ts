@@ -54,9 +54,8 @@ export default class BirdBeaksModel implements TModel {
     this.isRunningProperty = new BooleanProperty( true );  
     this.runSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
-
     this.rand = new RandomSource();
-    this.population = new Population(Bird.normallyDistributed( this.rand, 1000, 5, 2 ));
+    this.population = this.createPopulation();
     this.phase = new EnumerationProperty<PopulationPhase>( PopulationPhase.SURVIVAL );
   }
 
@@ -64,6 +63,12 @@ export default class BirdBeaksModel implements TModel {
     this.isRunningProperty.reset();
     this.runSpeedProperty.reset();
     this.secondsUntilNextUpdate = 0;
+    this.population = this.createPopulation();
+    this.phase.reset();
+  }
+
+  private createPopulation(): Population {
+    return new Population(Bird.normallyDistributed( this.rand, 1000, 5, 2 ));
   }
 
   public step( dt: number ): void {
