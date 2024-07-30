@@ -23,16 +23,17 @@ type SelfOptions = {
 type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Seconds to wait for next call to model.update.
-function updateIntervalForTimeSpeed(timeSpeed: TimeSpeed): number {
-  switch (timeSpeed) {
-    case TimeSpeed.FAST:
-      return 0.25;
-    case TimeSpeed.NORMAL:
-      return 0.5;
-    default:
-      return 1.0;
-  }
-}
+const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
+  [ TimeSpeed.SLOW, 1.0 ],
+  [ TimeSpeed.NORMAL, 0.5 ],
+  [ TimeSpeed.FAST, 0.25 ]
+] );
+
+const nextPhase = new Map<PopulationPhase, PopulationPhase>( [
+  [ PopulationPhase.SURVIVAL, PopulationPhase.MATE_FINDING ],
+  [ PopulationPhase.MATE_FINDING, PopulationPhase.BREEDING ],
+  [ PopulationPhase.BREEDING, PopulationPhase.SURVIVAL ]
+] );
 
 export default class BirdBeaksModel implements TModel {
 
@@ -69,27 +70,29 @@ export default class BirdBeaksModel implements TModel {
     if ( !this.isRunningProperty.value || ( this.secondsUntilNextUpdate -= dt ) > 0 )
       return;
 
-    this.secondsUntilNextUpdate = updateIntervalForTimeSpeed( this.runSpeedProperty.value );
+    this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.runSpeedProperty.value ) || 1.0;
     this.update();
   }
 
   public update(): void {
     switch ( this.phase.value ) {
       case PopulationPhase.SURVIVAL: {
-        this.phase.value = PopulationPhase.MATE_FINDING;
+        // TODO
         break;
       }
 
       case PopulationPhase.MATE_FINDING: {
-        this.phase.value = PopulationPhase.BREEDING;
+        // TODO
         break;
       }
 
       case PopulationPhase.BREEDING: {
-        this.phase.value = PopulationPhase.SURVIVAL;
+        // TODO
         break;
       }
     }
+
+    this.phase.value = nextPhase.get( this.phase.value ) || PopulationPhase.SURVIVAL;
   }
 }
 
