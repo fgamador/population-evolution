@@ -24,7 +24,7 @@ export default class Bird {
     //     eatProbability(bird, seed) *
     //     foodIngested(bird, seed))
     // divided by food needed, or something like that
-    return 1.0;
+    return 0.8; // TODO
   }
 
   public matingProbability( bird: Bird ): number {

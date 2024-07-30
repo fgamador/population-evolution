@@ -68,7 +68,7 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population {
-    return new Population(Bird.normallyDistributed( this.rand, 1000, 5, 2 ));
+    return new Population( Bird.normallyDistributed( this.rand, 1000, 5, 2 ) );
   }
 
   public step( dt: number ): void {
@@ -82,7 +82,7 @@ export default class BirdBeaksModel implements TModel {
   public update(): void {
     switch ( this.phase.value ) {
       case PopulationPhase.SURVIVAL: {
-        // TODO
+        const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
         break;
       }
 
