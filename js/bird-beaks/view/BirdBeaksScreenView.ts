@@ -4,6 +4,7 @@
  * @author Franz Amador
  */
 
+import Animation from '../../../../twixt/js/Animation.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -42,9 +43,9 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private secondsUntilNextUpdate: number;
 
-  private labelValue: StringProperty;
-
   private rect: Rectangle;
+
+  private labelValue: StringProperty;
 
   public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
@@ -86,8 +87,17 @@ export default class BirdBeaksScreenView extends ScreenView {
       }
     } );
 
-    this.rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
-    this.addChild( this.rect );
+    let rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
+    this.addChild( rect );
+    this.rect = rect;
+
+    let shrinkRect = new Animation( {
+      setValue: function( value ) { rect.setRectHeightFromBottom( value ); },
+      from: rect.height,
+      to: 10,
+      duration: 1.0
+    } );
+    shrinkRect.start();
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
