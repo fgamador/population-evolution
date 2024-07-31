@@ -1,5 +1,5 @@
 /**
- * TODO Describe this class and its responsibilities.
+ * The screen for the bird-beak evolution sim.
  *
  * @author Franz Amador
  */
@@ -8,7 +8,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationPhase from '../model/PopulationPhase.js';
@@ -27,9 +27,7 @@ const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 0.25 ]
 ] );
 
-type SelfOptions = {
-  //TODO add options that are specific to BirdBeaksScreenView here
-};
+type SelfOptions = EmptySelfOptions;
 
 type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
@@ -45,53 +43,56 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private rect: Rectangle;
 
-  private labelValue: StringProperty;
+  private labelValueProperty: StringProperty;
 
   public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
     const options = optionize<BirdBeaksScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
-      //TODO add default values for optional SelfOptions here
+      // add default values for optional SelfOptions here
 
-      //TODO add default values for optional ScreenViewOptions here
+      // add default values for optional ScreenViewOptions here
     }, providedOptions );
 
     super( options );
 
     this.model = model;
-    this.isPlayingProperty = new BooleanProperty( true );  
-    this.playingSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
+    this.isPlayingProperty = new BooleanProperty( true );
+    this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
 
-    this.labelValue = new StringProperty('');
-    const label = new StringDisplay( this.labelValue, {
+    this.labelValueProperty = new StringProperty( '' );
+    const label = new StringDisplay( this.labelValueProperty, {
       top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
       centerX: this.layoutBounds.maxX / 2
     } );
     this.addChild( label );
 
     model.phase.link( phase => {
-      switch ( phase ) {
+      switch( phase ) {
         case PopulationPhase.SURVIVAL: {
-          this.labelValue.value = 'Survival phase';
+          this.labelValueProperty.value = 'Survival phase';
           break;
         }
         case PopulationPhase.MATE_FINDING: {
-          this.labelValue.value = 'Mate-finding phase';
+          this.labelValueProperty.value = 'Mate-finding phase';
           break;
         }
         case PopulationPhase.BREEDING: {
-          this.labelValue.value = 'Breeding phase';
+          this.labelValueProperty.value = 'Breeding phase';
+          break;
+        }
+        default: {
           break;
         }
       }
     } );
 
-    let rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
+    const rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
     this.addChild( rect );
     this.rect = rect;
 
-    let shrinkRect = new Animation( {
+    const shrinkRect = new Animation( {
       setValue: function( value ) { rect.setRectHeightFromBottom( value ); },
       from: rect.height,
       to: 10,
@@ -141,15 +142,12 @@ export default class BirdBeaksScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-    if ( !this.isPlayingProperty.value || ( this.secondsUntilNextUpdate -= dt ) > 0 )
+    if ( !this.isPlayingProperty.value || ( this.secondsUntilNextUpdate -= dt ) > 0 ) {
       return;
+    }
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.model.update();
-
-    // if ( this.rect.getHeight() > 10 ) {
-    //   this.rect.setRectHeightFromBottom( this.rect.getHeight() - 5 );
-    // }
   }
 }
 
