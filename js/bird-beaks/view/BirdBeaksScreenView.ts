@@ -5,6 +5,8 @@
  */
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
@@ -17,6 +19,13 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
+// Seconds to wait for next call to model.update.
+const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
+  [ TimeSpeed.SLOW, 1.0 ],
+  [ TimeSpeed.NORMAL, 0.5 ],
+  [ TimeSpeed.FAST, 0.25 ]
+] );
+
 type SelfOptions = {
   //TODO add options that are specific to BirdBeaksScreenView here
 };
@@ -24,6 +33,14 @@ type SelfOptions = {
 type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
+
+  private model: BirdBeaksModel;
+
+  private isPlayingProperty: BooleanProperty;
+
+  private playingSpeedProperty: EnumerationProperty<TimeSpeed>;
+
+  private secondsUntilNextUpdate: number;
 
   private labelValue: StringProperty;
 
@@ -39,6 +56,11 @@ export default class BirdBeaksScreenView extends ScreenView {
     }, providedOptions );
 
     super( options );
+
+    this.model = model;
+    this.isPlayingProperty = new BooleanProperty( true );  
+    this.playingSpeedProperty = new EnumerationProperty<TimeSpeed>( TimeSpeed.SLOW );
+    this.secondsUntilNextUpdate = 0;
 
     this.labelValue = new StringProperty('');
     const label = new StringDisplay( this.labelValue, {
@@ -80,13 +102,13 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     // Time controls, used to play/pause the simulation
-    const timeControlNode = new TimeControlNode( model.isRunningProperty, {
+    const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
           listener: () => model.update()
         }
       },
-      timeSpeedProperty: model.runSpeedProperty,
+      timeSpeedProperty: this.playingSpeedProperty,
       timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ],
       right: resetAllButton.left - 40,
       bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN
@@ -98,6 +120,9 @@ export default class BirdBeaksScreenView extends ScreenView {
    * Resets the view.
    */
   public reset(): void {
+    this.isPlayingProperty.reset();
+    this.playingSpeedProperty.reset();
+    this.secondsUntilNextUpdate = 0;
     this.rect.setRectHeightFromBottom( 200 );
   }
 
@@ -106,9 +131,15 @@ export default class BirdBeaksScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-    if ( this.rect.getHeight() > 10 ) {
-      this.rect.setRectHeightFromBottom( this.rect.getHeight() - 5 );
-    }
+    if ( !this.isPlayingProperty.value || ( this.secondsUntilNextUpdate -= dt ) > 0 )
+      return;
+
+    this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
+    this.model.update();
+
+    // if ( this.rect.getHeight() > 10 ) {
+    //   this.rect.setRectHeightFromBottom( this.rect.getHeight() - 5 );
+    // }
   }
 }
 
