@@ -18,7 +18,7 @@ type SelfOptions = {
   minValue: number;
   maxValue: number;
   numBars: number;
-  interBarSpacing: number;
+  interBarGap: number;
 };
 
 export type PopulationHistogramOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'localBounds'>;
