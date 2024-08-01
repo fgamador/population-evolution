@@ -69,7 +69,8 @@ export default class PopulationHistogramBar extends Node {
       duration: 0.5
     } );
 
-    const shrinkDeadAndValueRects = new Animation( {
+    // explicit generic types until inference is fixed to keep eslint happy
+    const shrinkDeadAndValueRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
         object: this.deadRect,
         attribute: 'rectHeightFromBottom',
