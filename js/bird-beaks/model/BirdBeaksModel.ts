@@ -1,3 +1,5 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
  * Model for the bird-beaks evolution sim as a whole.
  *
@@ -5,22 +7,13 @@
  */
 
 import Bird from './Bird.js';
-import Emitter from '../../../../axon/js/Emitter.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Population from './Population.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationPhase from './PopulationPhase.js';
 import RandomSource from '../../common/model/RandomSource.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
-
-// TODO nuke options?
-type SelfOptions = EmptySelfOptions;
-
-type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 const nextPhase = new Map<PopulationPhase, PopulationPhase>( [
   [ PopulationPhase.SURVIVAL, PopulationPhase.MATE_FINDING ],
@@ -38,7 +31,7 @@ export default class BirdBeaksModel implements TModel {
 
   public survivalPhaseEmitter: TinyEmitter<[ number, number ]>;
 
-  public constructor( providedOptions: BirdBeaksModelOptions ) {
+  public constructor() {
 
     this.rand = new RandomSource();
     this.population = this.createPopulation();

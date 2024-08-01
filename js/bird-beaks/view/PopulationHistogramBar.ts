@@ -1,12 +1,12 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TODO
+ * One bar from the population histogram.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */
 
-// import Animation from '../../../../twixt/js/Animation.js';
+import Animation from '../../../../twixt/js/Animation.js';
 // import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -39,19 +39,10 @@ export default class PopulationHistogramBar extends Node {
 
     this.pixelsPerValue = ( options.maxHeight || 1000 ) / options.maxValue;
 
-    const valueRect = new Rectangle( 500, 150,
+    this.valueRect = new Rectangle( 500, 150,
       100, initialValue * this.pixelsPerValue,
       { fill: 'rgb( 120, 120, 120 )' } );
-    this.addChild( valueRect );
-    this.valueRect = valueRect;
-
-    // const shrinkRect = new Animation( {
-    //   setValue: function( value ) { rect.setRectHeightFromBottom( value ); },
-    //   from: rect.height,
-    //   to: 10,
-    //   duration: 1.0
-    // } );
-    // shrinkRect.start();
+    this.addChild( this.valueRect );
 
     // Scale this Node, so that it matches the model width and height.
     // const scaleX = modelViewTransform.modelToViewDeltaX( barMagnet.size.width ) / this.width;
@@ -59,8 +50,17 @@ export default class PopulationHistogramBar extends Node {
     // this.scale( scaleX, scaleY );
   }
 
-  public showDied( count: number ): void {
-    console.log( count );
+  public updateFromSurvivalPhase( alive: number, dead: number ): void {
+    const resizeValueRect = ( value: number ) => {
+      this.valueRect.setRectHeightFromBottom( value );
+    };
+
+    new Animation( {
+      setValue: resizeValueRect,
+      from: this.valueRect.height,
+      to: alive * this.pixelsPerValue,
+      duration: 0.5
+    } ).start();
   }
 }
 
