@@ -66,7 +66,7 @@ export default class PopulationHistogramBar extends Node {
       attribute: 'opacity',
       from: 0.0,
       to: 1.0,
-      duration: 1.0
+      duration: 0.5
     } );
 
     const shrinkDeadAndValueRects = new Animation( {
