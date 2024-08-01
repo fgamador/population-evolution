@@ -26,6 +26,8 @@ export default class PopulationHistogramBar extends Node {
 
   private valueRect: Rectangle;
 
+  private deadRect: Rectangle;
+
   public constructor( initialValue: number, providedOptions: PopulationHistogramBarOptions ) {
 
     const options = optionize<PopulationHistogramBarOptions, SelfOptions, NodeOptions>()( {
@@ -44,6 +46,11 @@ export default class PopulationHistogramBar extends Node {
       { fill: 'rgb( 120, 120, 120 )' } );
     this.addChild( this.valueRect );
 
+    this.deadRect = new Rectangle( 500, 150,
+      100, initialValue * this.pixelsPerValue,
+      { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
+    this.addChild( this.deadRect );
+
     // Scale this Node, so that it matches the model width and height.
     // const scaleX = modelViewTransform.modelToViewDeltaX( barMagnet.size.width ) / this.width;
     // const scaleY = modelViewTransform.modelToViewDeltaY( barMagnet.size.height ) / this.height;
@@ -51,16 +58,34 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
-    const resizeValueRect = ( value: number ) => {
-      this.valueRect.setRectHeightFromBottom( value );
-    };
+    const fadeInDeadRect = new Animation( {
+      object: this.deadRect,
+      attribute: 'opacity',
+      from: 0.0,
+      to: 1.0,
+      duration: 1.0
+    } );
 
-    new Animation( {
-      setValue: resizeValueRect,
-      from: this.valueRect.height,
-      to: alive * this.pixelsPerValue,
-      duration: 0.5
-    } ).start();
+    const shrinkDeadAndValueRects = new Animation( {
+      targets: [ {
+        object: this.deadRect,
+        attribute: 'rectHeightFromBottom',
+        from: dead * this.pixelsPerValue,
+        to: 0.0
+      },
+      {
+        object: this.valueRect,
+        attribute: 'rectHeightFromBottom',
+        from: this.valueRect.height,
+        to: alive * this.pixelsPerValue
+      } ],
+      duration: 1.0
+    } );
+
+    this.deadRect.opacity = 0.0;
+    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerValue;
+    fadeInDeadRect.then( shrinkDeadAndValueRects );
+    fadeInDeadRect.start();
   }
 }
 
