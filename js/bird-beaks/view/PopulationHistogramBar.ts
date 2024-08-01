@@ -58,6 +58,9 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
+    this.deadRect.opacity = 0.0;
+    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerValue;
+
     const fadeInDeadRect = new Animation( {
       object: this.deadRect,
       attribute: 'opacity',
@@ -70,7 +73,7 @@ export default class PopulationHistogramBar extends Node {
       targets: [ {
         object: this.deadRect,
         attribute: 'rectHeightFromBottom',
-        from: dead * this.pixelsPerValue,
+        from: this.deadRect.height,
         to: 0.0
       },
       {
@@ -82,8 +85,6 @@ export default class PopulationHistogramBar extends Node {
       duration: 1.0
     } );
 
-    this.deadRect.opacity = 0.0;
-    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerValue;
     fadeInDeadRect.then( shrinkDeadAndValueRects );
     fadeInDeadRect.start();
   }
