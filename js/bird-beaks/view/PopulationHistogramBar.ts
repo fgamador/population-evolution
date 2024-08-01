@@ -58,6 +58,10 @@ export default class PopulationHistogramBar extends Node {
     // const scaleY = modelViewTransform.modelToViewDeltaY( barMagnet.size.height ) / this.height;
     // this.scale( scaleX, scaleY );
   }
+
+  public showDied( count: number ): void {
+    console.log( count );
+  }
 }
 
 populationEvolution.register( 'PopulationHistogramBar', PopulationHistogramBar );

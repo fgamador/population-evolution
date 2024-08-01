@@ -72,7 +72,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( label );
 
-    model.phase.link( phase => {
+    model.phaseProperty.link( phase => {
       switch( phase ) {
         case PopulationPhase.SURVIVAL: {
           this.labelValueProperty.value = 'Survival phase';
@@ -92,11 +92,15 @@ export default class BirdBeaksScreenView extends ScreenView {
       }
     } );
 
-    this.bar = new PopulationHistogramBar( 100, {
-      maxValue: 1000,
-      maxHeight: 1000
+    this.bar = new PopulationHistogramBar( model.population.birds.length, {
+      maxValue: 1500,
+      maxHeight: 500
     } );
     this.addChild( this.bar );
+
+    model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
+      this.bar.showDied( dead );
+    } );
 
     // const rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
     // this.addChild( rect );

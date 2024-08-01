@@ -5,6 +5,8 @@
  */
 
 import Bird from './Bird.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -12,11 +14,11 @@ import Population from './Population.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationPhase from './PopulationPhase.js';
 import RandomSource from '../../common/model/RandomSource.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
 
-type SelfOptions = {
-  // TODO add options that are specific to BirdBeaksModel here
-};
+// TODO nuke options?
+type SelfOptions = EmptySelfOptions;
 
 type BirdBeaksModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -32,18 +34,21 @@ export default class BirdBeaksModel implements TModel {
 
   public population: Population;
 
-  public phase: EnumerationProperty<PopulationPhase>;
+  public phaseProperty: EnumerationProperty<PopulationPhase>;
+
+  public survivalPhaseEmitter: TinyEmitter<[ number, number ]>;
 
   public constructor( providedOptions: BirdBeaksModelOptions ) {
 
     this.rand = new RandomSource();
     this.population = this.createPopulation();
-    this.phase = new EnumerationProperty<PopulationPhase>( PopulationPhase.SURVIVAL );
+    this.phaseProperty = new EnumerationProperty( PopulationPhase.SURVIVAL );
+    this.survivalPhaseEmitter = new TinyEmitter();
   }
 
   public reset(): void {
     this.population = this.createPopulation();
-    this.phase.reset();
+    this.phaseProperty.reset();
   }
 
   private createPopulation(): Population {
@@ -51,9 +56,10 @@ export default class BirdBeaksModel implements TModel {
   }
 
   public update(): void {
-    switch ( this.phase.value ) {
+    switch( this.phaseProperty.value ) {
       case PopulationPhase.SURVIVAL: {
         const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
+        this.survivalPhaseEmitter.emit( alive.length, dead.length );
         break;
       }
 
@@ -66,9 +72,13 @@ export default class BirdBeaksModel implements TModel {
         // TODO
         break;
       }
+
+      default: {
+        break;
+      }
     }
 
-    this.phase.value = nextPhase.get( this.phase.value ) || PopulationPhase.SURVIVAL;
+    this.phaseProperty.value = nextPhase.get( this.phaseProperty.value ) || PopulationPhase.SURVIVAL;
   }
 }
 
