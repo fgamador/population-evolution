@@ -57,12 +57,12 @@ export default class BirdBeaksModel implements TModel {
       }
 
       case PopulationPhase.MATE_FINDING: {
-        // TODO
+        // code goes here
         break;
       }
 
       case PopulationPhase.BREEDING: {
-        // TODO
+        // code goes here
         break;
       }
 

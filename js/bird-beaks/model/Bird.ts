@@ -1,3 +1,5 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
  * An individual member of a population of birds. It has only one trait that can evolve: the size of its beak,
  * which influences how able it is to get nutrition from eating seeds of different sizes.
@@ -24,23 +26,22 @@ export default class Bird {
     //     eatProbability(bird, seed) *
     //     foodIngested(bird, seed))
     // divided by food needed, or something like that
-    return 0.8; // TODO
+    return 0.8;
   }
 
   public matingProbability( bird: Bird ): number {
-    // TODO something like this, but can't assume beakSize is a probability
+    // something like this, but can't assume beakSize is a probability
     return 1 - Math.abs( this.beakSize - bird.beakSize );
   }
 
   public breed( rand: RandomSource, partner: Bird ): Bird[] {
-    // TODO
     // create each child by "breeding" their beakSizes
     return [];
   }
 
   public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
-    let result: Bird[] = [];
-    for (let i = 0; i < count; i++) {
+    const result: Bird[] = [];
+    for ( let i = 0; i < count; i++ ) {
       result.push( new Bird( rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev ) ) );
     }
     return result;
