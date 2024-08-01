@@ -1,18 +1,21 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
- * The screen for the bird-beak evolution sim.
+ * The root view for the bird-beak evolution sim.
  *
- * @author Franz Amador
+ * @author Franz Amador <franzamador@gmail.com>
  */
 
-import Animation from '../../../../twixt/js/Animation.js';
+// import Animation from '../../../../twixt/js/Animation.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
+import PopulationHistogramBar from './PopulationHistogramBar.js'
 import PopulationPhase from '../model/PopulationPhase.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+// import { Rectangle } from '../../../../scenery/js/imports.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
@@ -41,7 +44,8 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private secondsUntilNextUpdate: number;
 
-  private rect: Rectangle;
+  private bar: PopulationHistogramBar;
+  // private rect: Rectangle;
 
   private labelValueProperty: StringProperty;
 
@@ -88,17 +92,23 @@ export default class BirdBeaksScreenView extends ScreenView {
       }
     } );
 
-    const rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
-    this.addChild( rect );
-    this.rect = rect;
-
-    const shrinkRect = new Animation( {
-      setValue: function( value ) { rect.setRectHeightFromBottom( value ); },
-      from: rect.height,
-      to: 10,
-      duration: 1.0
+    this.bar = new PopulationHistogramBar( 100, {
+      maxValue: 1000,
+      maxHeight: 1000
     } );
-    shrinkRect.start();
+    this.addChild( this.bar );
+
+    // const rect = new Rectangle( ( this.layoutBounds.maxX / 2 - 50 ), 150, 100, 200, { fill: 'rgb( 120, 120, 120 )', opacity: 1.0 } );
+    // this.addChild( rect );
+    // this.rect = rect;
+
+    // const shrinkRect = new Animation( {
+    //   setValue: function( value ) { rect.setRectHeightFromBottom( value ); },
+    //   from: rect.height,
+    //   to: 10,
+    //   duration: 1.0
+    // } );
+    // shrinkRect.start();
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -134,7 +144,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.isPlayingProperty.reset();
     this.playingSpeedProperty.reset();
     this.secondsUntilNextUpdate = 0;
-    this.rect.setRectHeightFromBottom( 200 );
+    // this.rect.setRectHeightFromBottom( 200 );
   }
 
   /**
