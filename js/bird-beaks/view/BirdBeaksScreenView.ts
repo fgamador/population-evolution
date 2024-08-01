@@ -91,7 +91,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
 
     this.bar = new PopulationHistogramBar( model.population.birds.length, {
-      maxValue: 1500,
+      maxCount: 1500,
       maxHeight: 500
     } );
     this.addChild( this.bar );

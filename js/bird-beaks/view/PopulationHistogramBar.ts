@@ -15,20 +15,20 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
-  maxValue: number;
+  maxCount: number;
 };
 
 export type PopulationHistogramBarOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'maxHeight'>;
 
 export default class PopulationHistogramBar extends Node {
 
-  private pixelsPerValue: number;
+  private pixelsPerCount: number;
 
-  private valueRect: Rectangle;
+  private countRect: Rectangle;
 
   private deadRect: Rectangle;
 
-  public constructor( initialValue: number, providedOptions: PopulationHistogramBarOptions ) {
+  public constructor( initialCount: number, providedOptions: PopulationHistogramBarOptions ) {
 
     const options = optionize<PopulationHistogramBarOptions, SelfOptions, NodeOptions>()( {
 
@@ -39,15 +39,15 @@ export default class PopulationHistogramBar extends Node {
 
     super( options );
 
-    this.pixelsPerValue = ( options.maxHeight || 1000 ) / options.maxValue;
+    this.pixelsPerCount = ( options.maxHeight || 1000 ) / options.maxCount;
 
-    this.valueRect = new Rectangle( 500, 150,
-      100, initialValue * this.pixelsPerValue,
+    this.countRect = new Rectangle( 500, 150,
+      100, initialCount * this.pixelsPerCount,
       { fill: 'rgb( 120, 120, 120 )' } );
-    this.addChild( this.valueRect );
+    this.addChild( this.countRect );
 
     this.deadRect = new Rectangle( 500, 150,
-      100, initialValue * this.pixelsPerValue,
+      100, initialCount * this.pixelsPerCount,
       { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
     this.addChild( this.deadRect );
 
@@ -59,7 +59,7 @@ export default class PopulationHistogramBar extends Node {
 
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
     this.deadRect.opacity = 0.0;
-    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerValue;
+    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerCount;
 
     const fadeInDeadRect = new Animation( {
       object: this.deadRect,
@@ -69,8 +69,8 @@ export default class PopulationHistogramBar extends Node {
       duration: 0.5
     } );
 
-    // explicit generic types until inference is fixed to keep eslint happy
-    const shrinkDeadAndValueRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+    // explicit types for Animation generic to keep eslint happy until inference is fixed
+    const shrinkDeadAndCountRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
         object: this.deadRect,
         attribute: 'rectHeightFromBottom',
@@ -78,15 +78,15 @@ export default class PopulationHistogramBar extends Node {
         to: 0.0
       },
       {
-        object: this.valueRect,
+        object: this.countRect,
         attribute: 'rectHeightFromBottom',
-        from: this.valueRect.height,
-        to: alive * this.pixelsPerValue
+        from: this.countRect.height,
+        to: alive * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
 
-    fadeInDeadRect.then( shrinkDeadAndValueRects );
+    fadeInDeadRect.then( shrinkDeadAndCountRects );
     fadeInDeadRect.start();
   }
 }
