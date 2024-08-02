@@ -8,7 +8,6 @@
 
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
 
@@ -18,16 +17,17 @@ type SelfOptions = {
   maxCount: number;
   numBars: number;
   barGap: number;
+  histogramWidth: number;
+  histogramHeight: number;
 };
 
-export type PopulationHistogramOptions = SelfOptions & NodeOptions &
-  PickRequired<NodeOptions, 'maxWidth' | 'maxHeight'>;
+export type PopulationHistogramOptions = SelfOptions & NodeOptions;
 
 export default class PopulationHistogram extends Node {
 
   private bars: PopulationHistogramBar[];
 
-  // private pixelsPerValue: number;
+  // private pixelsPerCount: number;
 
   public constructor( providedOptions: PopulationHistogramOptions ) {
 
@@ -40,17 +40,16 @@ export default class PopulationHistogram extends Node {
 
     super( options );
 
-    // this.pixelsPerCount = ( options.maxHeight || 1000 ) / options.maxCount;
+    // this.pixelsPerCount = ( options.histogramHeight || 1000 ) / options.maxCount;
 
-    const width = options.maxWidth || 1000;
-    const barWidth = ( width - ( options.numBars - 1 ) * options.barGap ) / options.numBars;
+    const barWidth = Math.floor( ( options.histogramWidth - ( options.numBars - 1 ) * options.barGap ) / options.numBars );
 
     this.bars = [];
     for ( let i = 0; i < options.numBars; i++ ) {
-      const bar = new PopulationHistogramBar( 0, {
+      const bar = new PopulationHistogramBar( {
         maxCount: options.maxCount,
-        maxHeight: options.maxHeight,
         barWidth: barWidth,
+        barHeight: options.histogramHeight,
 
         left: i * ( barWidth + options.barGap ),
         top: 0
@@ -58,11 +57,6 @@ export default class PopulationHistogram extends Node {
       this.addChild( bar );
       this.bars.push( bar );
     }
-
-    // Scale this Node, so that it matches the model width and height.
-    // const scaleX = modelViewTransform.modelToViewDeltaX( barMagnet.size.width ) / this.width;
-    // const scaleY = modelViewTransform.modelToViewDeltaY( barMagnet.size.height ) / this.height;
-    // this.scale( scaleX, scaleY );
   }
 
   // public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
