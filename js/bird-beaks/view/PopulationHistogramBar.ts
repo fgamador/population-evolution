@@ -10,8 +10,8 @@ import Animation from '../../../../twixt/js/Animation.js';
 // import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import populationEvolution from '../../populationEvolution.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import populationEvolution from '../../populationEvolution.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
@@ -41,13 +41,13 @@ export default class PopulationHistogramBar extends Node {
 
     this.pixelsPerCount = ( options.maxHeight || 1000 ) / options.maxCount;
 
-    this.countRect = new Rectangle( 500, 150,
-      100, initialCount * this.pixelsPerCount,
+    this.countRect = new Rectangle( this.x, this.y,
+      this.width, initialCount * this.pixelsPerCount,
       { fill: 'rgb( 120, 120, 120 )' } );
     this.addChild( this.countRect );
 
-    this.deadRect = new Rectangle( 500, 150,
-      100, initialCount * this.pixelsPerCount,
+    this.deadRect = new Rectangle( this.x, this.y,
+      this.width, initialCount * this.pixelsPerCount,
       { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
     this.addChild( this.deadRect );
 

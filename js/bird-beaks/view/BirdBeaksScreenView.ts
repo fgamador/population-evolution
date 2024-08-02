@@ -8,11 +8,12 @@
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
-import PopulationHistogramBar from './PopulationHistogramBar.js';
+import PopulationHistogram from './PopulationHistogram.js';
 import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -42,8 +43,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private secondsUntilNextUpdate: number;
 
-  private bar: PopulationHistogramBar;
-  // private rect: Rectangle;
+  private histogram: PopulationHistogram;
 
   private labelValueProperty: StringProperty;
 
@@ -90,14 +90,18 @@ export default class BirdBeaksScreenView extends ScreenView {
       }
     } );
 
-    this.bar = new PopulationHistogramBar( model.population.birds.length, {
-      maxCount: 1500,
-      maxHeight: 500
+    this.histogram = new PopulationHistogram( {
+      localBounds: new Bounds2( 200, 200, 1000, 1000 ), // need real values
+      minValue: 0.0,
+      maxValue: 2.0,
+      maxCount: 2000,
+      numBars: 10,
+      barGap: 10
     } );
-    this.addChild( this.bar );
+    this.addChild( this.histogram );
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
-      this.bar.updateFromSurvivalPhase( alive, dead );
+      this.histogram.updateFromSurvivalPhase( alive, dead );
     } );
 
     const resetAllButton = new ResetAllButton( {

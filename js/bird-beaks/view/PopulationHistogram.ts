@@ -10,24 +10,29 @@
 // import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import populationEvolution from '../../populationEvolution.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import populationEvolution from '../../populationEvolution.js';
+import PopulationHistogramBar from './PopulationHistogramBar.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 // import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
   minValue: number;
   maxValue: number;
+  maxCount: number;
   numBars: number;
-  interBarGap: number;
+  barGap: number;
 };
 
 export type PopulationHistogramOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'localBounds'>;
 
 export default class PopulationHistogram extends Node {
 
-  private pixelsPerValue: number;
+  private bars: PopulationHistogramBar[];
 
-  public constructor( initialValue: number, providedOptions: PopulationHistogramOptions ) {
+  // private pixelsPerValue: number;
+
+  public constructor( providedOptions: PopulationHistogramOptions ) {
 
     const options = optionize<PopulationHistogramOptions, SelfOptions, NodeOptions>()( {
 
@@ -38,7 +43,20 @@ export default class PopulationHistogram extends Node {
 
     super( options );
 
-    this.pixelsPerValue = ( options.maxHeight || 1000 ) / options.maxValue;
+    // this.pixelsPerValue = ( options.maxHeight || 1000 ) / options.maxValue;
+    const barWidth = ( this.width - ( options.numBars - 1 ) * options.barGap ) / options.numBars;
+
+    this.bars = [];
+    for ( let i = 0; i < options.numBars; i++ ) {
+      const x = i * ( barWidth + options.barGap );
+      const bar = new PopulationHistogramBar( 0, {
+        localBounds: new Bounds2( x, this.y, x + barWidth, this.y + this.height ),
+        maxCount: options.maxCount,
+        maxHeight: this.height
+      } );
+      this.addChild( bar );
+      this.bars.push( bar );
+    }
 
     // Scale this Node, so that it matches the model width and height.
     // const scaleX = modelViewTransform.modelToViewDeltaX( barMagnet.size.width ) / this.width;
@@ -46,8 +64,9 @@ export default class PopulationHistogram extends Node {
     // this.scale( scaleX, scaleY );
   }
 
+  // public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
-    // code goes here
+      // code goes here
   }
 }
 
