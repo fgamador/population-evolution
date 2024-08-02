@@ -16,6 +16,7 @@ import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
   maxCount: number;
+  barWidth: number;
 };
 
 export type PopulationHistogramBarOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'maxHeight'>;
@@ -39,15 +40,14 @@ export default class PopulationHistogramBar extends Node {
 
     super( options );
 
-    this.pixelsPerCount = ( options.maxHeight || 1000 ) / options.maxCount;
+    const maxHeight = options.maxHeight || 1000;
+    this.pixelsPerCount = maxHeight / options.maxCount;
 
-    this.countRect = new Rectangle( this.x, this.y,
-      this.width, initialCount * this.pixelsPerCount,
+    this.countRect = new Rectangle( 0, 0, options.barWidth, maxHeight,
       { fill: 'rgb( 120, 120, 120 )' } );
     this.addChild( this.countRect );
 
-    this.deadRect = new Rectangle( this.x, this.y,
-      this.width, initialCount * this.pixelsPerCount,
+    this.deadRect = new Rectangle( 0, 0, options.barWidth, maxHeight,
       { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
     this.addChild( this.deadRect );
 

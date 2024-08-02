@@ -8,7 +8,6 @@
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -66,7 +65,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.labelValueProperty = new StringProperty( '' );
     const label = new StringDisplay( this.labelValueProperty, {
       top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: this.layoutBounds.maxX / 2
+      centerX: this.layoutBounds.centerX
     } );
     this.addChild( label );
 
@@ -91,12 +90,16 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
 
     this.histogram = new PopulationHistogram( {
-      localBounds: new Bounds2( 200, 200, 1000, 1000 ), // need real values
       minValue: 0.0,
       maxValue: 2.0,
       maxCount: 2000,
       numBars: 10,
-      barGap: 10
+      barGap: 10,
+      maxWidth: this.layoutBounds.width * 0.8,
+      maxHeight: this.layoutBounds.height * 0.6,
+
+      centerX: this.layoutBounds.centerX,
+      top: this.layoutBounds.top + 200
     } );
     this.addChild( this.histogram );
 
