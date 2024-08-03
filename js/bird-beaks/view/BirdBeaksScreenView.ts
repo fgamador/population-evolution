@@ -95,12 +95,12 @@ export default class BirdBeaksScreenView extends ScreenView {
       maxCount: 2000,
       numBars: 10,
       barGap: 10,
-      histogramWidth: Math.floor( this.layoutBounds.width * 0.8 ),
-      histogramHeight: Math.floor( this.layoutBounds.height * 0.6 )
+      histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+      histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
     } );
     this.addChild( this.histogram );
     this.histogram.centerX = this.layoutBounds.centerX;
-    this.histogram.top = this.layoutBounds.top + 200;
+    this.histogram.top = this.layoutBounds.top + 150;
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
       this.histogram.updateFromSurvivalPhase( alive, dead );
