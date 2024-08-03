@@ -49,19 +49,20 @@ export default class PopulationHistogram extends Node {
       const bar = new PopulationHistogramBar( {
         maxCount: options.maxCount,
         barWidth: barWidth,
-        barHeight: options.histogramHeight,
-
-        left: i * ( barWidth + options.barGap ),
-        top: 0
+        barHeight: options.histogramHeight
       } );
       this.addChild( bar );
-      this.bars.push( bar );
+      bar.left = i * ( barWidth + options.barGap );
+      bar.top = 0;
+    this.bars.push( bar );
     }
   }
 
   // public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
-      // code goes here
+    for ( const bar of this.bars ) {
+      bar.updateFromSurvivalPhase( alive, dead );
+    }
   }
 }
 
