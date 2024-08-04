@@ -6,6 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import Bird from '../model/Bird.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -92,7 +93,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.histogram = new PopulationHistogram( {
       minValue: 0.0,
       maxValue: 2.0,
-      maxCount: 2000,
+      maxCount: 10,
       numBars: 10,
       barGap: 10,
       histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
@@ -103,7 +104,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.histogram.top = this.layoutBounds.top + 150;
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
-      this.histogram.updateFromSurvivalPhase( alive, dead );
+      this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
     } );
 
     const resetAllButton = new ResetAllButton( {
@@ -154,6 +155,10 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.model.update();
   }
+}
+
+function birdsToBeakSizes( birds: Bird[] ): number[] {
+  return birds.map( bird => bird.beakSize );
 }
 
 populationEvolution.register( 'BirdBeaksScreenView', BirdBeaksScreenView );

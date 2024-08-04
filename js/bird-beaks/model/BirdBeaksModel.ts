@@ -29,7 +29,7 @@ export default class BirdBeaksModel implements TModel {
 
   public phaseProperty: EnumerationProperty<PopulationPhase>;
 
-  public survivalPhaseEmitter: TinyEmitter<[ number, number ]>;
+  public survivalPhaseEmitter: TinyEmitter<[ Bird[], Bird[] ]>;
 
   public constructor() {
 
@@ -52,7 +52,7 @@ export default class BirdBeaksModel implements TModel {
     switch( this.phaseProperty.value ) {
       case PopulationPhase.SURVIVAL: {
         const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
-        this.survivalPhaseEmitter.emit( alive.length, dead.length );
+        this.survivalPhaseEmitter.emit( alive, dead );
         break;
       }
 

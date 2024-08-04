@@ -25,6 +25,9 @@ export type PopulationHistogramOptions = SelfOptions & NodeOptions;
 
 export default class PopulationHistogram extends Node {
 
+  private minValue: number;
+  private maxValue: number;
+
   private bars: PopulationHistogramBar[];
 
   // private pixelsPerCount: number;
@@ -40,6 +43,9 @@ export default class PopulationHistogram extends Node {
 
     super( options );
 
+    this.minValue = options.minValue;
+    this.maxValue = options.maxValue;
+
     // this.pixelsPerCount = ( options.histogramHeight || 1000 ) / options.maxCount;
 
     const barWidth = Math.floor( ( options.histogramWidth - ( options.numBars - 1 ) * options.barGap ) / options.numBars );
@@ -51,18 +57,32 @@ export default class PopulationHistogram extends Node {
         barWidth: barWidth,
         barHeight: options.histogramHeight
       } );
+      this.bars.push( bar );
+
       this.addChild( bar );
       bar.left = i * ( barWidth + options.barGap );
       bar.top = 0;
-    this.bars.push( bar );
     }
   }
 
-  // public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
-  public updateFromSurvivalPhase( alive: number, dead: number ): void {
-    for ( const bar of this.bars ) {
-      bar.updateFromSurvivalPhase( alive, dead );
+  public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
+    const aliveBins = this.toHistogramBins( alive );
+    const deadBins = this.toHistogramBins( dead );
+
+    for ( let i = 0; i < this.bars.length; i++ ) {
+      this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
     }
+  }
+
+  private toHistogramBins( values: number[] ): number[] {
+    const result: number[] = new Array( this.bars.length );
+    result.fill( 0 );
+
+    for ( const value of values ) {
+      result[ Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length ) ]++;
+    }
+
+    return result;
   }
 }
 
