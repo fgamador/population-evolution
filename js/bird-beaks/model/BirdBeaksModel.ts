@@ -31,12 +31,15 @@ export default class BirdBeaksModel implements TModel {
 
   public survivalPhaseEmitter: TinyEmitter<[ Bird[], Bird[] ]>;
 
+  public mateFindingPhaseEmitter: TinyEmitter<[ Bird, Bird ][]>;
+
   public constructor() {
 
     this.rand = new RandomSource();
     this.population = this.createPopulation();
     this.phaseProperty = new EnumerationProperty( PopulationPhase.SURVIVAL );
     this.survivalPhaseEmitter = new TinyEmitter();
+    this.mateFindingPhaseEmitter = new TinyEmitter();
   }
 
   public reset(): void {
@@ -57,7 +60,9 @@ export default class BirdBeaksModel implements TModel {
       }
 
       case PopulationPhase.MATE_FINDING: {
-        // code goes here
+        const matedPairs = this.population.mateFindingPhase( this.rand, 2,
+          ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
+        this.mateFindingPhaseEmitter.emit( matedPairs );
         break;
       }
 
