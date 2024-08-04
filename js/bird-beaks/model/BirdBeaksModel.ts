@@ -15,12 +15,6 @@ import RandomSource from '../../common/model/RandomSource.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
 
-const nextPhase = new Map<PopulationPhase, PopulationPhase>( [
-  [ PopulationPhase.SURVIVAL, PopulationPhase.MATE_FINDING ],
-  [ PopulationPhase.MATE_FINDING, PopulationPhase.BREEDING ],
-  [ PopulationPhase.BREEDING, PopulationPhase.SURVIVAL ]
-] );
-
 export default class BirdBeaksModel implements TModel {
 
   private rand: RandomSource;
@@ -33,7 +27,7 @@ export default class BirdBeaksModel implements TModel {
 
   public mateFindingPhaseEmitter: TinyEmitter<[ Bird, Bird ][]>;
 
-  private phaseHandlers: Map<PopulationPhase, () => void>;
+  private phaseHandlers: Map<PopulationPhase, () => PopulationPhase>;
 
   public constructor() {
 
@@ -45,7 +39,8 @@ export default class BirdBeaksModel implements TModel {
   
     this.phaseHandlers = new Map( [
       [ PopulationPhase.SURVIVAL, this.survivalPhase.bind( this ) ],
-      [ PopulationPhase.MATE_FINDING, this.mateFindingPhase.bind( this ) ]
+      [ PopulationPhase.MATE_FINDING, this.mateFindingPhase.bind( this ) ],
+      [ PopulationPhase.BREEDING, this.breedingPhase.bind( this ) ]
     ] );
   }
 
@@ -59,26 +54,32 @@ export default class BirdBeaksModel implements TModel {
   }
 
   public update(): void {
-    const handler = this.phaseHandlers.get( this.phaseProperty.value ) || doNothing;
-    handler();
-
-    this.phaseProperty.value = nextPhase.get( this.phaseProperty.value ) || PopulationPhase.SURVIVAL;
+    const handler = this.phaseHandlers.get( this.phaseProperty.value ) || this.dummyPhase;
+    this.phaseProperty.value = handler();
   }
-  
-  private survivalPhase(): void {
+
+  private survivalPhase(): PopulationPhase {
     const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
     this.survivalPhaseEmitter.emit( alive, dead );
+    return PopulationPhase.MATE_FINDING;
   }
   
-  private mateFindingPhase(): void {
+  private mateFindingPhase(): PopulationPhase {
     const matedPairs = this.population.mateFindingPhase( this.rand, 2,
       ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
     this.mateFindingPhaseEmitter.emit( matedPairs );
+    return PopulationPhase.BREEDING;
   }
-}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function doNothing(): void {
+  private breedingPhase(): PopulationPhase {
+    // todo
+    return PopulationPhase.SURVIVAL;
+  }
+
+  private dummyPhase(): PopulationPhase {
+    assert && assert( false, 'Unhandled population phase' );
+    return PopulationPhase.SURVIVAL;
+  }
 }
 
 populationEvolution.register( 'BirdBeaksModel', BirdBeaksModel );
