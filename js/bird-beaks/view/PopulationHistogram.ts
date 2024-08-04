@@ -65,9 +65,9 @@ export default class PopulationHistogram extends Node {
     }
   }
 
-  public updateFromSurvivalPhase( alive: number[], dead: number[] ): void {
-    const aliveBins = this.toHistogramBins( alive );
-    const deadBins = this.toHistogramBins( dead );
+  public updateFromSurvivalPhase( aliveValues: number[], deadValues: number[] ): void {
+    const aliveBins = this.toHistogramBins( aliveValues );
+    const deadBins = this.toHistogramBins( deadValues );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
       this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
