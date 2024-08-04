@@ -50,11 +50,11 @@ export default class PopulationHistogramBar extends Node {
     this.addChild( this.deadRect );
   }
 
-  public updateFromSurvivalPhase( alive: number, dead: number ): void {
-    this.countRect.rectHeightFromBottom = ( alive + dead ) * this.pixelsPerCount;
+  public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
+    this.countRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
     this.countRect.opacity = 1.0;
     this.deadRect.opacity = 0.0;
-    this.deadRect.rectHeightFromBottom = dead * this.pixelsPerCount;
+    this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
 
     const fadeInDeadRect = new Animation( {
       object: this.deadRect,
@@ -76,13 +76,17 @@ export default class PopulationHistogramBar extends Node {
         object: this.countRect,
         attribute: 'rectHeightFromBottom',
         from: this.countRect.height,
-        to: alive * this.pixelsPerCount
+        to: aliveCount * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
 
     fadeInDeadRect.then( shrinkDeadAndCountRects );
     fadeInDeadRect.start();
+  }
+
+  public updateFromMateFindingPhase( count: number ): void {
+    // todo
   }
 }
 

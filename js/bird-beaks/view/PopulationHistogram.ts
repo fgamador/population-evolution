@@ -66,8 +66,8 @@ export default class PopulationHistogram extends Node {
   }
 
   public updateFromSurvivalPhase( aliveValues: number[], deadValues: number[] ): void {
-    const aliveBins = this.toHistogramBins( aliveValues );
-    const deadBins = this.toHistogramBins( deadValues );
+    const aliveBins = this.valuesToHistogramBins( aliveValues );
+    const deadBins = this.valuesToHistogramBins( deadValues );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
       this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
@@ -75,23 +75,40 @@ export default class PopulationHistogram extends Node {
   }
 
   public updateFromMateFindingPhase( matedPairValues: [ number, number ][] ): void {
-    // const aliveBins = this.toHistogramBins( aliveValues );
-    // const deadBins = this.toHistogramBins( deadValues );
+    const bins = this.valuePairsToHistogramBins( matedPairValues );
 
-    // for ( let i = 0; i < this.bars.length; i++ ) {
-    //   this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
-    // }
+    for ( let i = 0; i < this.bars.length; i++ ) {
+      this.bars[ i ].updateFromMateFindingPhase( bins[ i ] );
+    }
   }
 
-  private toHistogramBins( values: number[] ): number[] {
-    const result: number[] = new Array( this.bars.length );
-    result.fill( 0 );
+  private valuesToHistogramBins( values: number[] ): number[] {
+    const result = this.createEmptyHistogramBins();
 
     for ( const value of values ) {
-      result[ Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length ) ]++;
+      result[ this.valueToBinIndex( value ) ]++;
     }
 
     return result;
+  }
+
+  private valuePairsToHistogramBins( valuePairs: [ number, number ][] ): number[] {
+    const result = this.createEmptyHistogramBins();
+
+    for ( const valuePair of valuePairs ) {
+      result[ this.valueToBinIndex( valuePair[ 0 ] ) ]++;
+      result[ this.valueToBinIndex( valuePair[ 1 ] ) ]++;
+    }
+
+    return result;
+  }
+
+  private createEmptyHistogramBins(): number[] {
+    return new Array( this.bars.length ).fill( 0 );
+  }
+
+  private valueToBinIndex( value: number ): number {
+      return Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length );
   }
 }
 
