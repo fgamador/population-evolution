@@ -74,6 +74,15 @@ export default class PopulationHistogram extends Node {
     }
   }
 
+  public updateFromMateFindingPhase( matedPairValues: [ number, number ][] ): void {
+    // const aliveBins = this.toHistogramBins( aliveValues );
+    // const deadBins = this.toHistogramBins( deadValues );
+
+    // for ( let i = 0; i < this.bars.length; i++ ) {
+    //   this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
+    // }
+  }
+
   private toHistogramBins( values: number[] ): number[] {
     const result: number[] = new Array( this.bars.length );
     result.fill( 0 );

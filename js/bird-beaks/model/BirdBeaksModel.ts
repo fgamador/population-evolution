@@ -25,7 +25,7 @@ export default class BirdBeaksModel implements TModel {
 
   public survivalPhaseEmitter: TinyEmitter<[ Bird[], Bird[] ]>;
 
-  public mateFindingPhaseEmitter: TinyEmitter<[ Bird, Bird ][]>;
+  public mateFindingPhaseEmitter: TinyEmitter<[ [ Bird, Bird ][] ]>;
 
   private phaseHandlers: Map<PopulationPhase, () => PopulationPhase>;
 

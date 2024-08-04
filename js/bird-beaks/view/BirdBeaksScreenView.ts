@@ -107,6 +107,10 @@ export default class BirdBeaksScreenView extends ScreenView {
       this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
     } );
 
+    model.mateFindingPhaseEmitter.addListener( matedPairs => {
+      this.histogram.updateFromMateFindingPhase( birdPairsToBeakSizePairs( matedPairs ) );
+    } );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -159,6 +163,10 @@ export default class BirdBeaksScreenView extends ScreenView {
 
 function birdsToBeakSizes( birds: Bird[] ): number[] {
   return birds.map( bird => bird.beakSize );
+}
+
+function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
+  return pairs.map( pair => [ pair[ 0 ].beakSize, pair[ 1 ].beakSize ] );
 }
 
 populationEvolution.register( 'BirdBeaksScreenView', BirdBeaksScreenView );
