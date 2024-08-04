@@ -1,3 +1,5 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
  * A population that can evolve. It goes through a cycle of phases:
  * - Survival
@@ -20,13 +22,14 @@ export default class Population {
   }
 
   public survivalPhase( rand: RandomSource, survivalProbability: ( bird: Bird ) => number ): [ Bird[], Bird[] ] {
-    let alive: Bird[] = [];
-    let dead: Bird[] = [];
+    const alive: Bird[] = [];
+    const dead: Bird[] = [];
 
     this.birds.forEach( bird => {
       if ( rand.nextValue() <= survivalProbability( bird ) ) {
         alive.push( bird );
-      } else {
+      }
+      else {
         dead.push( bird );
       }
     } );
@@ -36,24 +39,25 @@ export default class Population {
   }
 
   public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( bird1: Bird, bird2: Bird ) => number ): [ Bird, Bird ][] {
-    let result: [ Bird, Bird ][] = [];
+    const result: [ Bird, Bird ][] = [];
     let unmated = [ ...this.birds ];
 
     for ( let round = 1; round <= rounds && unmated.length >= 2; round++ ) {
       shuffle( rand, unmated );
 
-      let leftovers: Bird[] = [];
+      const leftovers: Bird[] = [];
 
       for ( let i = 1; i < unmated.length; i += 2 ) {
-        const [ bird1, bird2 ] = [ unmated[i - 1], unmated[i] ];
+        const [ bird1, bird2 ] = [ unmated[ i - 1 ], unmated[ i ] ];
         if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
           result.push( [ bird1, bird2 ] );
-        } else {
+        }
+        else {
           leftovers.push( bird1, bird2 );
         }
       }
 
-      if ( unmated.length % 2 == 1 ) {
+      if ( unmated.length % 2 === 1 ) {
         leftovers.push( unmated[ unmated.length - 1 ] );
       }
 
@@ -64,7 +68,7 @@ export default class Population {
   }
 
   public add( newBirds: Bird[] ): void {
-    // TODO
+    // add code here
   }
 }
 

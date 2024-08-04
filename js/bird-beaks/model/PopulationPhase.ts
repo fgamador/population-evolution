@@ -1,3 +1,5 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
  * Phase is an enumeration of population phases.
  *
@@ -18,4 +20,4 @@ export default class PopulationPhase extends EnumerationValue {
   public static readonly enumeration = new Enumeration( PopulationPhase );
 }
 
-populationEvolution.register( 'Phase', PopulationPhase );
+populationEvolution.register( 'PopulationPhase', PopulationPhase );

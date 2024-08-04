@@ -1,3 +1,5 @@
+// Copyright 2024, University of Colorado Boulder
+
 /**
  * Wrap JavaScript random-number generator to support deterministic testing.
  *
@@ -21,7 +23,7 @@ export default class RandomSource {
   public nextNormalValue( mean: number, stdDev: number ): number {
     assert && assert( stdDev >= 0, 'stdev cannot be negative' );
 
-    if ( this.unscaledNormalValue2 != undefined ) {
+    if ( this.unscaledNormalValue2 !== undefined ) {
       const unscaledNormalValue = this.unscaledNormalValue2;
       this.unscaledNormalValue2 = undefined;
       return mean + stdDev * unscaledNormalValue;
@@ -35,9 +37,9 @@ export default class RandomSource {
       x = this.nextValue() * 2 - 1;
       y = this.nextValue() * 2 - 1;
       s = x * x + y * y;
-    } while ( s >= 1 || s == 0 );
+    } while ( s >= 1 || s === 0 );
 
-    const temp = Math.sqrt( -2.0 * Math.log(s) / s );
+    const temp = Math.sqrt( -2.0 * Math.log( s ) / s );
     const unscaledNormalValue1 = x * temp;
     this.unscaledNormalValue2 = y * temp;
     return mean + stdDev * unscaledNormalValue1;
@@ -60,6 +62,7 @@ export class TestRandomSource extends RandomSource {
   private nextIndex: number;
 
   public constructor( values: number[] ) {
+    // eslint-disable-next-line yoda
     assert && assert( values.forEach( value => 0 <= value && value < 1 ), 'values must be in [0, 1)' );
 
     super();
@@ -78,7 +81,7 @@ export class TestRandomSource extends RandomSource {
 export function shuffle<T>( rand: RandomSource, values: T[] ): void {
   for ( let i = values.length - 1; i > 0; i-- ) {
     const j = Math.floor( rand.nextValue() * ( i + 1 ) );
-    [ values[i], values[j] ] = [ values[j], values[i] ];
+    [ values[ i ], values[ j ] ] = [ values[ j ], values[ i ] ];
   }
 }
 
