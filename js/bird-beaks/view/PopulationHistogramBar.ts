@@ -28,6 +28,8 @@ export default class PopulationHistogramBar extends Node {
 
   private deadRect: Rectangle;
 
+  private matedRect: Rectangle;
+
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
     const options = optionize<PopulationHistogramBarOptions, SelfOptions, NodeOptions>()( {
@@ -48,6 +50,10 @@ export default class PopulationHistogramBar extends Node {
     this.deadRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
     this.addChild( this.deadRect );
+
+    this.matedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
+      { fill: 'rgb( 100, 255, 100 )', opacity: 0 } );
+    this.addChild( this.matedRect );
   }
 
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
@@ -55,6 +61,7 @@ export default class PopulationHistogramBar extends Node {
     this.countRect.opacity = 1.0;
     this.deadRect.opacity = 0.0;
     this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
+    this.matedRect.opacity = 0.0;
 
     const fadeInDeadRect = new Animation( {
       object: this.deadRect,
@@ -85,8 +92,19 @@ export default class PopulationHistogramBar extends Node {
     fadeInDeadRect.start();
   }
 
-  public updateFromMateFindingPhase( count: number ): void {
-    // todo
+  public updateFromMateFindingPhase( matedCount: number ): void {
+    this.matedRect.opacity = 0.0;
+    this.matedRect.rectHeightFromBottom = matedCount * this.pixelsPerCount;
+
+    const fadeInMatedRect = new Animation( {
+      object: this.matedRect,
+      attribute: 'opacity',
+      from: 0.0,
+      to: 1.0,
+      duration: 0.5
+    } );
+
+    fadeInMatedRect.start();
   }
 }
 

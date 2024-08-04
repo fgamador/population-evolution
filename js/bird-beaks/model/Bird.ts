@@ -20,6 +20,7 @@ export default class Bird {
   }
 
   public survivalProbability( /* seeds */ ): number {
+    // todo
     // availabilityFactor = count(seeds) / count(birds)
     // sum(seed in seeds,
     //     encounterProbability(seed, seeds) *
@@ -30,12 +31,13 @@ export default class Bird {
   }
 
   public matingProbability( bird: Bird ): number {
-    // something like this, but can't assume beakSize is a probability
-    return 1 - Math.abs( this.beakSize - bird.beakSize );
+    // todo something like this, but can't assume beakSize is a probability
+    // return 1 - Math.abs( this.beakSize - bird.beakSize );
+    return 0.2;
   }
 
   public breed( rand: RandomSource, partner: Bird ): Bird[] {
-    // create each child by "breeding" their beakSizes
+    // todo create each child by "breeding" their beakSizes
     return [];
   }
 
