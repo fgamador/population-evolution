@@ -92,9 +92,9 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.histogram = new PopulationHistogram( {
       minValue: 0.0,
-      maxValue: 2.0,
-      maxCount: 10,
-      numBars: 10,
+      maxValue: 20.0,
+      maxCount: 220,
+      numBars: 15,
       barGap: 10,
       histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
       histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )

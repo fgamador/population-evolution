@@ -42,7 +42,7 @@ export default class PopulationHistogramBar extends Node {
     this.pixelsPerCount = options.barHeight / options.maxCount;
 
     this.countRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: 'rgb( 120, 120, 120 )' } );
+      { fill: 'rgb( 120, 120, 120 )', opacity: 0 } );
     this.addChild( this.countRect );
 
     this.deadRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
@@ -51,6 +51,8 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public updateFromSurvivalPhase( alive: number, dead: number ): void {
+    this.countRect.rectHeightFromBottom = ( alive + dead ) * this.pixelsPerCount;
+    this.countRect.opacity = 1.0;
     this.deadRect.opacity = 0.0;
     this.deadRect.rectHeightFromBottom = dead * this.pixelsPerCount;
 
