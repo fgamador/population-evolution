@@ -34,9 +34,9 @@ export default class Bird {
   }
 
   // odds of two birds wanting to mate with each other
-  public matingProbability( bird: Bird ): number {
-    const beakSizeDifference = Math.abs( this.beakSize - bird.beakSize );
-    const maxRelativeBeakSizeDifference = beakSizeDifference / Math.min( this.beakSize, bird.beakSize );
+  public matingProbability( candidate: Bird ): number {
+    const beakSizeDifference = Math.abs( this.beakSize - candidate.beakSize );
+    const maxRelativeBeakSizeDifference = beakSizeDifference / Math.min( this.beakSize, candidate.beakSize );
     return Math.max( 1 - maxRelativeBeakSizeDifference, 0 );
   }
 
