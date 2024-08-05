@@ -28,17 +28,11 @@ export default class PopulationHistogramBar extends Node {
 
   private deadRect: Rectangle;
 
-  // private matedRect: Rectangle;
-
   private newRect: Rectangle;
 
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
     const options = optionize<PopulationHistogramBarOptions, SelfOptions, NodeOptions>()( {
-
-      // add default values for optional SelfOptions here
-
-      // add default values for optional ScreenViewOptions here
     }, providedOptions );
 
     super( options );
@@ -53,28 +47,25 @@ export default class PopulationHistogramBar extends Node {
       { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
     this.addChild( this.deadRect );
 
-    // this.matedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-    //   { fill: 'rgb( 100, 100, 200 )', opacity: 0 } );
-    // this.addChild( this.matedRect );
-
     this.newRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: 'rgb( 100, 200, 100 )', opacity: 0 } );
     this.addChild( this.newRect );
   }
 
+  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
+  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
     this.countRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
     this.countRect.opacity = 1.0;
     this.deadRect.opacity = 0.0;
     this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
-    // this.matedRect.opacity = 0.0;
 
     const fadeInDeadRect = new Animation( {
       object: this.deadRect,
       attribute: 'opacity',
       from: 0.0,
       to: 1.0,
-      duration: 0.5
+      duration: 1.0
     } );
 
     // explicit types for Animation generic to keep eslint happy until inference is fixed
@@ -98,6 +89,8 @@ export default class PopulationHistogramBar extends Node {
     fadeInDeadRect.start();
   }
 
+  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
+  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
     this.newRect.bottom = this.countRect.top;
     this.newRect.rectHeightFromBottom = 0;

@@ -24,9 +24,9 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 // Seconds to wait for next call to model.update.
 const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
-  [ TimeSpeed.SLOW, 1.0 ],
-  [ TimeSpeed.NORMAL, 0.5 ],
-  [ TimeSpeed.FAST, 0.25 ]
+  [ TimeSpeed.SLOW, 2.0 ],
+  [ TimeSpeed.NORMAL, 1.0 ],
+  [ TimeSpeed.FAST, 0.5 ]
 ] );
 
 type SelfOptions = EmptySelfOptions;
