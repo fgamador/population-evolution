@@ -33,17 +33,18 @@ export default class Bird {
     return 0.8;
   }
 
+  // odds of two birds wanting to mate with each other
   public matingProbability( bird: Bird ): number {
-    // todo something like this, but can't assume beakSize is a probability
-    // return 1 - Math.abs( this.beakSize - bird.beakSize );
-    return 0.2;
+    const beakSizeDifference = Math.abs( this.beakSize - bird.beakSize );
+    const maxRelativeBeakSizeDifference = beakSizeDifference / Math.min( this.beakSize, bird.beakSize );
+    return Math.max( 1 - maxRelativeBeakSizeDifference, 0 );
   }
 
-  public breed( rand: RandomSource, partner: Bird ): Bird[] {
-    const meanBeakSize = ( this.beakSize + partner.beakSize ) / 2;
-    // todo add random beak-size offset
+  public breed( rand: RandomSource, partner: Bird, beakSizeStdDev: number ): Bird[] {
+    const beakSizeMean = ( this.beakSize + partner.beakSize ) / 2;
+    const beakSize = rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev );
     // todo random number of offspring
-    return [ new Bird( meanBeakSize ) ];
+    return [ new Bird( beakSize ) ];
   }
 
   public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
