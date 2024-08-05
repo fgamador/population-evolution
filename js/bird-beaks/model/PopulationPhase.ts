@@ -13,7 +13,6 @@ import populationEvolution from '../../populationEvolution.js';
 export default class PopulationPhase extends EnumerationValue {
 
   public static readonly SURVIVAL = new PopulationPhase();
-  public static readonly MATE_FINDING = new PopulationPhase();
   public static readonly BREEDING = new PopulationPhase();
 
   // Gets a list of keys, values and mapping between them. For use in EnumerationProperty and PhET-iO

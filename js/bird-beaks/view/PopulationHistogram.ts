@@ -74,19 +74,12 @@ export default class PopulationHistogram extends Node {
     }
   }
 
-  public updateFromMateFindingPhase( matedPairValues: [ number, number ][] ): void {
-    const bins = this.valuePairsToHistogramBins( matedPairValues );
+  public updateFromBreedingPhase( matedPairValues: [ number, number ][], newValues: number[] ): void {
+    const matedPairBins = this.valuePairsToHistogramBins( matedPairValues );
+    const newBins = this.valuesToHistogramBins( newValues );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].updateFromMateFindingPhase( bins[ i ] );
-    }
-  }
-
-  public updateFromBreedingPhase( newValues: number[] ): void {
-    const bins = this.valuesToHistogramBins( newValues );
-
-    for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].updateFromBreedingPhase( bins[ i ] );
+      this.bars[ i ].updateFromBreedingPhase( matedPairBins[ i ], newBins[ i ] );
     }
   }
 

@@ -25,9 +25,7 @@ export default class BirdBeaksModel implements TModel {
 
   public survivalPhaseEmitter: TinyEmitter<[ Bird[], Bird[] ]>;
 
-  public mateFindingPhaseEmitter: TinyEmitter<[ [ Bird, Bird ][] ]>;
-
-  public breedingPhaseEmitter: TinyEmitter<[ Bird[] ]>;
+  public breedingPhaseEmitter: TinyEmitter<[ [ Bird, Bird ][], Bird[] ]>;
 
   private phaseHandlers: Map<PopulationPhase, () => PopulationPhase>;
 
@@ -37,12 +35,10 @@ export default class BirdBeaksModel implements TModel {
     this.population = this.createPopulation();
     this.phaseProperty = new EnumerationProperty( PopulationPhase.SURVIVAL );
     this.survivalPhaseEmitter = new TinyEmitter();
-    this.mateFindingPhaseEmitter = new TinyEmitter();
     this.breedingPhaseEmitter = new TinyEmitter();
   
     this.phaseHandlers = new Map( [
       [ PopulationPhase.SURVIVAL, this.survivalPhase.bind( this ) ],
-      [ PopulationPhase.MATE_FINDING, this.mateFindingPhase.bind( this ) ],
       [ PopulationPhase.BREEDING, this.breedingPhase.bind( this ) ]
     ] );
   }
@@ -64,20 +60,15 @@ export default class BirdBeaksModel implements TModel {
   private survivalPhase(): PopulationPhase {
     const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
     this.survivalPhaseEmitter.emit( alive, dead );
-    return PopulationPhase.MATE_FINDING;
-  }
-
-  private mateFindingPhase(): PopulationPhase {
-    const matedPairs = this.population.mateFindingPhase( this.rand, 5,
-      ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
-    this.mateFindingPhaseEmitter.emit( matedPairs );
     return PopulationPhase.BREEDING;
   }
 
   private breedingPhase(): PopulationPhase {
     // todo
+    const matedPairs = this.population.mateFindingPhase( this.rand, 5,
+      ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
     const newBirds: Bird[] = [];
-    this.breedingPhaseEmitter.emit( newBirds );
+    this.breedingPhaseEmitter.emit( matedPairs, newBirds );
     return PopulationPhase.SURVIVAL;
   }
 

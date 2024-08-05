@@ -76,10 +76,6 @@ export default class BirdBeaksScreenView extends ScreenView {
           this.labelValueProperty.value = 'Survival phase';
           break;
         }
-        case PopulationPhase.MATE_FINDING: {
-          this.labelValueProperty.value = 'Mate-finding phase';
-          break;
-        }
         case PopulationPhase.BREEDING: {
           this.labelValueProperty.value = 'Breeding phase';
           break;
@@ -107,12 +103,8 @@ export default class BirdBeaksScreenView extends ScreenView {
       this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
     } );
 
-    model.mateFindingPhaseEmitter.addListener( matedPairs => {
-      this.histogram.updateFromMateFindingPhase( birdPairsToBeakSizePairs( matedPairs ) );
-    } );
-
-    model.breedingPhaseEmitter.addListener( newBirds => {
-      this.histogram.updateFromBreedingPhase( birdsToBeakSizes( newBirds ) );
+    model.breedingPhaseEmitter.addListener( ( matedPairs, newBirds ) => {
+      this.histogram.updateFromBreedingPhase( birdPairsToBeakSizePairs( matedPairs ), birdsToBeakSizes( newBirds ) );
     } );
 
     const resetAllButton = new ResetAllButton( {
