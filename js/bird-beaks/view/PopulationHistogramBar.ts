@@ -25,7 +25,7 @@ export default class PopulationHistogramBar extends Node {
 
   private pixelsPerCount: number;
 
-  private countRect: Rectangle;
+  private mainRect: Rectangle;
 
   private deadRect: Rectangle;
 
@@ -40,9 +40,9 @@ export default class PopulationHistogramBar extends Node {
 
     this.pixelsPerCount = options.barHeight / options.maxCount;
 
-    this.countRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
+    this.mainRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarMainColorProperty, opacity: 0 } );
-    this.addChild( this.countRect );
+    this.addChild( this.mainRect );
 
     this.deadRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarDeadColorProperty, opacity: 0 } );
@@ -56,8 +56,8 @@ export default class PopulationHistogramBar extends Node {
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
-    this.countRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
-    this.countRect.opacity = 1.0;
+    this.mainRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
+    this.mainRect.opacity = 1.0;
     this.deadRect.opacity = 0.0;
     this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
 
@@ -70,7 +70,7 @@ export default class PopulationHistogramBar extends Node {
     } );
 
     // explicit types for Animation generic to keep eslint happy until inference is fixed
-    const shrinkDeadAndCountRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+    const shrinkDeadAndMainRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
         object: this.deadRect,
         attribute: 'rectHeightFromBottom',
@@ -78,27 +78,27 @@ export default class PopulationHistogramBar extends Node {
         to: 0.0
       },
       {
-        object: this.countRect,
+        object: this.mainRect,
         attribute: 'rectHeightFromBottom',
-        from: this.countRect.height,
+        from: this.mainRect.height,
         to: aliveCount * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
 
-    fadeInDeadRect.then( shrinkDeadAndCountRects );
+    fadeInDeadRect.then( shrinkDeadAndMainRects );
     fadeInDeadRect.start();
   }
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
-    this.newRect.bottom = this.countRect.top;
+    this.newRect.bottom = this.mainRect.top;
     this.newRect.rectHeightFromBottom = 0;
     this.newRect.opacity = 1.0;
 
     // explicit types for Animation generic to keep eslint happy until type inference is fixed
-    const growNewAndCountRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+    const growNewAndMainRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
         object: this.newRect,
         attribute: 'rectHeightFromBottom',
@@ -106,10 +106,10 @@ export default class PopulationHistogramBar extends Node {
         to: newCount * this.pixelsPerCount
       },
       {
-        object: this.countRect,
+        object: this.mainRect,
         attribute: 'rectHeightFromBottom',
-        from: this.countRect.height,
-        to: this.countRect.height + newCount * this.pixelsPerCount
+        from: this.mainRect.height,
+        to: this.mainRect.height + newCount * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
@@ -122,8 +122,8 @@ export default class PopulationHistogramBar extends Node {
       duration: 1.0
     } );
 
-    growNewAndCountRects.then( fadeOutNewRect );
-    growNewAndCountRects.start();
+    growNewAndMainRects.then( fadeOutNewRect );
+    growNewAndMainRects.start();
   }
 }
 
