@@ -82,6 +82,14 @@ export default class PopulationHistogram extends Node {
     }
   }
 
+  public updateFromBreedingPhase( newValues: number[] ): void {
+    const bins = this.valuesToHistogramBins( newValues );
+
+    for ( let i = 0; i < this.bars.length; i++ ) {
+      this.bars[ i ].updateFromBreedingPhase( bins[ i ] );
+    }
+  }
+
   private valuesToHistogramBins( values: number[] ): number[] {
     const result = this.createEmptyHistogramBins();
 

@@ -111,6 +111,10 @@ export default class BirdBeaksScreenView extends ScreenView {
       this.histogram.updateFromMateFindingPhase( birdPairsToBeakSizePairs( matedPairs ) );
     } );
 
+    model.breedingPhaseEmitter.addListener( newBirds => {
+      this.histogram.updateFromBreedingPhase( birdsToBeakSizes( newBirds ) );
+    } );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress

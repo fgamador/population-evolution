@@ -27,6 +27,8 @@ export default class BirdBeaksModel implements TModel {
 
   public mateFindingPhaseEmitter: TinyEmitter<[ [ Bird, Bird ][] ]>;
 
+  public breedingPhaseEmitter: TinyEmitter<[ Bird[] ]>;
+
   private phaseHandlers: Map<PopulationPhase, () => PopulationPhase>;
 
   public constructor() {
@@ -36,6 +38,7 @@ export default class BirdBeaksModel implements TModel {
     this.phaseProperty = new EnumerationProperty( PopulationPhase.SURVIVAL );
     this.survivalPhaseEmitter = new TinyEmitter();
     this.mateFindingPhaseEmitter = new TinyEmitter();
+    this.breedingPhaseEmitter = new TinyEmitter();
   
     this.phaseHandlers = new Map( [
       [ PopulationPhase.SURVIVAL, this.survivalPhase.bind( this ) ],
@@ -73,6 +76,8 @@ export default class BirdBeaksModel implements TModel {
 
   private breedingPhase(): PopulationPhase {
     // todo
+    const newBirds: Bird[] = [];
+    this.breedingPhaseEmitter.emit( newBirds );
     return PopulationPhase.SURVIVAL;
   }
 

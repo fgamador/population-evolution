@@ -30,6 +30,8 @@ export default class PopulationHistogramBar extends Node {
 
   private matedRect: Rectangle;
 
+  private newRect: Rectangle;
+
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
     const options = optionize<PopulationHistogramBarOptions, SelfOptions, NodeOptions>()( {
@@ -52,8 +54,12 @@ export default class PopulationHistogramBar extends Node {
     this.addChild( this.deadRect );
 
     this.matedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: 'rgb( 100, 255, 100 )', opacity: 0 } );
+      { fill: 'rgb( 100, 100, 200 )', opacity: 0 } );
     this.addChild( this.matedRect );
+
+    this.newRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
+      { fill: 'rgb( 100, 200, 100 )', opacity: 0 } );
+    this.addChild( this.newRect );
   }
 
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
@@ -105,6 +111,48 @@ export default class PopulationHistogramBar extends Node {
     } );
 
     fadeInMatedRect.start();
+  }
+
+  public updateFromBreedingPhase( newCount: number ): void {
+    this.deadRect.opacity = 0.0;
+    this.newRect.bottom = this.countRect.top;
+
+    // explicit types for Animation generic to keep eslint happy until type inference is fixed
+    const growNewAndCountRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+      targets: [ {
+        object: this.newRect,
+        attribute: 'rectHeightFromBottom',
+        from: 0,
+        to: newCount * this.pixelsPerCount
+      },
+      {
+        object: this.countRect,
+        attribute: 'rectHeightFromBottom',
+        from: this.countRect.height,
+        to: this.countRect.height + newCount * this.pixelsPerCount
+      } ],
+      duration: 1.0
+    } );
+
+    // explicit types for Animation generic to keep eslint happy until type inference is fixed
+    const fadeOutMatedAndNewRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+      targets: [ {
+        object: this.matedRect,
+        attribute: 'opacity',
+        from: 1.0,
+        to: 0.0
+      },
+      {
+        object: this.newRect,
+        attribute: 'opacity',
+        from: 1.0,
+        to: 0.0
+      } ],
+      duration: 0.5
+    } );
+
+    growNewAndCountRects.then( fadeOutMatedAndNewRects );
+    growNewAndCountRects.start();
   }
 }
 
