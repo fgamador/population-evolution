@@ -67,8 +67,14 @@ export default class Population {
     return result;
   }
 
-  public add( newBirds: Bird[] ): void {
-    // add code here
+  public breedingPhase( matedPairs: [ Bird, Bird ][], breed: ( bird1: Bird, bird2: Bird ) => Bird[] ): Bird[] {
+    let result: Bird[] = [];
+    for ( const matedPair of matedPairs ) {
+      const offspring = breed( matedPair[ 0 ], matedPair[ 1 ] );
+      this.birds = this.birds.concat( offspring );
+      result = result.concat( offspring );
+    }
+    return result;
   }
 }
 

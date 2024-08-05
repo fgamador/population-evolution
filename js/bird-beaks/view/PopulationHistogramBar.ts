@@ -99,18 +99,9 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
-    this.deadRect.opacity = 0.0;
-    // this.matedRect.opacity = 0.0;
-    // this.matedRect.rectHeightFromBottom = matedCount * this.pixelsPerCount;
     this.newRect.bottom = this.countRect.top;
-
-    // const fadeInMatedRect = new Animation( {
-    //   object: this.matedRect,
-    //   attribute: 'opacity',
-    //   from: 0.0,
-    //   to: 1.0,
-    //   duration: 0.5
-    // } );
+    this.newRect.rectHeightFromBottom = 0;
+    this.newRect.opacity = 1.0;
 
     // explicit types for Animation generic to keep eslint happy until type inference is fixed
     const growNewAndCountRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
@@ -134,25 +125,8 @@ export default class PopulationHistogramBar extends Node {
       attribute: 'opacity',
       from: 1.0,
       to: 0.0,
-      duration: 0.5
+      duration: 1.0
     } );
-
-    // explicit types for Animation generic to keep eslint happy until type inference is fixed
-    // const fadeOutMatedAndNewRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
-    //   targets: [ {
-    //     object: this.matedRect,
-    //     attribute: 'opacity',
-    //     from: 1.0,
-    //     to: 0.0
-    //   },
-    //   {
-    //     object: this.newRect,
-    //     attribute: 'opacity',
-    //     from: 1.0,
-    //     to: 0.0
-    //   } ],
-    //   duration: 0.5
-    // } );
 
     growNewAndCountRects.then( fadeOutNewRect );
     growNewAndCountRects.start();

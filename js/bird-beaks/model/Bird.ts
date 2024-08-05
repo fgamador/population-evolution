@@ -27,6 +27,9 @@ export default class Bird {
     //     eatProbability(bird, seed) *
     //     foodIngested(bird, seed))
     // divided by food needed, or something like that
+    // Or how 'bout having survival depend directly
+    // on prevalance of seeds matching beak size
+    // (adjusted by bird/seed population sizes)?
     return 0.8;
   }
 
@@ -37,8 +40,10 @@ export default class Bird {
   }
 
   public breed( rand: RandomSource, partner: Bird ): Bird[] {
-    // todo create each child by "breeding" their beakSizes
-    return [];
+    const meanBeakSize = ( this.beakSize + partner.beakSize ) / 2;
+    // todo add random beak-size offset
+    // todo random number of offspring
+    return [ new Bird( meanBeakSize ) ];
   }
 
   public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
