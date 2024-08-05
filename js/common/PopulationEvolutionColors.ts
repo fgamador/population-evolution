@@ -18,6 +18,17 @@ import { ProfileColorProperty } from '../../../scenery/js/imports.js';
 import populationEvolution from '../populationEvolution.js';
 
 const PopulationEvolutionColors = {
+  histogramBarMainColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarMain', {
+    default: 'rgb( 120, 120, 120 )'
+  } ),
+
+  histogramBarDeadColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarDead', {
+    default: 'rgb( 255, 100, 100 )'
+  } ),
+
+  histogramBarNewColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarNew', {
+    default: 'rgb( 100, 200, 100 )'
+  } ),
 
   // Background color for screens in this sim
   screenBackgroundColorProperty: new ProfileColorProperty( populationEvolution, 'background', {

@@ -10,6 +10,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
+import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
@@ -40,15 +41,15 @@ export default class PopulationHistogramBar extends Node {
     this.pixelsPerCount = options.barHeight / options.maxCount;
 
     this.countRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: 'rgb( 120, 120, 120 )', opacity: 0 } );
+      { fill: PopulationEvolutionColors.histogramBarMainColorProperty, opacity: 0 } );
     this.addChild( this.countRect );
 
     this.deadRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: 'rgb( 255, 100, 100 )', opacity: 0 } );
+      { fill: PopulationEvolutionColors.histogramBarDeadColorProperty, opacity: 0 } );
     this.addChild( this.deadRect );
 
     this.newRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: 'rgb( 100, 200, 100 )', opacity: 0 } );
+      { fill: PopulationEvolutionColors.histogramBarNewColorProperty, opacity: 0 } );
     this.addChild( this.newRect );
   }
 
