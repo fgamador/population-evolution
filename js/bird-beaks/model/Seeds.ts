@@ -13,8 +13,8 @@ export default class Seeds {
 
   public distributions: SeedDistribution[] = [];
 
-  public constructor( distribution: SeedDistribution ) {
-    this.addDistribution( distribution );
+  public constructor( distributions: SeedDistribution[] ) {
+    this.distributions = distributions;
   }
 
   public addDistribution( distribution: SeedDistribution ): void {

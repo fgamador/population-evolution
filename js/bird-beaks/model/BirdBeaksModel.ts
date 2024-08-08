@@ -55,11 +55,11 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population {
-    return new Population( Bird.normallyDistributed( this.rand, 1000, 8, 2 ) );
+    return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 3 ) );
   }
 
   private createSeeds(): Seeds {
-    return new Seeds( new SeedDistribution( 12, 2, 50 ) );
+    return new Seeds( [ new SeedDistribution( 6, 1, 50 ), new SeedDistribution( 14, 1, 50 ) ] );
   }
 
   public update(): void {
