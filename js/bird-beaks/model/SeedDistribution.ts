@@ -1,64 +1,41 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * A normally distributed collection of seeds for the birds to eat. Provides a way to get
- * the probability of finding seeds of approximately a particular size.
+ * A normally distributed collection of seeds for the birds to eat.
  *
  * @author Franz Amador (open-source contributor)
  */
 
+import NormalDistribution from '../../common/model/NormalDistribution.js';
 import populationEvolution from '../../populationEvolution.js';
 
 export default class SeedDistribution {
 
-  public sizeMean: number;
+  public distribution: NormalDistribution;
 
-  public sizeStdDev: number;
+  public abundanceFactor: number;
 
-  public readonly maxProbability: number;
-
-  private sizeVariance = 0;
-
-  private twiceSizeVariance = 0;
-
-  private pdCoefficient = 0;
-
-  private probabilityHack = 0;
-
-  public constructor( sizeMean: number, sizeStdDev: number, maxProbability: number ) {
-    this.sizeMean = sizeMean;
-    this.sizeStdDev = sizeStdDev;
-    this.maxProbability = maxProbability;
-    this.updateConstants();
+  public constructor( sizeMean: number, sizeStdDev: number, abundanceFactor: number ) {
+    this.distribution = new NormalDistribution( sizeMean, sizeStdDev );
+    this.abundanceFactor = abundanceFactor;
   }
 
   public setSizeMean( value: number ): void {
-    this.sizeMean = value;
-    this.updateConstants();
+    this.distribution.setMean( value );
   }
 
   public setSizeStdDev( value: number ): void {
-    this.sizeStdDev = value;
-    this.updateConstants();
+    this.distribution.setStdDev( value );
   }
 
-  private updateConstants(): void {
-    this.sizeVariance = this.sizeStdDev * this.sizeStdDev;
-    this.twiceSizeVariance = 2 * this.sizeVariance;
-    this.pdCoefficient = 1 / Math.sqrt( 2 * Math.PI * this.sizeVariance );
-    this.probabilityHack = this.maxProbability / this.sizeProbability( this.sizeMean );
+  public setAbundanceFactor( value: number ): void {
+    this.abundanceFactor = value;
   }
 
-  // A truly egregious abuse of the concept of probability density. Approximates
-  // the probability of finding seeds "near" the specified size.
-  public sizeProbability( seedSize: number ): number {
-    return this.probabilityHack * this.sizeProbabilityDensity( seedSize );
-  }
-
-  // https://en.wikipedia.org/wiki/Normal_distribution
-  public sizeProbabilityDensity( seedSize: number ): number {
-    const offsetFromMean = seedSize - this.sizeMean;
-    return this.pdCoefficient * Math.exp( -( offsetFromMean * offsetFromMean ) / this.twiceSizeVariance );
+  // A truly egregious abuse of the concept of probability density. Converts the probability density
+  // at a specific seed size into a vaguely defined "abundance" of seeds near the specified size.
+  public abundance( seedSize: number ): number {
+    return this.abundanceFactor * this.distribution.probabilityDensity( seedSize );
   }
 }
 

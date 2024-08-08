@@ -1,8 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * A normally distributed collection of seeds for the birds to eat. Provides a way to get
- * the probability of finding seeds of approximately a particular size.
+ * A collection of various types of seeds, each with normally distributed sizes.
  *
  * @author Franz Amador (open-source contributor)
  */
@@ -14,8 +13,6 @@ export default class Seeds {
 
   public distributions: SeedDistribution[] = [];
 
-  // public readonly maxProbability: number;
-
   public constructor( distribution: SeedDistribution ) {
     this.addDistribution( distribution );
   }
@@ -24,11 +21,10 @@ export default class Seeds {
     this.distributions.push( distribution );
   }
 
-  // A truly egregious abuse of the concept of probability density. Approximates
-  // the probability of finding seeds "near" the specified size.
-  public sizeProbability( seedSize: number ): number {
-    // const probabilities = this.distributions.map( dist => dist.sizeProbability( seedSize ) );
-    return 0; // todo
+  public abundance( seedSize: number ): number {
+    return this.distributions
+      .map( dist => dist.abundance( seedSize ) )
+      .reduce( ( sum, value ) => sum + value, 0 );
   }
 }
 

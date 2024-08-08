@@ -14,12 +14,16 @@ import PopulationPhase from './PopulationPhase.js';
 import RandomSource from '../../common/model/RandomSource.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
+import SeedDistribution from './SeedDistribution.js';
+import Seeds from './Seeds.js';
 
 export default class BirdBeaksModel implements TModel {
 
   private rand: RandomSource;
 
   public population: Population;
+
+  public seeds: Seeds;
 
   public phaseProperty: EnumerationProperty<PopulationPhase>;
 
@@ -33,6 +37,7 @@ export default class BirdBeaksModel implements TModel {
 
     this.rand = new RandomSource();
     this.population = this.createPopulation();
+    this.seeds = this.createSeeds();
     this.phaseProperty = new EnumerationProperty( PopulationPhase.SURVIVAL );
     this.survivalPhaseEmitter = new TinyEmitter();
     this.breedingPhaseEmitter = new TinyEmitter();
@@ -45,11 +50,16 @@ export default class BirdBeaksModel implements TModel {
 
   public reset(): void {
     this.population = this.createPopulation();
+    this.seeds = this.createSeeds();
     this.phaseProperty.reset();
   }
 
   private createPopulation(): Population {
-    return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 2 ) );
+    return new Population( Bird.normallyDistributed( this.rand, 1000, 8, 2 ) );
+  }
+
+  private createSeeds(): Seeds {
+    return new Seeds( new SeedDistribution( 12, 2, 50 ) );
   }
 
   public update(): void {
@@ -58,7 +68,7 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private survivalPhase(): PopulationPhase {
-    const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability() );
+    const [ alive, dead ] = this.population.survivalPhase( this.rand, bird => bird.survivalProbability( this.seeds ) );
     this.survivalPhaseEmitter.emit( alive, dead );
     return PopulationPhase.BREEDING;
   }

@@ -9,6 +9,7 @@
 
 import populationEvolution from '../../populationEvolution.js';
 import RandomSource from '../../common/model/RandomSource.js';
+import Seeds from './Seeds.js';
 
 export default class Bird {
 
@@ -19,18 +20,18 @@ export default class Bird {
     this.beakSize = beakSize;
   }
 
-  public survivalProbability( /* seeds */ ): number {
-    // todo
-    // availabilityFactor = count(seeds) / count(birds)
-    // sum(seed in seeds,
-    //     encounterProbability(seed, seeds) *
-    //     eatProbability(bird, seed) *
-    //     foodIngested(bird, seed))
-    // divided by food needed, or something like that
-    // Or how 'bout having survival depend directly
-    // on prevalance of seeds matching beak size
-    // (adjusted by bird/seed population sizes)?
-    return 0.8;
+  // todo extract constants.
+  public survivalProbability( seeds: Seeds ): number {
+    const abundance = seeds.abundance( this.beakSize );
+    if ( abundance < 1 ) {
+      return 0;
+    }
+
+    if ( abundance > 8 ) {
+      return 0.8;
+    }
+
+    return abundance * 0.1;
   }
 
   // odds of two birds wanting to mate with each other
