@@ -1,4 +1,7 @@
 {
+  "extinctionMessage": {
+    "value": "Extinct"
+  },
   "population-evolution.title": {
     "value": "Population Evolution"
   },

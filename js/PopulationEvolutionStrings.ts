@@ -9,6 +9,7 @@ import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProper
 import populationEvolution from './populationEvolution.js';
 
 type StringsType = {
+  'extinctionMessageStringProperty': LocalizedStringProperty;
   'population-evolution': {
     'titleStringProperty': LocalizedStringProperty;
   };

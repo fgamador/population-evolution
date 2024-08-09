@@ -11,16 +11,21 @@ import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationHistogram from './PopulationHistogram.js';
-import PopulationPhase from '../model/PopulationPhase.js';
+// import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import { RichText } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
+// import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
+// import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
+
+const MESSAGE_FONT = new PhetFont( 24 );
 
 // Seconds to wait for next call to model.update.
 const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
@@ -43,9 +48,11 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private secondsUntilNextUpdate: number;
 
+  private extinctionMessageText: RichText;
+
   private histogram: PopulationHistogram;
 
-  private labelValueProperty: StringProperty;
+  // private labelValueProperty: StringProperty;
 
   public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
@@ -63,28 +70,37 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
 
-    this.labelValueProperty = new StringProperty( '' );
-    const label = new StringDisplay( this.labelValueProperty, {
-      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: this.layoutBounds.centerX
-    } );
-    this.addChild( label );
+    // this.labelValueProperty = new StringProperty( '' );
+    // const label = new StringDisplay( this.labelValueProperty, {
+    //   top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
+    //   centerX: this.layoutBounds.centerX
+    // } );
+    // this.addChild( label );
 
-    model.phaseProperty.link( phase => {
-      switch( phase ) {
-        case PopulationPhase.SURVIVAL: {
-          this.labelValueProperty.value = 'Survival phase';
-          break;
-        }
-        case PopulationPhase.BREEDING: {
-          this.labelValueProperty.value = 'Breeding phase';
-          break;
-        }
-        default: {
-          break;
-        }
-      }
+    // model.phaseProperty.link( phase => {
+    //   switch( phase ) {
+    //     case PopulationPhase.SURVIVAL: {
+    //       this.labelValueProperty.value = 'Survival phase';
+    //       break;
+    //     }
+    //     case PopulationPhase.BREEDING: {
+    //       this.labelValueProperty.value = 'Breeding phase';
+    //       break;
+    //     }
+    //     default: {
+    //       break;
+    //     }
+    //   }
+    // } );
+
+    this.extinctionMessageText = new RichText( PopulationEvolutionStrings.extinctionMessageStringProperty, {
+      font: MESSAGE_FONT,
+      // maxWidth: 115,
+      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
+      centerX: this.layoutBounds.centerX,
+      visible: false
     } );
+    this.addChild( this.extinctionMessageText );
 
     this.histogram = new PopulationHistogram( {
       minValue: 0.0,
@@ -154,6 +170,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.model.update();
+    this.extinctionMessageText.visible = this.model.population.birds.length === 0;
   }
 }
 
