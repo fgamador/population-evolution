@@ -55,7 +55,7 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population {
-    return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 3 ) );
+    return new Population( Bird.normallyDistributed( this.rand, 1000, 6, 2 ) );
   }
 
   private createSeeds(): Seeds {
@@ -77,7 +77,7 @@ export default class BirdBeaksModel implements TModel {
     const matedPairs = this.population.mateFindingPhase( this.rand, 3,
       ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
     // todo get stdev from UI property
-    const newBirds = this.population.breedingPhase( matedPairs, ( bird1, bird2 ) => bird1.breed( this.rand, bird2, 0.5 ) );
+    const newBirds = this.population.breedingPhase( matedPairs, ( bird1, bird2 ) => bird1.breed( this.rand, bird2, 2 ) );
     this.breedingPhaseEmitter.emit( matedPairs, newBirds );
     return PopulationPhase.SURVIVAL;
   }
