@@ -14,16 +14,17 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
+import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import SeedDistributions from './SeedDistributions.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
 // import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 
 const MESSAGE_FONT = new PhetFont( 24 );
 
@@ -51,6 +52,8 @@ export default class BirdBeaksScreenView extends ScreenView {
   private extinctionMessageText: RichText;
 
   private histogram: PopulationHistogram;
+
+  private seedDistributions: SeedDistributions;
 
   // private labelValueProperty: StringProperty;
 
@@ -114,6 +117,14 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.addChild( this.histogram );
     this.histogram.centerX = this.layoutBounds.centerX;
     this.histogram.top = this.layoutBounds.top + 150;
+
+    this.seedDistributions = new SeedDistributions( {
+      // centerX: this.layoutBounds.centerX,
+      // bottom: this.histogram.bottom + 50
+    } );
+    this.addChild( this.seedDistributions );
+    this.seedDistributions.centerX = this.layoutBounds.centerX;
+    this.seedDistributions.top = this.histogram.bottom + 50;
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
       this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
