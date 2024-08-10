@@ -15,7 +15,8 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
-import PopulationHistogram from './PopulationHistogram.js';
+import PopulationHistogramBars from './PopulationHistogramBars.js';
+// import PopulationHistogramBox from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { RichText } from '../../../../scenery/js/imports.js';
@@ -51,7 +52,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private extinctionMessageText: RichText;
 
-  private histogram: PopulationHistogram;
+  private histogram: PopulationHistogramBars;
 
   private seedDistributions: SeedDistributions;
 
@@ -105,7 +106,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( this.extinctionMessageText );
 
-    this.histogram = new PopulationHistogram( {
+    this.histogram = new PopulationHistogramBars( {
       minValue: 0.0,
       maxValue: 20.0,
       maxCount: 220,

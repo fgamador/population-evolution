@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * todo
+ * Rectangle with plots of the seed size distributions.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */
@@ -43,6 +43,8 @@ export default class SeedDistributions extends Node {
       cornerYRadius: 6
     } );
     this.addChild( chartRectangle );
+
+    // todo
   }
 }
 
