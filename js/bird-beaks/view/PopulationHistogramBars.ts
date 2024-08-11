@@ -53,15 +53,14 @@ export default class PopulationHistogramBars extends Node {
     this.bars = [];
     for ( let i = 0; i < options.numBars; i++ ) {
       const bar = new PopulationHistogramBar( {
+        x: i * ( barWidth + options.barGap ),
+        y: 0,
         maxCount: options.maxCount,
         barWidth: barWidth,
         barHeight: options.histogramHeight
       } );
       this.bars.push( bar );
-
       this.addChild( bar );
-      bar.left = i * ( barWidth + options.barGap );
-      bar.top = 0;
     }
   }
 

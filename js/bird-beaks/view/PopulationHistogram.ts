@@ -52,18 +52,8 @@ export default class PopulationHistogram extends Node {
     } );
     this.addChild( chartRectangle );
 
-    this.histogramBars = new PopulationHistogramBars( {
-      minValue: 0.0,
-      maxValue: 20.0,
-      maxCount: 220,
-      numBars: 20,
-      barGap: 8,
-      histogramWidth: chartRectangle.width,
-      histogramHeight: chartRectangle.height
-    } );
-
     // Clipped contents
-    const clippedArea = new Node( {
+    this.addChild( new Node( {
       clipArea: chartRectangle.getShape(),
 
       children: [
@@ -72,20 +62,17 @@ export default class PopulationHistogram extends Node {
         new GridLineSet( chartTransform, Orientation.HORIZONTAL, Math.PI / 32, { stroke: 'lightGray' } ),
         new GridLineSet( chartTransform, Orientation.VERTICAL, 0.5, { stroke: 'lightGray' } ),
 
-        // Axes nodes are clipped in the chart
-        // new AxisArrowNode( chartTransform, Orientation.HORIZONTAL ),
-        // new AxisArrowNode( chartTransform, Orientation.VERTICAL ),
-
-        this.histogramBars
-
-        // Some data
-        // new LinePlot( chartTransform, createDataSet( -2, 2, 5 ), { stroke: 'red', lineWidth: 2 } ),
-        // new LinePlot( chartTransform, createDataSet( -2, 2, 10 ), { stroke: 'green', lineWidth: 2 } ),
-        // new LinePlot( chartTransform, createDataSet( -2, 2, 20 ), { stroke: 'blue', lineWidth: 2 } ),
-        // new LinePlot( chartTransform, createDataSet( -2, 2, 30 ), { stroke: 'orange', lineWidth: 2 } )
+        this.histogramBars = new PopulationHistogramBars( {
+          minValue: 0.0,
+          maxValue: 20.0,
+          maxCount: 220,
+          numBars: 20,
+          barGap: 8,
+          histogramWidth: chartRectangle.width,
+          histogramHeight: chartRectangle.height
+        } )
       ]
-    } );
-    this.addChild( clippedArea );
+    } ) );
 
     // Tick marks outside the chart
     this.addChild( new TickMarkSet( chartTransform, Orientation.VERTICAL, 0.5, { edge: 'min' } ) );
