@@ -15,13 +15,14 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
-import PopulationHistogramBars from './PopulationHistogramBars.js';
+import PopulationHistogram from './PopulationHistogram.js';
+// import PopulationHistogramBars from './PopulationHistogramBars.js';
 // import PopulationHistogramBox from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import SeedDistributions from './SeedDistributions.js';
+// import SeedDistributions from './SeedDistributions.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
 // import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
@@ -52,9 +53,10 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private extinctionMessageText: RichText;
 
-  private histogram: PopulationHistogramBars;
+  // private histogram: PopulationHistogramBars;
+  private histogram: PopulationHistogram;
 
-  private seedDistributions: SeedDistributions;
+  // private seedDistributions: SeedDistributions;
 
   // private labelValueProperty: StringProperty;
 
@@ -97,16 +99,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     //   }
     // } );
 
-    this.extinctionMessageText = new RichText( PopulationEvolutionStrings.extinctionMessageStringProperty, {
-      font: MESSAGE_FONT,
-      // maxWidth: 115,
-      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: this.layoutBounds.centerX,
-      visible: false
-    } );
-    this.addChild( this.extinctionMessageText );
-
-    this.histogram = new PopulationHistogramBars( {
+    this.histogram = new PopulationHistogram( {
       minValue: 0.0,
       maxValue: 20.0,
       maxCount: 220,
@@ -116,16 +109,36 @@ export default class BirdBeaksScreenView extends ScreenView {
       histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
     } );
     this.addChild( this.histogram );
-    this.histogram.centerX = this.layoutBounds.centerX;
-    this.histogram.top = this.layoutBounds.top + 150;
 
-    this.seedDistributions = new SeedDistributions( {
-      // centerX: this.layoutBounds.centerX,
-      // bottom: this.histogram.bottom + 50
+    this.extinctionMessageText = new RichText( PopulationEvolutionStrings.extinctionMessageStringProperty, {
+      font: MESSAGE_FONT,
+      // maxWidth: 115,
+      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
+      centerX: this.layoutBounds.centerX,
+      visible: false
     } );
-    this.addChild( this.seedDistributions );
-    this.seedDistributions.centerX = this.layoutBounds.centerX;
-    this.seedDistributions.top = this.histogram.bottom + 50;
+    this.addChild( this.extinctionMessageText );
+
+    // this.histogram = new PopulationHistogramBars( {
+    //   minValue: 0.0,
+    //   maxValue: 20.0,
+    //   maxCount: 220,
+    //   numBars: 20,
+    //   barGap: 8,
+    //   histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+    //   histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
+    // } );
+    // this.addChild( this.histogram );
+    // this.histogram.centerX = this.layoutBounds.centerX;
+    // this.histogram.top = this.layoutBounds.top + 150;
+
+    // this.seedDistributions = new SeedDistributions( {
+    //   // centerX: this.layoutBounds.centerX,
+    //   // bottom: this.histogram.bottom + 50
+    // } );
+    // this.addChild( this.seedDistributions );
+    // this.seedDistributions.centerX = this.layoutBounds.centerX;
+    // this.seedDistributions.top = this.histogram.bottom + 50;
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
       this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
