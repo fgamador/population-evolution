@@ -82,7 +82,7 @@ export default class PopulationHistogram extends Node {
     this.addChild( new TickMarkSet( chartTransform, Orientation.HORIZONTAL, 2, { edge: 'min' } ) );
     this.addChild( new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 2, {
       edge: 'min',
-      createLabel: ( value: number ) => new Text( Utils.toFixed( value, 2 ), { fontSize: 12 } )
+      createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
     } ) );
   }
 

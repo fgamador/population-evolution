@@ -106,6 +106,8 @@ export default class BirdBeaksScreenView extends ScreenView {
       histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
     } );
     this.addChild( this.histogram );
+    this.histogram.centerX = this.layoutBounds.centerX;
+    this.histogram.top = this.layoutBounds.top + 150;
 
     this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
       font: MESSAGE_FONT,
@@ -115,19 +117,6 @@ export default class BirdBeaksScreenView extends ScreenView {
       visible: false
     } );
     this.addChild( this.extinctionMessage );
-
-    // this.histogram = new PopulationHistogramBars( {
-    //   minValue: 0.0,
-    //   maxValue: 20.0,
-    //   maxCount: 220,
-    //   numBars: 20,
-    //   barGap: 8,
-    //   histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-    //   histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
-    // } );
-    // this.addChild( this.histogram );
-    // this.histogram.centerX = this.layoutBounds.centerX;
-    // this.histogram.top = this.layoutBounds.top + 150;
 
     // this.seedDistributions = new SeedDistributions( {
     //   // centerX: this.layoutBounds.centerX,
