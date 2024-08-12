@@ -16,7 +16,7 @@ type SelfOptions = {
   maxValue: number;
   maxCount: number;
   numBars: number;
-  barGap: number;
+  barWidthFraction: number;
   histogramWidth: number;
   histogramHeight: number;
 };
@@ -29,8 +29,6 @@ export default class PopulationHistogramBars extends Node {
   private maxValue: number;
 
   private bars: PopulationHistogramBar[];
-
-  // private pixelsPerCount: number;
 
   public constructor( providedOptions: PopulationHistogramBarsOptions ) {
 
@@ -46,14 +44,14 @@ export default class PopulationHistogramBars extends Node {
     this.minValue = options.minValue;
     this.maxValue = options.maxValue;
 
-    // this.pixelsPerCount = ( options.histogramHeight || 1000 ) / options.maxCount;
-
-    const barWidth = Math.floor( ( options.histogramWidth - ( options.numBars - 1 ) * options.barGap ) / options.numBars );
+    const barPaddedWidth = options.histogramWidth / options.numBars;
+    const barWidth = options.barWidthFraction * barPaddedWidth;
+    const barPadWidth = ( barPaddedWidth - barWidth ) / 2;
 
     this.bars = [];
     for ( let i = 0; i < options.numBars; i++ ) {
       const bar = new PopulationHistogramBar( {
-        x: i * ( barWidth + options.barGap ),
+        x: barPadWidth + ( i * barPaddedWidth ),
         y: 0,
         maxCount: options.maxCount,
         barWidth: barWidth,
