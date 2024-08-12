@@ -16,11 +16,9 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-// import PopulationHistogramBars from './PopulationHistogramBars.js';
-// import PopulationHistogramBox from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { RichText } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 // import SeedDistributions from './SeedDistributions.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
@@ -43,18 +41,17 @@ type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
 
-  private model: BirdBeaksModel;
+  private readonly model: BirdBeaksModel;
 
-  private isPlayingProperty: BooleanProperty;
+  private readonly isPlayingProperty: BooleanProperty;
 
-  private playingSpeedProperty: EnumerationProperty<TimeSpeed>;
+  private readonly playingSpeedProperty: EnumerationProperty<TimeSpeed>;
 
   private secondsUntilNextUpdate: number;
 
-  private extinctionMessageText: RichText;
+  private readonly extinctionMessage: Text;
 
-  // private histogram: PopulationHistogramBars;
-  private histogram: PopulationHistogram;
+  private readonly histogram: PopulationHistogram;
 
   // private seedDistributions: SeedDistributions;
 
@@ -110,14 +107,14 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( this.histogram );
 
-    this.extinctionMessageText = new RichText( PopulationEvolutionStrings.extinctionMessageStringProperty, {
+    this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
       font: MESSAGE_FONT,
       // maxWidth: 115,
       top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
       centerX: this.layoutBounds.centerX,
       visible: false
     } );
-    this.addChild( this.extinctionMessageText );
+    this.addChild( this.extinctionMessage );
 
     // this.histogram = new PopulationHistogramBars( {
     //   minValue: 0.0,
@@ -195,7 +192,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.model.update();
-    this.extinctionMessageText.visible = this.model.population.birds.length === 0;
+    this.extinctionMessage.visible = this.model.population.birds.length === 0;
   }
 }
 
