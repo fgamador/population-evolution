@@ -1,11 +1,12 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Wrap JavaScript random-number generator to support deterministic testing.
+ * Wrap random-number generator to support deterministic testing.
  *
  * @author Franz Amador (open-source contributor)
  */
 
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import populationEvolution from '../../populationEvolution.js';
 
 export default class RandomSource {
@@ -15,7 +16,7 @@ export default class RandomSource {
 
   // Uniform value in [0, 1)
   public nextValue(): number {
-    return Math.random();
+    return dotRandom.nextDouble();
   }
 
   // Normally distributed value with specified mean and standard deviation.
