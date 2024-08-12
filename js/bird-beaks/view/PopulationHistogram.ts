@@ -36,10 +36,12 @@ export default class PopulationHistogram extends Node {
 
     super( options );
 
+    const valuePadding = ( options.maxValue - options.minValue ) / options.numBars / 2;
+
     const chartTransform = new ChartTransform( {
       viewWidth: options.histogramWidth,
       viewHeight: options.histogramHeight,
-      modelXRange: new Range( options.minValue - 0.5, options.maxValue + 0.5 ),
+      modelXRange: new Range( options.minValue - valuePadding, options.maxValue + valuePadding ),
       modelYRange: new Range( 0, options.maxCount )
     } );
 
