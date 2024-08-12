@@ -38,10 +38,10 @@ export default class PopulationHistogram extends Node {
 
     // todo pass this in? pass along to histogram bars?
     const chartTransform = new ChartTransform( {
-      viewWidth: 700,
-      viewHeight: 300,
-      modelXRange: new Range( -Math.PI / 8, Math.PI / 8 ),
-      modelYRange: new Range( -4 / Math.PI, 4 / Math.PI )
+      viewWidth: options.histogramWidth,
+      viewHeight: options.histogramHeight,
+      modelXRange: new Range( options.minValue - 0.5, options.maxValue + 0.5 ),
+      modelYRange: new Range( 0, options.maxCount )
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
@@ -59,30 +59,30 @@ export default class PopulationHistogram extends Node {
       children: [
 
         // Minor grid lines
-        new GridLineSet( chartTransform, Orientation.HORIZONTAL, Math.PI / 32, { stroke: 'lightGray' } ),
-        new GridLineSet( chartTransform, Orientation.VERTICAL, 0.5, { stroke: 'lightGray' } ),
+        new GridLineSet( chartTransform, Orientation.VERTICAL, 50, { stroke: 'lightGray' } ),
 
-        this.histogramBars = new PopulationHistogramBars( {
-          minValue: 0.0,
-          maxValue: 20.0,
-          maxCount: 220,
-          numBars: 20,
-          barGap: 8,
-          histogramWidth: chartRectangle.width,
-          histogramHeight: chartRectangle.height
-        } )
+        this.histogramBars = new PopulationHistogramBars( options )
       ]
     } ) );
 
-    // Tick marks outside the chart
-    this.addChild( new TickMarkSet( chartTransform, Orientation.VERTICAL, 0.5, { edge: 'min' } ) );
-    this.addChild( new TickLabelSet( chartTransform, Orientation.VERTICAL, 0.5, { edge: 'min' } ) );
-    this.addChild( new TickMarkSet( chartTransform, Orientation.HORIZONTAL, Math.PI / 8, { edge: 'min' } ) );
-    this.addChild( new TickLabelSet( chartTransform, Orientation.HORIZONTAL, Math.PI / 8, {
+    // Minor ticks on the y-axis
+    this.addChild( new TickMarkSet( chartTransform, Orientation.VERTICAL, 10, {
+      stroke: 'darkGray',
+      edge: 'min'
+    } ) );
+
+    // Major ticks on the y-axis
+    this.addChild( new TickMarkSet( chartTransform, Orientation.VERTICAL, 50, { edge: 'min' } ) );
+    this.addChild( new TickLabelSet( chartTransform, Orientation.VERTICAL, 50, {
       edge: 'min',
-      createLabel: ( value: number ) => new Text( Math.abs( value ) < 1E-6 ? Utils.toFixed( value, 0 ) : Utils.toFixed( value, 2 ), {
-        fontSize: 12
-      } )
+      createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
+    } ) );
+
+    // Major ticks on the x-axis
+    this.addChild( new TickMarkSet( chartTransform, Orientation.HORIZONTAL, 2, { edge: 'min' } ) );
+    this.addChild( new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 2, {
+      edge: 'min',
+      createLabel: ( value: number ) => new Text( Utils.toFixed( value, 2 ), { fontSize: 12 } )
     } ) );
   }
 
