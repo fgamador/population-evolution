@@ -18,9 +18,9 @@ import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Text, VBox, VerticalLayoutAlignValues } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-// import SeedDistributions from './SeedDistributions.js';
+import SeedDistributions from './SeedDistributions.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
 // import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
@@ -53,7 +53,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private readonly histogram: PopulationHistogram;
 
-  // private seedDistributions: SeedDistributions;
+  private seedDistributions: SeedDistributions;
 
   // private labelValueProperty: StringProperty;
 
@@ -103,11 +103,24 @@ export default class BirdBeaksScreenView extends ScreenView {
       numBars: 21,
       barWidthFraction: 0.8,
       histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-      histogramHeight: Math.floor( this.layoutBounds.height * 0.5 )
+      histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
     } );
-    this.addChild( this.histogram );
-    this.histogram.centerX = this.layoutBounds.centerX;
-    this.histogram.top = this.layoutBounds.top + 150;
+
+    this.seedDistributions = new SeedDistributions( {
+      minValue: 0.0,
+      maxValue: 20.0,
+      diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+      diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
+    } );
+
+    const diagrams = new VBox( {
+      children: [ this.histogram, this.seedDistributions ],
+      align: 'right',
+      spacing: 20
+    } );
+    this.addChild( diagrams );
+    diagrams.centerX = this.layoutBounds.centerX;
+    diagrams.top = this.layoutBounds.top + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN;
 
     this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
       font: MESSAGE_FONT,
@@ -117,14 +130,6 @@ export default class BirdBeaksScreenView extends ScreenView {
       visible: false
     } );
     this.addChild( this.extinctionMessage );
-
-    // this.seedDistributions = new SeedDistributions( {
-    //   // centerX: this.layoutBounds.centerX,
-    //   // bottom: this.histogram.bottom + 50
-    // } );
-    // this.addChild( this.seedDistributions );
-    // this.seedDistributions.centerX = this.layoutBounds.centerX;
-    // this.seedDistributions.top = this.histogram.bottom + 50;
 
     model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
       this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
