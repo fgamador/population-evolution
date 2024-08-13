@@ -37,6 +37,10 @@ export default class PopulationHistogram extends Node {
     super( options );
 
     const valuePadding = ( options.maxValue - options.minValue ) / options.numBars / 2;
+    // todo calculate these
+    const majorXTickSpacing = 2;
+    const minorYTickSpacing = 10;
+    const majorYTickSpacing = 50;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.histogramWidth,
@@ -62,28 +66,28 @@ export default class PopulationHistogram extends Node {
         children: [
 
           // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, 50, { stroke: 'lightGray' } ),
+          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { stroke: 'lightGray' } ),
 
           this.histogramBars = new PopulationHistogramBars( options )
         ]
       } ),
 
       // Minor ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, 10, {
+      new TickMarkSet( chartTransform, Orientation.VERTICAL, minorYTickSpacing, {
         stroke: 'darkGray',
         edge: 'min'
       } ),
 
       // Major ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, 50, { edge: 'min' } ),
-      new TickLabelSet( chartTransform, Orientation.VERTICAL, 50, {
+      new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } ),
+      new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
         edge: 'min',
         createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
       } ),
 
       // Major ticks on the x-axis
-      new TickMarkSet( chartTransform, Orientation.HORIZONTAL, 2, { edge: 'min' } ),
-      new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 2, {
+      new TickMarkSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, { edge: 'min' } ),
+      new TickLabelSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, {
         edge: 'min',
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } )

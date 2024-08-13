@@ -18,7 +18,7 @@ import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
 // import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Text, VBox, VerticalLayoutAlignValues } from '../../../../scenery/js/imports.js';
+import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributions from './SeedDistributions.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
