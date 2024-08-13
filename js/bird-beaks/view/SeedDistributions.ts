@@ -37,6 +37,11 @@ export default class SeedDistributions extends Node {
 
     super( options );
 
+    // todo calculate these
+    const majorXTickSpacing = 2;
+    const minorYTickSpacing = 0.05;
+    const majorYTickSpacing = 0.1;
+
     const chartTransform = new ChartTransform( {
       viewWidth: options.diagramWidth,
       viewHeight: options.diagramHeight,
@@ -61,28 +66,28 @@ export default class SeedDistributions extends Node {
         children: [
 
           // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, 0.2, { stroke: 'lightGray' } )
+          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } )
 
           // this.histogramBars = new PopulationHistogramBars( options )
         ]
       } ),
 
       // Minor ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, 0.05, {
+      new TickMarkSet( chartTransform, Orientation.VERTICAL, minorYTickSpacing, {
         stroke: 'darkGray',
         edge: 'min'
       } ),
 
       // Major ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, 0.1, { edge: 'min' } ),
-      new TickLabelSet( chartTransform, Orientation.VERTICAL, 0.1, {
+      new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } ),
+      new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
         edge: 'min',
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } ),
 
       // Major ticks on the x-axis
-      new TickMarkSet( chartTransform, Orientation.HORIZONTAL, 2, { edge: 'min' } ),
-      new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 2, {
+      new TickMarkSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, { edge: 'min' } ),
+      new TickLabelSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, {
         edge: 'min',
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } )
