@@ -12,12 +12,14 @@ import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBars, { PopulationHistogramBarsOptions } from './PopulationHistogramBars.js';
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   // todo
@@ -56,6 +58,21 @@ export default class PopulationHistogram extends Node {
       cornerYRadius: 6
     } );
 
+    this.histogramBars = new PopulationHistogramBars( options );
+
+    const zoomLevelProperty = new NumberProperty( Math.ceil( options.maxCount / 10 ), { range: new Range( 1, 1000 ) } );
+
+    const zoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
+      orientation: 'vertical',
+      left: chartRectangle.right + 10,
+      bottom: chartRectangle.bottom
+    } );
+    zoomLevelProperty.link( zoomLevel => {
+      const maxCount = zoomLevel * 10;
+      this.histogramBars.setMaxCount( maxCount );
+      chartTransform.setModelYRange( new Range( 0, maxCount ) );
+    } );
+
     this.children = [
       chartRectangle,
 
@@ -68,7 +85,7 @@ export default class PopulationHistogram extends Node {
           // Minor grid lines
           new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { stroke: 'lightGray' } ),
 
-          this.histogramBars = new PopulationHistogramBars( options )
+          this.histogramBars
         ]
       } ),
 
@@ -90,7 +107,9 @@ export default class PopulationHistogram extends Node {
       new TickLabelSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, {
         edge: 'min',
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
-      } )
+      } ),
+
+      zoomButtonGroup
     ];
   }
 

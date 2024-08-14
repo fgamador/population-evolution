@@ -14,9 +14,9 @@ import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js
 import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
-  maxCount: number;
   barWidth: number;
   barHeight: number;
+  pixelsPerCount: number;
 };
 
 export type PopulationHistogramBarOptions = SelfOptions & NodeOptions;
@@ -38,7 +38,7 @@ export default class PopulationHistogramBar extends Node {
 
     super( options );
 
-    this.pixelsPerCount = options.barHeight / options.maxCount;
+    this.pixelsPerCount = options.pixelsPerCount;
 
     this.mainRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarMainColorProperty, opacity: 0 } );
@@ -51,6 +51,10 @@ export default class PopulationHistogramBar extends Node {
     this.newRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarNewColorProperty, opacity: 0 } );
     this.addChild( this.newRect );
+  }
+
+  public setPixelsPerCount( value: number ): void {
+    this.pixelsPerCount = value;
   }
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations

@@ -27,6 +27,7 @@ export default class PopulationHistogramBars extends Node {
 
   private minValue: number;
   private maxValue: number;
+  private histogramHeight: number;
 
   private bars: PopulationHistogramBar[];
 
@@ -43,6 +44,7 @@ export default class PopulationHistogramBars extends Node {
 
     this.minValue = options.minValue;
     this.maxValue = options.maxValue;
+    this.histogramHeight = options.histogramHeight;
 
     const barPaddedWidth = options.histogramWidth / options.numBars;
     const barWidth = options.barWidthFraction * barPaddedWidth;
@@ -53,12 +55,19 @@ export default class PopulationHistogramBars extends Node {
       const bar = new PopulationHistogramBar( {
         x: barPadWidth + ( i * barPaddedWidth ),
         y: 0,
-        maxCount: options.maxCount,
+        pixelsPerCount: options.histogramHeight / options.maxCount,
         barWidth: barWidth,
         barHeight: options.histogramHeight
       } );
       this.bars.push( bar );
       this.addChild( bar );
+    }
+  }
+
+  public setMaxCount( value: number ): void {
+    const pixelsPerCount = this.histogramHeight / value;
+    for ( const bar of this.bars ) {
+      bar.setPixelsPerCount( pixelsPerCount );
     }
   }
 
