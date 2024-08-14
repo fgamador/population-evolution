@@ -20,7 +20,7 @@ import PopulationHistogram from './PopulationHistogram.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import SeedDistributions from './SeedDistributions.js';
+import SeedDistributionPlots from './SeedDistributionPlots.js';
 // import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
 // import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
@@ -53,7 +53,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private readonly histogram: PopulationHistogram;
 
-  private seedDistributions: SeedDistributions;
+  private seedDistributions: SeedDistributionPlots;
 
   // private labelValueProperty: StringProperty;
 
@@ -98,7 +98,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.histogram = new PopulationHistogram( {
       minValue: 0.0,
-      maxValue: 20.0,
+      maxValue: 20.0, // todo get this from model somehow
       maxCount: 220,
       numBars: 21,
       barWidthFraction: 0.8,
@@ -106,7 +106,7 @@ export default class BirdBeaksScreenView extends ScreenView {
       histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
     } );
 
-    this.seedDistributions = new SeedDistributions( {
+    this.seedDistributions = new SeedDistributionPlots( model.seeds, {
       minValue: 0.0,
       maxValue: 20.0,
       diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),

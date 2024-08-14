@@ -9,15 +9,19 @@
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
+import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import populationEvolution from '../../populationEvolution.js';
 // import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import Range from '../../../../dot/js/Range.js';
+import SeedDistribution from '../model/SeedDistribution.js';
+import Seeds from '../model/Seeds.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
   minValue: number;
@@ -28,25 +32,29 @@ type SelfOptions = {
 
 export type SeedDistributionsOptions = SelfOptions & NodeOptions;
 
-export default class SeedDistributions extends Node {
+export default class SeedDistributionPlots extends Node {
 
-  public constructor( providedOptions: SeedDistributionsOptions ) {
+  private seeds: Seeds;
+
+  public constructor( seeds: Seeds, providedOptions: SeedDistributionsOptions ) {
 
     const options = optionize<SeedDistributionsOptions, SelfOptions, NodeOptions>()( {
     }, providedOptions );
 
     super( options );
 
+    this.seeds = seeds;
+
     // todo calculate these
     const majorXTickSpacing = 2;
-    const minorYTickSpacing = 0.05;
-    const majorYTickSpacing = 0.1;
+    const minorYTickSpacing = 1;
+    const majorYTickSpacing = 5;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.diagramWidth,
       viewHeight: options.diagramHeight,
       modelXRange: new Range( options.minValue, options.maxValue ),
-      modelYRange: new Range( 0, 1 ) // todo max height
+      modelYRange: new Range( 0, 12 ) // todo max height
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
@@ -66,9 +74,9 @@ export default class SeedDistributions extends Node {
         children: [
 
           // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } )
+          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } ),
 
-          // this.histogramBars = new PopulationHistogramBars( options )
+          new LinePlot( chartTransform, toPlotDataSet( seeds.distributions[ 0 ] ), { stroke: 'red', lineWidth: 2 } )
         ]
       } ),
 
@@ -95,4 +103,12 @@ export default class SeedDistributions extends Node {
   }
 }
 
-populationEvolution.register( 'SeedDistributions', SeedDistributions );
+function toPlotDataSet( distribution: SeedDistribution ): Vector2[] {
+  const result = [];
+  for ( let x = 0; x <= 20; x += 0.1 ) {
+    result.push( new Vector2( x, distribution.abundance( x ) ) );
+  }
+  return result;
+}
+
+populationEvolution.register( 'SeedDistributionPlots', SeedDistributionPlots );
