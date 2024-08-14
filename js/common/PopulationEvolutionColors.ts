@@ -19,7 +19,7 @@ import populationEvolution from '../populationEvolution.js';
 
 const PopulationEvolutionColors = {
   histogramBarMainColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarMain', {
-    default: 'rgb( 120, 120, 120 )'
+    default: 'rgb( 90, 90, 90 )'
   } ),
 
   histogramBarDeadColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarDead', {
@@ -32,7 +32,7 @@ const PopulationEvolutionColors = {
 
   // Background color for screens in this sim
   screenBackgroundColorProperty: new ProfileColorProperty( populationEvolution, 'background', {
-    default: 'white'
+    default: 'lightgrey'
   } )
 };
 
