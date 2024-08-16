@@ -12,7 +12,6 @@ export default class PopulationPhaseOutputBeakSizes {
 
   public initial: number[] = [];
   public died: number[] = [];
-  public mates: [ number, number ][] = [];
   public added: number[] = [];
 }
 

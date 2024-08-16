@@ -45,11 +45,11 @@ export default class PopulationHistogramBar extends Node {
     this.addChild( this.mainRect );
 
     this.diedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: PopulationEvolutionColors.histogramBarDeadColorProperty, opacity: 0 } );
+      { fill: PopulationEvolutionColors.histogramBarDiedColorProperty, opacity: 0 } );
     this.addChild( this.diedRect );
 
     this.addedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
-      { fill: PopulationEvolutionColors.histogramBarNewColorProperty, opacity: 0 } );
+      { fill: PopulationEvolutionColors.histogramBarAddedColorProperty, opacity: 0 } );
     this.addChild( this.addedRect );
   }
 
@@ -59,23 +59,23 @@ export default class PopulationHistogramBar extends Node {
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public update( initial: number, died: number, mates: number, added: number ): void {
-    this.mainRect.rectHeightFromBottom = initial * this.pixelsPerCount;
+  public update( initialCount: number, diedCount: number, addedCount: number ): void {
+    this.mainRect.rectHeightFromBottom = initialCount * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
-    const survived = initial - died;
+    const survivedCount = initialCount - diedCount;
 
-    const fadeInDiedRect = this.fadeInDiedRect( died );
+    const fadeInDiedRect = this.fadeInDiedRect( diedCount );
     fadeInDiedRect
-      .then( this.shrinkDiedAndMainRects( survived ) )
-      .then( this.growAddedAndMainRects( survived, added ) )
+      .then( this.shrinkDiedAndMainRects( survivedCount ) )
+      .then( this.growAddedAndMainRects( survivedCount, addedCount ) )
       .then( this.fadeOutAddedRect() );
     fadeInDiedRect.start();
   }
 
-  private fadeInDiedRect( deadCount: number ): Animation {
+  private fadeInDiedRect( diedCount: number ): Animation {
     this.diedRect.opacity = 0.0;
-    this.diedRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
+    this.diedRect.rectHeightFromBottom = diedCount * this.pixelsPerCount;
 
     return new Animation( {
       object: this.diedRect,
@@ -86,7 +86,7 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
-  private shrinkDiedAndMainRects( survivorCount: number ): Animation {
+  private shrinkDiedAndMainRects( survivedCount: number ): Animation {
     // explicit types for Animation generic to keep eslint happy until inference is fixed
     return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
@@ -99,14 +99,14 @@ export default class PopulationHistogramBar extends Node {
         object: this.mainRect,
         attribute: 'rectHeightFromBottom',
         from: this.mainRect.height,
-        to: survivorCount * this.pixelsPerCount
+        to: survivedCount * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
   }
 
-  private growAddedAndMainRects( survivorCount: number, addedCount: number ): Animation {
-    const mainRectStartHeight = survivorCount * this.pixelsPerCount;
+  private growAddedAndMainRects( survivedCount: number, addedCount: number ): Animation {
+    const mainRectStartHeight = survivedCount * this.pixelsPerCount;
     const addedRectEndHeight = addedCount * this.pixelsPerCount;
 
     this.addedRect.bottom = this.bottom - mainRectStartHeight;

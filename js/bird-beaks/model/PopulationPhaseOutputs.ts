@@ -13,7 +13,6 @@ export default class PopulationPhaseOutputs {
 
   public initial: Bird[] = [];
   public died: Bird[] = [];
-  public mates: [ Bird, Bird ][] = [];
   public added: Bird[] = [];
 }
 

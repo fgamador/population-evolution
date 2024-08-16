@@ -22,11 +22,11 @@ const PopulationEvolutionColors = {
     default: 'rgb( 90, 90, 90 )'
   } ),
 
-  histogramBarDeadColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarDead', {
+  histogramBarDiedColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarDead', {
     default: 'rgb( 255, 100, 100 )'
   } ),
 
-  histogramBarNewColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarNew', {
+  histogramBarAddedColorProperty: new ProfileColorProperty( populationEvolution, 'histogramBarNew', {
     default: 'rgb( 100, 200, 100 )'
   } ),
 

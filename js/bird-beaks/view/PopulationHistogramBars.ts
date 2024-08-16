@@ -71,11 +71,10 @@ export default class PopulationHistogramBars extends Node {
   public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
     const binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
     const binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
-    const binnedMates = this.valuePairsToHistogramBins( phaseOutputs.mates );
     const binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].update( binnedInitial[ i ], binnedDied[ i ], binnedMates[ i ], binnedAdded[ i ] );
+      this.bars[ i ].update( binnedInitial[ i ], binnedDied[ i ], binnedAdded[ i ] );
     }
   }
 
@@ -89,16 +88,16 @@ export default class PopulationHistogramBars extends Node {
     return result;
   }
 
-  private valuePairsToHistogramBins( valuePairs: [ number, number ][] ): number[] {
-    const result = this.createEmptyHistogramBins();
+  // private valuePairsToHistogramBins( valuePairs: [ number, number ][] ): number[] {
+  //   const result = this.createEmptyHistogramBins();
 
-    for ( const valuePair of valuePairs ) {
-      result[ this.valueToBinIndex( valuePair[ 0 ] ) ]++;
-      result[ this.valueToBinIndex( valuePair[ 1 ] ) ]++;
-    }
+  //   for ( const valuePair of valuePairs ) {
+  //     result[ this.valueToBinIndex( valuePair[ 0 ] ) ]++;
+  //     result[ this.valueToBinIndex( valuePair[ 1 ] ) ]++;
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
   private createEmptyHistogramBins(): number[] {
     return new Array( this.bars.length ).fill( 0 );

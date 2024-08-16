@@ -147,9 +147,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     }
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
-
     this.updateModelAndHistogram();
-
     this.extinctionMessage.visible = this.model.population.birds.length === 0;
   }
 
@@ -163,7 +161,6 @@ function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): Po
   const result = new PopulationPhaseOutputBeakSizes();
   result.initial = birdsToBeakSizes( phaseOutputs.initial );
   result.died = birdsToBeakSizes( phaseOutputs.died );
-  result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
   result.added = birdsToBeakSizes( phaseOutputs.added );
   return result;
 }
@@ -172,8 +169,8 @@ function birdsToBeakSizes( birds: Bird[] ): number[] {
   return birds.map( bird => bird.beakSize );
 }
 
-function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
-  return pairs.map( pair => [ pair[ 0 ].beakSize, pair[ 1 ].beakSize ] );
-}
+// function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
+//   return pairs.map( pair => [ pair[ 0 ].beakSize, pair[ 1 ].beakSize ] );
+// }
 
 populationEvolution.register( 'BirdBeaksScreenView', BirdBeaksScreenView );

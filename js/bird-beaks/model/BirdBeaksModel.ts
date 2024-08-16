@@ -52,7 +52,6 @@ export default class BirdBeaksModel implements TModel {
 
     const matedPairs = this.population.mateFindingPhase( this.rand, 3,
       ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
-    result.mates = matedPairs;
 
       // todo get stdev from UI property
     const newBirds = this.population.breedingPhase( matedPairs, ( bird1, bird2 ) => bird1.breed( this.rand, bird2, 2 ) );
