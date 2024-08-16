@@ -16,8 +16,8 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-// import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
-// import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
+import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -29,7 +29,7 @@ const MESSAGE_FONT = new PhetFont( 24 );
 
 // Seconds to wait for next call to model.update.
 const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
-  [ TimeSpeed.SLOW, 2.0 ],
+  [ TimeSpeed.SLOW, 4.0 ],
   [ TimeSpeed.NORMAL, 1.0 ],
   [ TimeSpeed.FAST, 0.5 ]
 ] );
@@ -125,7 +125,11 @@ export default class BirdBeaksScreenView extends ScreenView {
     const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          listener: () => model.runNextPhase()
+          // todo listener: () => model.runNextPhase()
+          listener: () => {
+            const phaseOutputs = this.model.update();
+            this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
+          }
         }
       },
       timeSpeedProperty: this.playingSpeedProperty,
@@ -156,23 +160,23 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
 
-    this.model.runNextPhase();
+    // todo this.model.runNextPhase();
 
-    // const phaseOutputs = this.model.update();
-    // this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
+    const phaseOutputs = this.model.update();
+    this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
 
     this.extinctionMessage.visible = this.model.population.birds.length === 0;
   }
 }
 
-// function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
-//   const result = new PopulationPhaseOutputBeakSizes();
-//   result.initial = birdsToBeakSizes( phaseOutputs.initial );
-//   result.died = birdsToBeakSizes( phaseOutputs.died );
-//   result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
-//   result.added = birdsToBeakSizes( phaseOutputs.added );
-//   return result;
-// }
+function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
+  const result = new PopulationPhaseOutputBeakSizes();
+  result.initial = birdsToBeakSizes( phaseOutputs.initial );
+  result.died = birdsToBeakSizes( phaseOutputs.died );
+  result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
+  result.added = birdsToBeakSizes( phaseOutputs.added );
+  return result;
+}
 
 function birdsToBeakSizes( birds: Bird[] ): number[] {
   return birds.map( bird => bird.beakSize );

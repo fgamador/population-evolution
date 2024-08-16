@@ -27,9 +27,9 @@ export default class PopulationHistogramBar extends Node {
 
   private mainRect: Rectangle;
 
-  private deadRect: Rectangle;
+  private diedRect: Rectangle;
 
-  private newRect: Rectangle;
+  private addedRect: Rectangle;
 
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
@@ -44,13 +44,13 @@ export default class PopulationHistogramBar extends Node {
       { fill: PopulationEvolutionColors.histogramBarMainColorProperty, opacity: 0 } );
     this.addChild( this.mainRect );
 
-    this.deadRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
+    this.diedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarDeadColorProperty, opacity: 0 } );
-    this.addChild( this.deadRect );
+    this.addChild( this.diedRect );
 
-    this.newRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
+    this.addedRect = new Rectangle( 0, 0, options.barWidth, options.barHeight,
       { fill: PopulationEvolutionColors.histogramBarNewColorProperty, opacity: 0 } );
-    this.addChild( this.newRect );
+    this.addChild( this.addedRect );
   }
 
   public setPixelsPerCount( value: number ): void {
@@ -63,24 +63,20 @@ export default class PopulationHistogramBar extends Node {
 
     const survived = initial - died;
 
-    const fadeInDeadRect = this.fadeInDeadRect( died );
-    // const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( survived );
-    // const growNewAndMainRects = this.growNewAndMainRects( survived, added );
-    // const fadeOutNewRect = this.fadeOutNewRect();
-
-    fadeInDeadRect
-      .then( this.shrinkDeadAndMainRects( survived ) )
-      .then( this.growNewAndMainRects( survived, added ) )
-      .then( this.fadeOutNewRect() );
-    fadeInDeadRect.start();
+    const fadeInDiedRect = this.fadeInDiedRect( died );
+    fadeInDiedRect
+      .then( this.shrinkDiedAndMainRects( survived ) )
+      .then( this.growAddedAndMainRects( survived, added ) )
+      .then( this.fadeOutAddedRect() );
+    fadeInDiedRect.start();
   }
 
-  private fadeInDeadRect( deadCount: number ): Animation {
-    this.deadRect.opacity = 0.0;
-    this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
+  private fadeInDiedRect( deadCount: number ): Animation {
+    this.diedRect.opacity = 0.0;
+    this.diedRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
 
     return new Animation( {
-      object: this.deadRect,
+      object: this.diedRect,
       attribute: 'opacity',
       from: 0.0,
       to: 1.0,
@@ -88,13 +84,13 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
-  private shrinkDeadAndMainRects( survivorCount: number ): Animation {
+  private shrinkDiedAndMainRects( survivorCount: number ): Animation {
     // explicit types for Animation generic to keep eslint happy until inference is fixed
     return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
-        object: this.deadRect,
+        object: this.diedRect,
         attribute: 'rectHeightFromBottom',
-        from: this.deadRect.height,
+        from: this.diedRect.height,
         to: 0.0
       },
       {
@@ -107,56 +103,35 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
-  private growNewAndMainRects_old( addedCount: number ): Animation {
-    // this.newRect.bottom = survivorCount * this.pixelsPerCount;
-    this.newRect.bottom = this.mainRect.top;
-    this.newRect.rectHeightFromBottom = 0;
-    this.newRect.opacity = 1.0;
+  private growAddedAndMainRects( survivorCount: number, addedCount: number ): Animation {
+    const mainRectStartHeight = survivorCount * this.pixelsPerCount;
+    const addedRectEndHeight = addedCount * this.pixelsPerCount;
+
+    this.addedRect.bottom = this.bottom - mainRectStartHeight;
+    this.addedRect.rectHeightFromBottom = 0;
+    this.addedRect.opacity = 1.0;
 
     // explicit types for Animation generic to keep eslint happy until type inference is fixed
     return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
-        object: this.newRect,
+        object: this.addedRect,
         attribute: 'rectHeightFromBottom',
         from: 0,
-        to: addedCount * this.pixelsPerCount
+        to: addedRectEndHeight
       },
       {
         object: this.mainRect,
         attribute: 'rectHeightFromBottom',
-        from: this.mainRect.height,
-        to: this.mainRect.height + addedCount * this.pixelsPerCount
+        from: mainRectStartHeight,
+        to: mainRectStartHeight + addedRectEndHeight
       } ],
       duration: 1.0
     } );
   }
 
-  private growNewAndMainRects( survivorCount: number, addedCount: number ): Animation {
-    this.newRect.bottom = survivorCount * this.pixelsPerCount;
-    this.newRect.rectHeightFromBottom = 0;
-    this.newRect.opacity = 1.0;
-
-    // explicit types for Animation generic to keep eslint happy until type inference is fixed
-    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
-      targets: [ {
-        object: this.newRect,
-        attribute: 'rectHeightFromBottom',
-        from: 0,
-        to: addedCount * this.pixelsPerCount
-      },
-      {
-        object: this.mainRect,
-        attribute: 'rectHeightFromBottom',
-        from: this.mainRect.height,
-        to: this.mainRect.height + addedCount * this.pixelsPerCount
-      } ],
-      duration: 1.0
-    } );
-  }
-
-  private fadeOutNewRect(): Animation {
+  private fadeOutAddedRect(): Animation {
     return new Animation( {
-      object: this.newRect,
+      object: this.addedRect,
       attribute: 'opacity',
       from: 1.0,
       to: 0.0,
@@ -170,8 +145,8 @@ export default class PopulationHistogramBar extends Node {
     this.mainRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
-    const fadeInDeadRect = this.fadeInDeadRect( deadCount );
-    const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( aliveCount );
+    const fadeInDeadRect = this.fadeInDiedRect( deadCount );
+    const shrinkDeadAndMainRects = this.shrinkDiedAndMainRects( aliveCount );
 
     fadeInDeadRect.then( shrinkDeadAndMainRects );
     fadeInDeadRect.start();
@@ -181,10 +156,33 @@ export default class PopulationHistogramBar extends Node {
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
     const growNewAndMainRects = this.growNewAndMainRects_old( newCount );
-    const fadeOutNewRect = this.fadeOutNewRect();
+    const fadeOutNewRect = this.fadeOutAddedRect();
 
     growNewAndMainRects.then( fadeOutNewRect );
     growNewAndMainRects.start();
+  }
+
+  private growNewAndMainRects_old( addedCount: number ): Animation {
+    this.addedRect.bottom = this.mainRect.top;
+    this.addedRect.rectHeightFromBottom = 0;
+    this.addedRect.opacity = 1.0;
+
+    // explicit types for Animation generic to keep eslint happy until type inference is fixed
+    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+      targets: [ {
+        object: this.addedRect,
+        attribute: 'rectHeightFromBottom',
+        from: 0,
+        to: addedCount * this.pixelsPerCount
+      },
+      {
+        object: this.mainRect,
+        attribute: 'rectHeightFromBottom',
+        from: this.mainRect.height,
+        to: this.mainRect.height + addedCount * this.pixelsPerCount
+      } ],
+      duration: 1.0
+    } );
   }
 }
 
