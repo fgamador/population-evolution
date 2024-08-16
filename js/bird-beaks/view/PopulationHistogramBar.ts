@@ -102,6 +102,39 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
+  private growNewAndMainRects( addedCount: number ): Animation {
+    this.newRect.bottom = this.mainRect.top;
+    this.newRect.rectHeightFromBottom = 0;
+    this.newRect.opacity = 1.0;
+
+    // explicit types for Animation generic to keep eslint happy until type inference is fixed
+    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+      targets: [ {
+        object: this.newRect,
+        attribute: 'rectHeightFromBottom',
+        from: 0,
+        to: addedCount * this.pixelsPerCount
+      },
+      {
+        object: this.mainRect,
+        attribute: 'rectHeightFromBottom',
+        from: this.mainRect.height,
+        to: this.mainRect.height + addedCount * this.pixelsPerCount
+      } ],
+      duration: 1.0
+    } );
+  }
+
+  private fadeOutNewRect(): Animation {
+    return new Animation( {
+      object: this.newRect,
+      attribute: 'opacity',
+      from: 1.0,
+      to: 0.0,
+      duration: 1.0
+    } );
+  }
+
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
@@ -118,34 +151,8 @@ export default class PopulationHistogramBar extends Node {
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
-    this.newRect.bottom = this.mainRect.top;
-    this.newRect.rectHeightFromBottom = 0;
-    this.newRect.opacity = 1.0;
-
-    // explicit types for Animation generic to keep eslint happy until type inference is fixed
-    const growNewAndMainRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
-      targets: [ {
-        object: this.newRect,
-        attribute: 'rectHeightFromBottom',
-        from: 0,
-        to: newCount * this.pixelsPerCount
-      },
-      {
-        object: this.mainRect,
-        attribute: 'rectHeightFromBottom',
-        from: this.mainRect.height,
-        to: this.mainRect.height + newCount * this.pixelsPerCount
-      } ],
-      duration: 1.0
-    } );
-
-    const fadeOutNewRect = new Animation( {
-      object: this.newRect,
-      attribute: 'opacity',
-      from: 1.0,
-      to: 0.0,
-      duration: 1.0
-    } );
+    const growNewAndMainRects = this.growNewAndMainRects( newCount );
+    const fadeOutNewRect = this.fadeOutNewRect();
 
     growNewAndMainRects.then( fadeOutNewRect );
     growNewAndMainRects.start();
