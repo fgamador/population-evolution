@@ -16,7 +16,6 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import populationEvolution from '../../populationEvolution.js';
 // import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import Range from '../../../../dot/js/Range.js';
-import SeedDistribution from '../model/SeedDistribution.js';
 import Seeds from '../model/Seeds.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
@@ -76,7 +75,7 @@ export default class SeedDistributionPlots extends Node {
           // Minor grid lines
           new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } ),
 
-          new LinePlot( chartTransform, toPlotDataSet( this.seeds ), { stroke: 'red', lineWidth: 2 } ),
+          new LinePlot( chartTransform, toPlotDataSet( this.seeds ), { stroke: 'red', lineWidth: 2 } )
         ]
       } ),
 
