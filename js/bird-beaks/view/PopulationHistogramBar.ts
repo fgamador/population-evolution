@@ -58,27 +58,34 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public update( initial: number, died: number, mates: number, added: number ): void {
+    this.mainRect.rectHeightFromBottom = ( initial ) * this.pixelsPerCount;
+    this.mainRect.opacity = 1.0;
+
+    const fadeInDeadRect = this.fadeInDeadRect( died );
+    const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( initial - died );
+
     // todo
+
+    fadeInDeadRect.then( shrinkDeadAndMainRects );
+    fadeInDeadRect.start();
   }
 
-  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
-  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
-    this.mainRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
-    this.mainRect.opacity = 1.0;
+  private fadeInDeadRect( deadCount: number ): Animation {
     this.deadRect.opacity = 0.0;
     this.deadRect.rectHeightFromBottom = deadCount * this.pixelsPerCount;
 
-    const fadeInDeadRect = new Animation( {
+    return new Animation( {
       object: this.deadRect,
       attribute: 'opacity',
       from: 0.0,
       to: 1.0,
       duration: 1.0
     } );
+  }
 
+  private shrinkDeadAndMainRects( survivorCount: number ): Animation {
     // explicit types for Animation generic to keep eslint happy until inference is fixed
-    const shrinkDeadAndMainRects = new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
         object: this.deadRect,
         attribute: 'rectHeightFromBottom',
@@ -89,10 +96,20 @@ export default class PopulationHistogramBar extends Node {
         object: this.mainRect,
         attribute: 'rectHeightFromBottom',
         from: this.mainRect.height,
-        to: aliveCount * this.pixelsPerCount
+        to: survivorCount * this.pixelsPerCount
       } ],
       duration: 1.0
     } );
+  }
+
+  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
+  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
+  public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
+    this.mainRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
+    this.mainRect.opacity = 1.0;
+
+    const fadeInDeadRect = this.fadeInDeadRect( deadCount );
+    const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( aliveCount );
 
     fadeInDeadRect.then( shrinkDeadAndMainRects );
     fadeInDeadRect.start();
