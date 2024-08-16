@@ -76,8 +76,7 @@ export default class SeedDistributionPlots extends Node {
           // Minor grid lines
           new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } ),
 
-          new LinePlot( chartTransform, toPlotDataSet( seeds.distributions[ 0 ] ), { stroke: 'red', lineWidth: 2 } ),
-          new LinePlot( chartTransform, toPlotDataSet( seeds.distributions[ 1 ] ), { stroke: 'red', lineWidth: 2 } )
+          new LinePlot( chartTransform, toPlotDataSet( this.seeds ), { stroke: 'red', lineWidth: 2 } ),
         ]
       } ),
 
@@ -104,10 +103,10 @@ export default class SeedDistributionPlots extends Node {
   }
 }
 
-function toPlotDataSet( distribution: SeedDistribution ): Vector2[] {
+function toPlotDataSet( seeds: Seeds ): Vector2[] {
   const result = [];
   for ( let x = 0; x <= 20; x += 0.1 ) {
-    result.push( new Vector2( x, distribution.abundance( x ) ) );
+    result.push( new Vector2( x, seeds.abundance( x ) ) );
   }
   return result;
 }
