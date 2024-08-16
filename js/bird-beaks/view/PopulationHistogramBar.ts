@@ -57,6 +57,10 @@ export default class PopulationHistogramBar extends Node {
     this.pixelsPerCount = value;
   }
 
+  public update( initial: number, died: number, mates: number, added: number ): void {
+    // todo
+  }
+
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {

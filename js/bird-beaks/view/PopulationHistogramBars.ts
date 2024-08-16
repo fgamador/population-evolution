@@ -10,6 +10,7 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
+import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
 
 type SelfOptions = {
   minValue: number;
@@ -68,6 +69,17 @@ export default class PopulationHistogramBars extends Node {
     const pixelsPerCount = this.histogramHeight / value;
     for ( const bar of this.bars ) {
       bar.setPixelsPerCount( pixelsPerCount );
+    }
+  }
+
+  public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
+    const binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
+    const binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
+    const binnedMates = this.valuePairsToHistogramBins( phaseOutputs.mates );
+    const binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
+
+    for ( let i = 0; i < this.bars.length; i++ ) {
+      this.bars[ i ].update( binnedInitial[ i ], binnedDied[ i ], binnedMates[ i ], binnedAdded[ i ] );
     }
   }
 

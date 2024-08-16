@@ -10,16 +10,17 @@ import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBars, { PopulationHistogramBarsOptions } from './PopulationHistogramBars.js';
+import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   // todo
@@ -111,6 +112,10 @@ export default class PopulationHistogram extends Node {
 
       zoomButtonGroup
     ];
+  }
+
+  public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
+    this.histogramBars.update( phaseOutputs );
   }
 
   public updateFromSurvivalPhase( aliveValues: number[], deadValues: number[] ): void {

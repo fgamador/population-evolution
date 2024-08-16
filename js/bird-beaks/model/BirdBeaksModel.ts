@@ -16,6 +16,7 @@ import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
 import SeedDistribution from './SeedDistribution.js';
 import Seeds from './Seeds.js';
+import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
 
 export default class BirdBeaksModel implements TModel {
 
@@ -62,7 +63,25 @@ export default class BirdBeaksModel implements TModel {
     return new Seeds( [ new SeedDistribution( 4, 3, 50 ), new SeedDistribution( 16, 3, 50 ) ] );
   }
 
-  public update(): void {
+  public update(): PopulationPhaseOutputs {
+    const result = new PopulationPhaseOutputs();
+    result.initial = [ ...this.population.birds ];
+
+    const aliveDeadPair = this.population.survivalPhase( this.rand, bird => bird.survivalProbability( this.seeds ) );
+    result.died = aliveDeadPair[ 1 ];
+
+    const matedPairs = this.population.mateFindingPhase( this.rand, 3,
+      ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
+    result.mates = matedPairs;
+
+      // todo get stdev from UI property
+    const newBirds = this.population.breedingPhase( matedPairs, ( bird1, bird2 ) => bird1.breed( this.rand, bird2, 2 ) );
+    result.added = newBirds;
+
+    return result;
+  }
+
+  public runNextPhase(): void {
     const handler = this.phaseHandlers.get( this.phaseProperty.value ) || this.dummyPhase;
     this.phaseProperty.value = handler();
   }

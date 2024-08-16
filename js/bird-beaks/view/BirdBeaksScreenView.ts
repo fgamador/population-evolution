@@ -16,6 +16,8 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
+import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -123,7 +125,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          listener: () => model.update()
+          listener: () => model.runNextPhase()
         }
       },
       timeSpeedProperty: this.playingSpeedProperty,
@@ -153,9 +155,23 @@ export default class BirdBeaksScreenView extends ScreenView {
     }
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
-    this.model.update();
+
+    this.model.runNextPhase();
+
+    // const phaseOutputs = this.model.update();
+    // this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
+
     this.extinctionMessage.visible = this.model.population.birds.length === 0;
   }
+}
+
+function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
+  const result = new PopulationPhaseOutputBeakSizes();
+  result.initial = birdsToBeakSizes( phaseOutputs.initial );
+  result.died = birdsToBeakSizes( phaseOutputs.died );
+  result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
+  result.added = birdsToBeakSizes( phaseOutputs.added );
+  return result;
 }
 
 function birdsToBeakSizes( birds: Bird[] ): number[] {
