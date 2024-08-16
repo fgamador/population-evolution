@@ -16,13 +16,10 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-// import PopulationPhase from '../model/PopulationPhase.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';
-// import StringDisplay from '../../../../scenery-phet/js/StringDisplay.js';
-// import StringProperty from '../../../../axon/js/StringProperty.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
@@ -55,15 +52,9 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private seedDistributions: SeedDistributionPlots;
 
-  // private labelValueProperty: StringProperty;
-
   public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
     const options = optionize<BirdBeaksScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-
-      // add default values for optional SelfOptions here
-
-      // add default values for optional ScreenViewOptions here
     }, providedOptions );
 
     super( options );
@@ -72,29 +63,6 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.isPlayingProperty = new BooleanProperty( true );
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
-
-    // this.labelValueProperty = new StringProperty( '' );
-    // const label = new StringDisplay( this.labelValueProperty, {
-    //   top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-    //   centerX: this.layoutBounds.centerX
-    // } );
-    // this.addChild( label );
-
-    // model.phaseProperty.link( phase => {
-    //   switch( phase ) {
-    //     case PopulationPhase.SURVIVAL: {
-    //       this.labelValueProperty.value = 'Survival phase';
-    //       break;
-    //     }
-    //     case PopulationPhase.BREEDING: {
-    //       this.labelValueProperty.value = 'Breeding phase';
-    //       break;
-    //     }
-    //     default: {
-    //       break;
-    //     }
-    //   }
-    // } );
 
     this.histogram = new PopulationHistogram( {
       minValue: 0.0,
