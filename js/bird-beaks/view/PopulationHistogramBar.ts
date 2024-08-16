@@ -65,15 +65,15 @@ export default class PopulationHistogramBar extends Node {
 
     const survivedCount = initialCount - diedCount;
 
-    const fadeInDiedRect = this.fadeInDiedRect( diedCount );
+    const fadeInDiedRect = this.fadeInDiedRect( diedCount, 1.0 );
     fadeInDiedRect
-      .then( this.shrinkDiedAndMainRects( survivedCount ) )
-      .then( this.growAddedAndMainRects( survivedCount, addedCount ) )
-      .then( this.fadeOutAddedRect() );
+      .then( this.shrinkDiedAndMainRects( survivedCount, 1.0 ) )
+      .then( this.growAddedAndMainRects( survivedCount, addedCount, 1.0 ) )
+      .then( this.fadeOutAddedRect( 1.0 ) );
     fadeInDiedRect.start();
   }
 
-  private fadeInDiedRect( diedCount: number ): Animation {
+  private fadeInDiedRect( diedCount: number, duration: number ): Animation {
     this.diedRect.opacity = 0.0;
     this.diedRect.rectHeightFromBottom = diedCount * this.pixelsPerCount;
 
@@ -82,11 +82,11 @@ export default class PopulationHistogramBar extends Node {
       attribute: 'opacity',
       from: 0.0,
       to: 1.0,
-      duration: 1.0
+      duration: duration
     } );
   }
 
-  private shrinkDiedAndMainRects( survivedCount: number ): Animation {
+  private shrinkDiedAndMainRects( survivedCount: number, duration: number ): Animation {
     // explicit types for Animation generic to keep eslint happy until inference is fixed
     return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
       targets: [ {
@@ -101,11 +101,11 @@ export default class PopulationHistogramBar extends Node {
         from: this.mainRect.height,
         to: survivedCount * this.pixelsPerCount
       } ],
-      duration: 1.0
+      duration: duration
     } );
   }
 
-  private growAddedAndMainRects( survivedCount: number, addedCount: number ): Animation {
+  private growAddedAndMainRects( survivedCount: number, addedCount: number, duration: number ): Animation {
     const mainRectStartHeight = survivedCount * this.pixelsPerCount;
     const addedRectEndHeight = addedCount * this.pixelsPerCount;
 
@@ -127,17 +127,17 @@ export default class PopulationHistogramBar extends Node {
         from: mainRectStartHeight,
         to: mainRectStartHeight + addedRectEndHeight
       } ],
-      duration: 1.0
+      duration: duration
     } );
   }
 
-  private fadeOutAddedRect(): Animation {
+  private fadeOutAddedRect( duration: number ): Animation {
     return new Animation( {
       object: this.addedRect,
       attribute: 'opacity',
       from: 1.0,
       to: 0.0,
-      duration: 1.0
+      duration: duration
     } );
   }
 }
