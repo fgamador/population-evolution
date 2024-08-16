@@ -16,8 +16,8 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
-import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
+// import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+// import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -165,14 +165,14 @@ export default class BirdBeaksScreenView extends ScreenView {
   }
 }
 
-function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
-  const result = new PopulationPhaseOutputBeakSizes();
-  result.initial = birdsToBeakSizes( phaseOutputs.initial );
-  result.died = birdsToBeakSizes( phaseOutputs.died );
-  result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
-  result.added = birdsToBeakSizes( phaseOutputs.added );
-  return result;
-}
+// function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
+//   const result = new PopulationPhaseOutputBeakSizes();
+//   result.initial = birdsToBeakSizes( phaseOutputs.initial );
+//   result.died = birdsToBeakSizes( phaseOutputs.died );
+//   result.mates = birdPairsToBeakSizePairs( phaseOutputs.mates );
+//   result.added = birdsToBeakSizes( phaseOutputs.added );
+//   return result;
+// }
 
 function birdsToBeakSizes( birds: Bird[] ): number[] {
   return birds.map( bird => bird.beakSize );

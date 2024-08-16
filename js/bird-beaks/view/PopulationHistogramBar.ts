@@ -58,15 +58,20 @@ export default class PopulationHistogramBar extends Node {
   }
 
   public update( initial: number, died: number, mates: number, added: number ): void {
-    this.mainRect.rectHeightFromBottom = ( initial ) * this.pixelsPerCount;
+    this.mainRect.rectHeightFromBottom = initial * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
+    const survived = initial - died;
+
     const fadeInDeadRect = this.fadeInDeadRect( died );
-    const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( initial - died );
+    // const shrinkDeadAndMainRects = this.shrinkDeadAndMainRects( survived );
+    // const growNewAndMainRects = this.growNewAndMainRects( survived, added );
+    // const fadeOutNewRect = this.fadeOutNewRect();
 
-    // todo
-
-    fadeInDeadRect.then( shrinkDeadAndMainRects );
+    fadeInDeadRect
+      .then( this.shrinkDeadAndMainRects( survived ) )
+      .then( this.growNewAndMainRects( survived, added ) )
+      .then( this.fadeOutNewRect() );
     fadeInDeadRect.start();
   }
 
@@ -102,8 +107,32 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
-  private growNewAndMainRects( addedCount: number ): Animation {
+  private growNewAndMainRects_old( addedCount: number ): Animation {
+    // this.newRect.bottom = survivorCount * this.pixelsPerCount;
     this.newRect.bottom = this.mainRect.top;
+    this.newRect.rectHeightFromBottom = 0;
+    this.newRect.opacity = 1.0;
+
+    // explicit types for Animation generic to keep eslint happy until type inference is fixed
+    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
+      targets: [ {
+        object: this.newRect,
+        attribute: 'rectHeightFromBottom',
+        from: 0,
+        to: addedCount * this.pixelsPerCount
+      },
+      {
+        object: this.mainRect,
+        attribute: 'rectHeightFromBottom',
+        from: this.mainRect.height,
+        to: this.mainRect.height + addedCount * this.pixelsPerCount
+      } ],
+      duration: 1.0
+    } );
+  }
+
+  private growNewAndMainRects( survivorCount: number, addedCount: number ): Animation {
+    this.newRect.bottom = survivorCount * this.pixelsPerCount;
     this.newRect.rectHeightFromBottom = 0;
     this.newRect.opacity = 1.0;
 
@@ -151,7 +180,7 @@ export default class PopulationHistogramBar extends Node {
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
-    const growNewAndMainRects = this.growNewAndMainRects( newCount );
+    const growNewAndMainRects = this.growNewAndMainRects_old( newCount );
     const fadeOutNewRect = this.fadeOutNewRect();
 
     growNewAndMainRects.then( fadeOutNewRect );
