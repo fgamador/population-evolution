@@ -101,14 +101,6 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( this.extinctionMessage );
 
-    model.survivalPhaseEmitter.addListener( ( alive, dead ) => {
-      this.histogram.updateFromSurvivalPhase( birdsToBeakSizes( alive ), birdsToBeakSizes( dead ) );
-    } );
-
-    model.breedingPhaseEmitter.addListener( ( matedPairs, newBirds ) => {
-      this.histogram.updateFromBreedingPhase( birdPairsToBeakSizePairs( matedPairs ), birdsToBeakSizes( newBirds ) );
-    } );
-
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -125,11 +117,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          // todo listener: () => model.runNextPhase()
-          listener: () => {
-            const phaseOutputs = this.model.update();
-            this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
-          }
+          listener: () => this.updateModelAndHistogram()
         }
       },
       timeSpeedProperty: this.playingSpeedProperty,
@@ -160,12 +148,14 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
 
-    // todo this.model.runNextPhase();
-
-    const phaseOutputs = this.model.update();
-    this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
+    this.updateModelAndHistogram();
 
     this.extinctionMessage.visible = this.model.population.birds.length === 0;
+  }
+
+  private updateModelAndHistogram(): void {
+    const phaseOutputs = this.model.update();
+    this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
   }
 }
 

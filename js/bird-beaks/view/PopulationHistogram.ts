@@ -117,14 +117,6 @@ export default class PopulationHistogram extends Node {
   public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
     this.histogramBars.update( phaseOutputs );
   }
-
-  public updateFromSurvivalPhase( aliveValues: number[], deadValues: number[] ): void {
-    this.histogramBars.updateFromSurvivalPhase( aliveValues, deadValues );
-  }
-
-  public updateFromBreedingPhase( matedPairValues: [ number, number ][], newValues: number[] ): void {
-    this.histogramBars.updateFromBreedingPhase( matedPairValues, newValues );
-  }
 }
 
 populationEvolution.register( 'PopulationHistogram', PopulationHistogram );

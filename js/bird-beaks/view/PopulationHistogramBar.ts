@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * One bar from the population histogram.
+ * One bar in the population histogram.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */
@@ -57,6 +57,8 @@ export default class PopulationHistogramBar extends Node {
     this.pixelsPerCount = value;
   }
 
+  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
+  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public update( initial: number, died: number, mates: number, added: number ): void {
     this.mainRect.rectHeightFromBottom = initial * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
@@ -135,52 +137,6 @@ export default class PopulationHistogramBar extends Node {
       attribute: 'opacity',
       from: 1.0,
       to: 0.0,
-      duration: 1.0
-    } );
-  }
-
-  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
-  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public updateFromSurvivalPhase( aliveCount: number, deadCount: number ): void {
-    this.mainRect.rectHeightFromBottom = ( aliveCount + deadCount ) * this.pixelsPerCount;
-    this.mainRect.opacity = 1.0;
-
-    const fadeInDeadRect = this.fadeInDiedRect( deadCount );
-    const shrinkDeadAndMainRects = this.shrinkDiedAndMainRects( aliveCount );
-
-    fadeInDeadRect.then( shrinkDeadAndMainRects );
-    fadeInDeadRect.start();
-  }
-
-  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
-  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public updateFromBreedingPhase( matedCount: number, newCount: number ): void {
-    const growNewAndMainRects = this.growNewAndMainRects_old( newCount );
-    const fadeOutNewRect = this.fadeOutAddedRect();
-
-    growNewAndMainRects.then( fadeOutNewRect );
-    growNewAndMainRects.start();
-  }
-
-  private growNewAndMainRects_old( addedCount: number ): Animation {
-    this.addedRect.bottom = this.mainRect.top;
-    this.addedRect.rectHeightFromBottom = 0;
-    this.addedRect.opacity = 1.0;
-
-    // explicit types for Animation generic to keep eslint happy until type inference is fixed
-    return new Animation<unknown, unknown, [ number, number ], [ Rectangle, Rectangle ]>( {
-      targets: [ {
-        object: this.addedRect,
-        attribute: 'rectHeightFromBottom',
-        from: 0,
-        to: addedCount * this.pixelsPerCount
-      },
-      {
-        object: this.mainRect,
-        attribute: 'rectHeightFromBottom',
-        from: this.mainRect.height,
-        to: this.mainRect.height + addedCount * this.pixelsPerCount
-      } ],
       duration: 1.0
     } );
   }

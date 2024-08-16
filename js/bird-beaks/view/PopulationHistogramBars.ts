@@ -35,10 +35,6 @@ export default class PopulationHistogramBars extends Node {
   public constructor( providedOptions: PopulationHistogramBarsOptions ) {
 
     const options = optionize<PopulationHistogramBarsOptions, SelfOptions, NodeOptions>()( {
-
-      // add default values for optional SelfOptions here
-
-      // add default values for optional ScreenViewOptions here
     }, providedOptions );
 
     super( options );
@@ -80,24 +76,6 @@ export default class PopulationHistogramBars extends Node {
 
     for ( let i = 0; i < this.bars.length; i++ ) {
       this.bars[ i ].update( binnedInitial[ i ], binnedDied[ i ], binnedMates[ i ], binnedAdded[ i ] );
-    }
-  }
-
-  public updateFromSurvivalPhase( aliveValues: number[], deadValues: number[] ): void {
-    const aliveBins = this.valuesToHistogramBins( aliveValues );
-    const deadBins = this.valuesToHistogramBins( deadValues );
-
-    for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].updateFromSurvivalPhase( aliveBins[ i ], deadBins[ i ] );
-    }
-  }
-
-  public updateFromBreedingPhase( matedPairValues: [ number, number ][], newValues: number[] ): void {
-    const matedPairBins = this.valuePairsToHistogramBins( matedPairValues );
-    const newBins = this.valuesToHistogramBins( newValues );
-
-    for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].updateFromBreedingPhase( matedPairBins[ i ], newBins[ i ] );
     }
   }
 
