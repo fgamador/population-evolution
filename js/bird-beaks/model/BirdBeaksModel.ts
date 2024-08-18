@@ -9,11 +9,11 @@
 import Bird from './Bird.js';
 import Population from './Population.js';
 import populationEvolution from '../../populationEvolution.js';
+import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
 import RandomSource from '../../common/model/RandomSource.js';
-import TModel from '../../../../joist/js/TModel.js';
 import SeedDistribution from './SeedDistribution.js';
 import Seeds from './Seeds.js';
-import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
+import TModel from '../../../../joist/js/TModel.js';
 
 export default class BirdBeaksModel implements TModel {
 
