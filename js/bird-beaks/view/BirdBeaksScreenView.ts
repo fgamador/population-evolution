@@ -129,6 +129,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.isPlayingProperty.link( value => {
       if ( !value ) {
         this.histogram.cancelAnimation();
+        this.secondsUntilNextUpdate = 0;
       }
     } );
   }
