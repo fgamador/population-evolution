@@ -106,6 +106,12 @@ export default class PopulationHistogramBars extends Node {
   private valueToBinIndex( value: number ): number {
       return Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length );
   }
+
+  public stopAnimation(): void {
+    for ( const bar of this.bars ) {
+      bar.stopAnimation();
+    }
+  }
 }
 
 populationEvolution.register( 'PopulationHistogramBars', PopulationHistogramBars );

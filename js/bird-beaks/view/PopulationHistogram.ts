@@ -117,6 +117,10 @@ export default class PopulationHistogram extends Node {
   public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
     this.histogramBars.update( phaseOutputs );
   }
+
+  public stopAnimation(): void {
+    this.histogramBars.stopAnimation();
+  }
 }
 
 populationEvolution.register( 'PopulationHistogram', PopulationHistogram );

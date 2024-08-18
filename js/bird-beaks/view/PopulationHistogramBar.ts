@@ -7,6 +7,7 @@
  */
 
 import Animation from '../../../../twixt/js/Animation.js';
+import AnimationSequence from '../../common/view/AnimationSequence.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -30,6 +31,8 @@ export default class PopulationHistogramBar extends Node {
   private diedRect: Rectangle;
 
   private addedRect: Rectangle;
+
+  private animation: AnimationSequence | null = null;
 
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
@@ -65,12 +68,13 @@ export default class PopulationHistogramBar extends Node {
 
     const survivedCount = initialCount - diedCount;
 
-    const fadeInDiedRect = this.fadeInDiedRect( diedCount, 1.0 );
-    fadeInDiedRect
-      .then( this.shrinkDiedAndMainRects( survivedCount, 1.0 ) )
-      .then( this.growAddedAndMainRects( survivedCount, addedCount, 1.0 ) )
-      .then( this.fadeOutAddedRect( 1.0 ) );
-    fadeInDiedRect.start();
+    this.animation = new AnimationSequence( [
+      this.fadeInDiedRect( diedCount, 1.0 ),
+      this.shrinkDiedAndMainRects( survivedCount, 1.0 ),
+      this.growAddedAndMainRects( survivedCount, addedCount, 1.0 ),
+      this.fadeOutAddedRect( 1.0 )
+    ] );
+    this.animation.start();
   }
 
   private fadeInDiedRect( diedCount: number, duration: number ): Animation {
@@ -139,6 +143,10 @@ export default class PopulationHistogramBar extends Node {
       to: 0.0,
       duration: duration
     } );
+  }
+
+  public stopAnimation(): void {
+    this.animation?.stop();
   }
 }
 
