@@ -6,7 +6,6 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
-import Bird from '../model/Bird.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -17,7 +16,6 @@ import PopulationEvolutionConstants from '../../common/PopulationEvolutionConsta
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
 import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
-import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -160,20 +158,8 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private updateModelAndHistogram(): void {
     const phaseOutputs = this.model.update();
-    this.histogram.update( phaseOutputBirdsToBeakSizes( phaseOutputs ) );
+    this.histogram.update( new PopulationPhaseOutputBeakSizes( phaseOutputs ) );
   }
-}
-
-function phaseOutputBirdsToBeakSizes( phaseOutputs: PopulationPhaseOutputs ): PopulationPhaseOutputBeakSizes {
-  const result = new PopulationPhaseOutputBeakSizes();
-  result.initial = birdsToBeakSizes( phaseOutputs.initial );
-  result.died = birdsToBeakSizes( phaseOutputs.died );
-  result.added = birdsToBeakSizes( phaseOutputs.added );
-  return result;
-}
-
-function birdsToBeakSizes( birds: Bird[] ): number[] {
-  return birds.map( bird => bird.beakSize );
 }
 
 // function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
