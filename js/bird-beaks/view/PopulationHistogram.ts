@@ -20,6 +20,7 @@ import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js'
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Utils from '../../../../dot/js/Utils.js';
 
 type SelfOptions = {
@@ -114,8 +115,8 @@ export default class PopulationHistogram extends Node {
     ];
   }
 
-  public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
-    this.histogramBars.update( phaseOutputs );
+  public update( phaseOutputs: PopulationPhaseOutputBeakSizes, playingSpeed: TimeSpeed ): void {
+    this.histogramBars.update( phaseOutputs, playingSpeed );
   }
 
   public cancelAnimation(): void {

@@ -12,6 +12,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
 import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
   minValue: number;
@@ -69,11 +70,11 @@ export default class PopulationHistogramBars extends Node {
     }
   }
 
-  public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
+  public update( phaseOutputs: PopulationPhaseOutputBeakSizes, playingSpeed: TimeSpeed ): void {
     const binned = new BinnedPopulationPhaseOutputValues( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].update( binned.bin( i ) );
+      this.bars[ i ].update( binned.bin( i ), playingSpeed );
     }
   }
 

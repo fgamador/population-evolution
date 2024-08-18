@@ -14,6 +14,7 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import PopulationPhaseOutputValuesBin from './PopulationPhaseOutputValuesBin.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
   barWidth: number;
@@ -65,7 +66,7 @@ export default class PopulationHistogramBar extends Node {
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public update( bin: PopulationPhaseOutputValuesBin ): void {
+  public update( bin: PopulationPhaseOutputValuesBin, playingSpeed: TimeSpeed ): void {
     this.mainRect.rectHeightFromBottom = bin.initialCount * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 

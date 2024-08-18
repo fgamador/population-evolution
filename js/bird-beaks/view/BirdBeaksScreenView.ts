@@ -159,7 +159,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private updateModelAndHistogram(): void {
     const phaseOutputs = this.model.update();
-    this.histogram.update( new PopulationPhaseOutputBeakSizes( phaseOutputs ) );
+    this.histogram.update( new PopulationPhaseOutputBeakSizes( phaseOutputs ), this.playingSpeedProperty.value );
   }
 }
 
