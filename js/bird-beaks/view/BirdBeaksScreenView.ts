@@ -162,8 +162,4 @@ export default class BirdBeaksScreenView extends ScreenView {
   }
 }
 
-// function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
-//   return pairs.map( pair => [ pair[ 0 ].beakSize, pair[ 1 ].beakSize ] );
-// }
-
 populationEvolution.register( 'BirdBeaksScreenView', BirdBeaksScreenView );
