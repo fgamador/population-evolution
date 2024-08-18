@@ -118,8 +118,8 @@ export default class PopulationHistogram extends Node {
     this.histogramBars.update( phaseOutputs );
   }
 
-  public stopAnimation(): void {
-    this.histogramBars.stopAnimation();
+  public cancelAnimation(): void {
+    this.histogramBars.cancelAnimation();
   }
 }
 

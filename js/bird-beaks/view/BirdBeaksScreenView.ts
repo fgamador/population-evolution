@@ -102,7 +102,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        this.histogram.stopAnimation();
+        this.histogram.cancelAnimation();
         model.reset();
         this.reset();
       },
@@ -128,7 +128,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.isPlayingProperty.link( value => {
       if ( !value ) {
-        this.histogram.stopAnimation();
+        this.histogram.cancelAnimation();
       }
     } );
   }

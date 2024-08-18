@@ -33,6 +33,8 @@ export default class PopulationHistogramBar extends Node {
   private addedRect: Rectangle;
 
   private animation: AnimationSequence | null = null;
+  
+  private finalCount = 0;
 
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
 
@@ -67,6 +69,7 @@ export default class PopulationHistogramBar extends Node {
     this.mainRect.opacity = 1.0;
 
     const survivedCount = initialCount - diedCount;
+    this.finalCount = survivedCount + addedCount;
 
     this.animation = new AnimationSequence( [
       this.fadeInDiedRect( diedCount, 1.0 ),
@@ -145,8 +148,11 @@ export default class PopulationHistogramBar extends Node {
     } );
   }
 
-  public stopAnimation(): void {
+  public cancelAnimation(): void {
     this.animation?.stop();
+    this.mainRect.rectHeightFromBottom = this.finalCount * this.pixelsPerCount;
+    this.diedRect.opacity = 0;
+    this.addedRect.opacity = 0;
   }
 }
 

@@ -107,9 +107,9 @@ export default class PopulationHistogramBars extends Node {
       return Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length );
   }
 
-  public stopAnimation(): void {
+  public cancelAnimation(): void {
     for ( const bar of this.bars ) {
-      bar.stopAnimation();
+      bar.cancelAnimation();
     }
   }
 }
