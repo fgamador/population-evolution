@@ -6,6 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import BinnedPopulationPhaseOutputBeakSizes from './BinnedPopulationPhaseOutputBeakSizes.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -69,42 +70,11 @@ export default class PopulationHistogramBars extends Node {
   }
 
   public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
-    const binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
-    const binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
-    const binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
+    const binned = new BinnedPopulationPhaseOutputBeakSizes( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].update( binnedInitial[ i ], binnedDied[ i ], binnedAdded[ i ] );
+      this.bars[ i ].update( binned.binnedInitial[ i ], binned.binnedDied[ i ], binned.binnedAdded[ i ] );
     }
-  }
-
-  private valuesToHistogramBins( values: number[] ): number[] {
-    const result = this.createEmptyHistogramBins();
-
-    for ( const value of values ) {
-      result[ this.valueToBinIndex( value ) ]++;
-    }
-
-    return result;
-  }
-
-  // private valuePairsToHistogramBins( valuePairs: [ number, number ][] ): number[] {
-  //   const result = this.createEmptyHistogramBins();
-
-  //   for ( const valuePair of valuePairs ) {
-  //     result[ this.valueToBinIndex( valuePair[ 0 ] ) ]++;
-  //     result[ this.valueToBinIndex( valuePair[ 1 ] ) ]++;
-  //   }
-
-  //   return result;
-  // }
-
-  private createEmptyHistogramBins(): number[] {
-    return new Array( this.bars.length ).fill( 0 );
-  }
-
-  private valueToBinIndex( value: number ): number {
-      return Math.floor( ( ( value - this.minValue ) / ( this.maxValue - this.minValue ) ) * this.bars.length );
   }
 
   public cancelAnimation(): void {

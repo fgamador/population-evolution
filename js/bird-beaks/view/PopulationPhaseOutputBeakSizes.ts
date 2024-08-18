@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Struct holding the outputs from each of the population phases.
+ * Struct that converts population phase outputs to beak sizes.
  *
  * @author Franz Amador <franzamador@gmail.com>
 */
