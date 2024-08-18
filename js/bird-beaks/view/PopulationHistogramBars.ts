@@ -6,7 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
-import BinnedPopulationPhaseOutputBeakSizes from './BinnedPopulationPhaseOutputBeakSizes.js';
+import BinnedPopulationPhaseOutputValues from './BinnedPopulationPhaseOutputValues.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -70,10 +70,10 @@ export default class PopulationHistogramBars extends Node {
   }
 
   public update( phaseOutputs: PopulationPhaseOutputBeakSizes ): void {
-    const binned = new BinnedPopulationPhaseOutputBeakSizes( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
+    const binned = new BinnedPopulationPhaseOutputValues( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
-      this.bars[ i ].update( binned.binnedInitial[ i ], binned.binnedDied[ i ], binned.binnedAdded[ i ] );
+      this.bars[ i ].update( binned.bin( i ) );
     }
   }
 

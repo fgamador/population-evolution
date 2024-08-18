@@ -12,6 +12,7 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
+import PopulationPhaseOutputValuesBin from './PopulationPhaseOutputValuesBin.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = {
@@ -64,17 +65,17 @@ export default class PopulationHistogramBar extends Node {
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
   // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
-  public update( initialCount: number, diedCount: number, addedCount: number ): void {
-    this.mainRect.rectHeightFromBottom = initialCount * this.pixelsPerCount;
+  public update( bin: PopulationPhaseOutputValuesBin ): void {
+    this.mainRect.rectHeightFromBottom = bin.initialCount * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
-    const survivedCount = initialCount - diedCount;
-    this.finalCount = survivedCount + addedCount;
+    const survivedCount = bin.initialCount - bin.diedCount;
+    this.finalCount = survivedCount + bin.addedCount;
 
     this.animation = new AnimationSequence( [
-      this.fadeInDiedRect( diedCount, 1.0 ),
+      this.fadeInDiedRect( bin.diedCount, 1.0 ),
       this.shrinkDiedAndMainRects( survivedCount, 1.0 ),
-      this.growAddedAndMainRects( survivedCount, addedCount, 1.0 ),
+      this.growAddedAndMainRects( survivedCount, bin.addedCount, 1.0 ),
       this.fadeOutAddedRect( 1.0 )
     ] );
     this.animation.start();
