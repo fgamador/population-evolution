@@ -47,12 +47,11 @@ export default class PopulationHistogramBars extends Node {
 
     const barPaddedWidth = options.histogramWidth / options.numBars;
     const barWidth = options.barWidthFraction * barPaddedWidth;
-    const barPadWidth = ( barPaddedWidth - barWidth ) / 2;
 
     this.bars = [];
     for ( let i = 0; i < options.numBars; i++ ) {
       const bar = new PopulationHistogramBar( {
-        x: barPadWidth + ( i * barPaddedWidth ),
+        x: i * barPaddedWidth,
         y: 0,
         pixelsPerCount: options.histogramHeight / options.maxCount,
         barWidth: barWidth,

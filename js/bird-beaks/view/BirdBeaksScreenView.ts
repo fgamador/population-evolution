@@ -68,8 +68,8 @@ export default class BirdBeaksScreenView extends ScreenView {
       minValue: 0.0,
       maxValue: 20.0, // todo get this from model somehow
       maxCount: 220,
-      numBars: 21,
-      barWidthFraction: 0.8,
+      numBars: 20,
+      barWidthFraction: 0.9,
       histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
       histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
     } );

@@ -40,7 +40,6 @@ export default class PopulationHistogram extends Node {
 
     super( options );
 
-    const valuePadding = ( options.maxValue - options.minValue ) / options.numBars / 2;
     // todo calculate these
     const majorXTickSpacing = 2;
     const minorYTickSpacing = 10;
@@ -49,7 +48,7 @@ export default class PopulationHistogram extends Node {
     const chartTransform = new ChartTransform( {
       viewWidth: options.histogramWidth,
       viewHeight: options.histogramHeight,
-      modelXRange: new Range( options.minValue - valuePadding, options.maxValue + valuePadding ),
+      modelXRange: new Range( options.minValue, options.maxValue ),
       modelYRange: new Range( 0, options.maxCount )
     } );
 
