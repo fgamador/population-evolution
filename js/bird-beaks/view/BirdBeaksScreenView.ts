@@ -132,6 +132,13 @@ export default class BirdBeaksScreenView extends ScreenView {
         this.secondsUntilNextUpdate = 0;
       }
     } );
+
+    this.playingSpeedProperty.link( value => {
+      if ( value === TimeSpeed.FAST ) {
+        this.histogram.cancelAnimation();
+        this.secondsUntilNextUpdate = 0;
+      }
+    } );
   }
 
   /**

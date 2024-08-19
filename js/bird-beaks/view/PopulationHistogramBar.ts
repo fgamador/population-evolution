@@ -72,7 +72,20 @@ export default class PopulationHistogramBar extends Node {
 
     this.finalCount = bin.initialCount - bin.diedCount + bin.addedCount;
 
-    this.startSlowAnimation( bin );
+    switch( playingSpeed ) {
+      case TimeSpeed.FAST: {
+        this.jumpToEnd();
+        break;
+      }
+      case TimeSpeed.SLOW: {
+        this.startSlowAnimation( bin );
+        break;
+      }
+      default: {
+        this.startSlowAnimation( bin );
+        break;
+      }
+    }
   }
 
   private startSlowAnimation( bin: PopulationPhaseOutputValuesBin ): void {
@@ -156,9 +169,13 @@ export default class PopulationHistogramBar extends Node {
 
   public cancelAnimation(): void {
     this.animation?.stop();
-    this.mainRect.rectHeightFromBottom = this.finalCount * this.pixelsPerCount;
     this.diedRect.opacity = 0;
     this.addedRect.opacity = 0;
+    this.jumpToEnd();
+  }
+
+  private jumpToEnd(): void {
+    this.mainRect.rectHeightFromBottom = this.finalCount * this.pixelsPerCount;
   }
 }
 
