@@ -70,9 +70,13 @@ export default class PopulationHistogramBar extends Node {
     this.mainRect.rectHeightFromBottom = bin.initialCount * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
-    const survivedCount = bin.initialCount - bin.diedCount;
-    this.finalCount = survivedCount + bin.addedCount;
+    this.finalCount = bin.initialCount - bin.diedCount + bin.addedCount;
 
+    this.startSlowAnimation( bin );
+  }
+
+  private startSlowAnimation( bin: PopulationPhaseOutputValuesBin ): void {
+    const survivedCount = bin.initialCount - bin.diedCount;
     this.animation = new AnimationSequence( [
       this.fadeInDiedRect( bin.diedCount, 1.0 ),
       this.shrinkDiedAndMainRects( survivedCount, 1.0 ),
