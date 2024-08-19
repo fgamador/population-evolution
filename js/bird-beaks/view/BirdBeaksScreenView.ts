@@ -116,7 +116,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          listener: () => this.updateModelAndHistogram()
+          listener: () => this.singleStep()
         }
       },
       timeSpeedProperty: this.playingSpeedProperty,
@@ -155,6 +155,11 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.updateModelAndHistogram();
     this.extinctionMessage.visible = this.model.population.birds.length === 0;
+  }
+
+  private singleStep(): void {
+    this.histogram.cancelAnimation();
+    this.updateModelAndHistogram();
   }
 
   private updateModelAndHistogram(): void {
