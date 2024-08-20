@@ -83,7 +83,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     const diagrams = new VBox( {
       children: [ this.histogram, this.seedDistributions ],
-      align: 'right',
+      align: 'left',
       spacing: 20
     } );
     this.addChild( diagrams );
