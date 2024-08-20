@@ -9,12 +9,18 @@ import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProper
 import populationEvolution from './populationEvolution.js';
 
 type StringsType = {
+  'bird-controls': {
+    'titleStringProperty': LocalizedStringProperty;
+  };
   'extinctionMessageStringProperty': LocalizedStringProperty;
   'population-evolution': {
     'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
     'nameStringProperty': LocalizedStringProperty;
+  };
+  'seeds-controls': {
+    'titleStringProperty': LocalizedStringProperty;
   }
 };
 

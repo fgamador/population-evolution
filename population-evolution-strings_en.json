@@ -1,4 +1,7 @@
 {
+  "bird-controls.title": {
+    "value": "Birds"
+  },
   "extinctionMessage": {
     "value": "Extinct"
   },
@@ -7,5 +10,8 @@
   },
   "screen.name": {
     "value": "Population Evolution"
+  },
+  "seeds-controls.title": {
+    "value": "Seeds"
   }
 }

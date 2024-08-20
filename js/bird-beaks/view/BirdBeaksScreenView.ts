@@ -7,6 +7,7 @@
  */
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
+import BirdsControlPanel from './BirdsControlPanel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -98,6 +99,11 @@ export default class BirdBeaksScreenView extends ScreenView {
       visible: false
     } );
     this.addChild( this.extinctionMessage );
+
+    this.addChild( new BirdsControlPanel( {
+      left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
+      top: diagrams.top
+    } ) );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
