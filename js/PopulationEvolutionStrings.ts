@@ -10,6 +10,7 @@ import populationEvolution from './populationEvolution.js';
 
 type StringsType = {
   'bird-controls': {
+    'beakSizeStdDevSliderStringProperty': LocalizedStringProperty;
     'titleStringProperty': LocalizedStringProperty;
   };
   'extinctionMessageStringProperty': LocalizedStringProperty;

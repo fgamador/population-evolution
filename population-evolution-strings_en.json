@@ -1,4 +1,7 @@
 {
+  "bird-controls.beakSizeStdDevSlider": {
+    "value": "Beak-size variation"
+  },
   "bird-controls.title": {
     "value": "Birds"
   },

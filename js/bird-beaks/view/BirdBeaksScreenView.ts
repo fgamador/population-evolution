@@ -100,7 +100,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( this.extinctionMessage );
 
-    this.addChild( new BirdsControlPanel( {
+    this.addChild( new BirdsControlPanel( model, {
       left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
       top: diagrams.top
     } ) );
