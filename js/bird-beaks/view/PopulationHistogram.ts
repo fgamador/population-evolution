@@ -20,6 +20,7 @@ import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js'
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
+import TickSpacing from '../../common/view/TickSpacing.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Utils from '../../../../dot/js/Utils.js';
 
@@ -33,6 +34,10 @@ export default class PopulationHistogram extends Node {
 
   private histogramBars: PopulationHistogramBars;
 
+  private majorYTickMarks: TickMarkSet;
+
+  private majorYTickLabels: TickLabelSet;
+
   public constructor( providedOptions: PopulationHistogramOptions ) {
 
     const options = optionize<PopulationHistogramOptions, SelfOptions, NodeOptions>()( {
@@ -41,7 +46,7 @@ export default class PopulationHistogram extends Node {
     super( options );
 
     // todo calculate these
-    const majorXTickSpacing = 2;
+    const majorXTickSpacing = TickSpacing.pleasingMajorTickSpacing( options.maxCount, 6 );
     const minorYTickSpacing = 10;
     const majorYTickSpacing = 50;
 
@@ -61,6 +66,13 @@ export default class PopulationHistogram extends Node {
 
     this.histogramBars = new PopulationHistogramBars( options );
 
+    // Major ticks on the y-axis
+    this.majorYTickMarks = new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } );
+    this.majorYTickLabels = new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
+      edge: 'min',
+      createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
+    } );
+
     const zoomLevelProperty = new NumberProperty( Math.ceil( options.maxCount / 10 ), { range: new Range( 1, 1000 ) } );
 
     const zoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
@@ -68,9 +80,12 @@ export default class PopulationHistogram extends Node {
       left: chartRectangle.right + 10,
       bottom: chartRectangle.bottom
     } );
+
     zoomLevelProperty.link( zoomLevel => {
       const maxCount = zoomLevel * 10;
       this.histogramBars.setMaxCount( maxCount );
+      this.majorYTickMarks.setSpacing( TickSpacing.pleasingMajorTickSpacing( maxCount, 6 ) );
+      this.majorYTickLabels.setSpacing( TickSpacing.pleasingMajorTickSpacing( maxCount, 6 ) );
       chartTransform.setModelYRange( new Range( 0, maxCount ) );
     } );
 
@@ -97,11 +112,8 @@ export default class PopulationHistogram extends Node {
       } ),
 
       // Major ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } ),
-      new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
-        edge: 'min',
-        createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
-      } ),
+      this.majorYTickMarks,
+      this.majorYTickLabels,
 
       // Major ticks on the x-axis
       new TickMarkSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, { edge: 'min' } ),
