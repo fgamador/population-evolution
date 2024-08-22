@@ -9,10 +9,19 @@
 import TickSpacing from './TickSpacing.js';
 
 QUnit.module( 'TickSpacing.pleasingMajorTickSpacing', () => {
-  QUnit.test( 'Perfect fit with optimal number of ticks', assert => {
-    assert.equal( TickSpacing.pleasingMajorTickSpacing( 50, 6 ), 10 );
+  QUnit.test( 'Use order-of-magnitude spacing if optimal', assert => {
+    assert.equal( TickSpacing.pleasingMajorTickSpacing( 500, 6 ), 100 );
   } );
-  QUnit.test( 'todo', assert => {
-    assert.equal( TickSpacing.pleasingMajorTickSpacing( 50, 6 ), 10 );
+  QUnit.test( 'Use order-of-magnitude spacing if just below optimal', assert => {
+    assert.equal( TickSpacing.pleasingMajorTickSpacing( 600, 6 ), 100 );
+  } );
+  QUnit.test( 'Use half order-of-magnitude spacing if well below optimal', assert => {
+    assert.equal( TickSpacing.pleasingMajorTickSpacing( 200, 5 ), 50 );
+  } );
+  QUnit.test( 'Use tenth order-of-magnitude spacing if far below optimal', assert => {
+    assert.equal( TickSpacing.pleasingMajorTickSpacing( 1200, 6 ), 100 );
+  } );
+  QUnit.test( 'Use twice order-of-magnitude spacing if well above optimal', assert => {
+    assert.equal( TickSpacing.pleasingMajorTickSpacing( 90, 6 ), 20 );
   } );
 } );
