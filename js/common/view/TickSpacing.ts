@@ -11,22 +11,32 @@ import populationEvolution from '../../populationEvolution.js';
 export default class TickSpacing {
 
   public static pleasingMajorTickSpacing( range: number, optimalTickCount: number ): number {
+    const orderOfMagnitude = Math.pow( 10, Math.floor( Math.log10( range ) ) );
+    return this.pleasingMajorTickSpacingInner( range, optimalTickCount, orderOfMagnitude );
+  }
+
+  private static pleasingMajorTickSpacingInner( range: number, optimalTickCount: number, orderOfMagnitude: number ): number {
     const minTickCount = Math.ceil( optimalTickCount * 0.75 );
     const maxTickCount = Math.floor( optimalTickCount * 1.25 );
-    const orderOfMagnitude = Math.pow( 10, Math.floor( Math.log10( range ) ) );
 
     if ( this.tickCount( range, orderOfMagnitude ) < minTickCount ) {
       const halfOrderOfMagnitude = orderOfMagnitude / 2;
 
       if ( this.tickCount( range, halfOrderOfMagnitude ) < minTickCount ) {
-        return orderOfMagnitude / 10;
+        return this.pleasingMajorTickSpacingInner( range, optimalTickCount, orderOfMagnitude / 10 );
       }
 
       return halfOrderOfMagnitude;
     }
 
     if ( this.tickCount( range, orderOfMagnitude ) > maxTickCount ) {
-      return orderOfMagnitude * 2;
+      const twiceOrderOfMagnitude = orderOfMagnitude * 2;
+
+      if ( this.tickCount( range, twiceOrderOfMagnitude ) > maxTickCount ) {
+        return orderOfMagnitude * 5;
+      }
+
+      return twiceOrderOfMagnitude;
     }
 
     return orderOfMagnitude;
