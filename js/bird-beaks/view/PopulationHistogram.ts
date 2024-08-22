@@ -48,9 +48,9 @@ export default class PopulationHistogram extends Node {
     super( options );
 
     // todo calculate these
-    const majorXTickSpacing = TickSpacing.pleasingMajorTickSpacing( options.maxCount, 6 );
+    const majorXTickSpacing = 2.0;
+    const majorYTickSpacing = TickSpacing.pleasingMajorTickSpacing( options.maxCount, 6 );
     const minorYTickSpacing = 10;
-    const majorYTickSpacing = 50;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.histogramWidth,
