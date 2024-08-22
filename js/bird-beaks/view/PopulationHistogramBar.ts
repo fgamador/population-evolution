@@ -62,6 +62,7 @@ export default class PopulationHistogramBar extends Node {
 
   public setPixelsPerCount( value: number ): void {
     this.pixelsPerCount = value;
+    this.jumpToEnd();
   }
 
   // todo So far this handles just the TimeSpeed.SLOW case, so the animations
