@@ -38,6 +38,8 @@ export default class PopulationHistogram extends Node {
 
   private majorYTickLabels: TickLabelSet;
 
+  private majorYGridLines: GridLineSet;
+
   public constructor( providedOptions: PopulationHistogramOptions ) {
 
     const options = optionize<PopulationHistogramOptions, SelfOptions, NodeOptions>()( {
@@ -66,12 +68,13 @@ export default class PopulationHistogram extends Node {
 
     this.histogramBars = new PopulationHistogramBars( options );
 
-    // Major ticks on the y-axis
+    // Major ticks and grid lines for the y-axis
     this.majorYTickMarks = new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } );
     this.majorYTickLabels = new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
       edge: 'min',
       createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
     } );
+    this.majorYGridLines = new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { stroke: 'lightGray' } );
 
     const zoomLevelProperty = new NumberProperty( Math.ceil( options.maxCount / 10 ), { range: new Range( 1, 1000 ) } );
 
@@ -84,8 +87,10 @@ export default class PopulationHistogram extends Node {
     zoomLevelProperty.link( zoomLevel => {
       const maxCount = zoomLevel * 10;
       this.histogramBars.setMaxCount( maxCount );
-      this.majorYTickMarks.setSpacing( TickSpacing.pleasingMajorTickSpacing( maxCount, 6 ) );
-      this.majorYTickLabels.setSpacing( TickSpacing.pleasingMajorTickSpacing( maxCount, 6 ) );
+      const majorYTickSpacing = TickSpacing.pleasingMajorTickSpacing( maxCount, 6 );
+      this.majorYTickMarks.setSpacing( majorYTickSpacing );
+      this.majorYTickLabels.setSpacing( majorYTickSpacing );
+      this.majorYGridLines.setSpacing( majorYTickSpacing );
       chartTransform.setModelYRange( new Range( 0, maxCount ) );
     } );
 
@@ -97,10 +102,7 @@ export default class PopulationHistogram extends Node {
         clipArea: chartRectangle.getShape(),
 
         children: [
-
-          // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { stroke: 'lightGray' } ),
-
+          this.majorYGridLines,
           this.histogramBars
         ]
       } ),
