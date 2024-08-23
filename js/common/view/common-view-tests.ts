@@ -8,6 +8,19 @@
 
 import TickSpacing from './TickSpacing.js';
 
+QUnit.module( 'TickSpacing', () => {
+  QUnit.test( 'orderOfMagnitude', assert => {
+    assert.equal( TickSpacing.orderOfMagnitude( 99 ), 10 );
+    assert.equal( TickSpacing.orderOfMagnitude( 9 ), 1 );
+    assert.equal( TickSpacing.orderOfMagnitude( 0.9 ), 0.1 );
+  } );
+
+  QUnit.test( 'pleasingMinorTickSpacing', assert => {
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 100, 10 ), 10 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 110, 10 ), 10 );
+  } );
+} );
+
 QUnit.module( 'TickSpacing.pleasingMajorTickSpacing', () => {
   QUnit.test( 'Use order-of-magnitude spacing if optimal', assert => {
     assert.equal( TickSpacing.pleasingMajorTickSpacing( 500, 6 ), 100 );

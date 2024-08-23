@@ -10,6 +10,17 @@ import populationEvolution from '../../populationEvolution.js';
 
 export default class TickSpacing {
 
+  public static pleasingMinorTickSpacing( range: number, optimalTickCount: number ): number {
+    const optimalSpacing = range / optimalTickCount;
+    const optimalSpacingOOM = this.orderOfMagnitude( optimalSpacing );
+
+    return optimalSpacingOOM;
+  }
+
+  public static orderOfMagnitude( x: number ): number {
+    return Math.pow( 10, Math.floor( Math.log10( x ) ) );
+  }
+
   public static pleasingMajorTickSpacing( range: number, optimalTickCount: number ): number {
     const orderOfMagnitude = Math.pow( 10, Math.floor( Math.log10( range ) ) );
     return this.pleasingMajorTickSpacingInner( range, optimalTickCount, orderOfMagnitude );
