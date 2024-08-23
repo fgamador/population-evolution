@@ -13,6 +13,17 @@ export default class TickSpacing {
   public static pleasingMinorTickSpacing( range: number, optimalTickCount: number ): number {
     const optimalSpacing = range / optimalTickCount;
     const optimalSpacingOOM = this.orderOfMagnitude( optimalSpacing );
+    const ratio = optimalSpacing / optimalSpacingOOM;
+
+    if ( ratio >= 7.5 ) {
+      return optimalSpacingOOM * 10;
+    }
+    if ( ratio >= 3.5 ) {
+      return optimalSpacingOOM * 5;
+    }
+    if ( ratio >= 1.5 ) {
+      return optimalSpacingOOM * 2;
+    }
 
     return optimalSpacingOOM;
   }

@@ -15,9 +15,16 @@ QUnit.module( 'TickSpacing', () => {
     assert.equal( TickSpacing.orderOfMagnitude( 0.9 ), 0.1 );
   } );
 
-  QUnit.test( 'pleasingMinorTickSpacing', assert => {
-    assert.equal( TickSpacing.pleasingMinorTickSpacing( 100, 10 ), 10 );
-    assert.equal( TickSpacing.pleasingMinorTickSpacing( 110, 10 ), 10 );
+  QUnit.test( 'pleasingMinorTickSpacing with increasing range', assert => {
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 1000, 100 ), 10 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 1499, 100 ), 10 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 1500, 100 ), 20 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 2000, 100 ), 20 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 3499, 100 ), 20 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 3500, 100 ), 50 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 5000, 100 ), 50 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 7499, 100 ), 50 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 7500, 100 ), 100 );
   } );
 } );
 
