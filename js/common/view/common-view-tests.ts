@@ -33,17 +33,31 @@ QUnit.module( 'TickSpacing.pleasingMinorTickSpacing', () => {
   } );
   QUnit.test( 'Ten-times order-of-magnitude spacing and up', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 7500, 100 ), 100 );
-    // Next higher order of magnitude for optimal spacing; same algorithm as above.
+    // Next higher order of magnitude of optimal spacing; same algorithm as above.
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 10000, 100 ), 100 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 14999, 100 ), 100 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 15000, 100 ), 200 );
   } );
   QUnit.test( 'Order-of-magnitude spacing with decreasing range', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 1000, 100 ), 10 );
-    // Next lower order of magnitude for optimal spacing.
+    // Next lower order of magnitude of optimal spacing.
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 750, 100 ), 10 );
-    // assert.equal( TickSpacing.pleasingMinorTickSpacing( 751, 100 ), 5 );
-    // assert.equal( TickSpacing.pleasingMinorTickSpacing( 500, 100 ), 5 );
+  } );
+  QUnit.test( 'Five-times lower-order-of-magnitude spacing', assert => {
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 749, 100 ), 5 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 500, 100 ), 5 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 350, 100 ), 5 );
+  } );
+  QUnit.test( 'Two-times lower-order-of-magnitude spacing', assert => {
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 349, 100 ), 2 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 200, 100 ), 2 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 150, 100 ), 2 );
+  } );
+  QUnit.test( 'Lower-order-of-magnitude spacing and below', assert => {
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 149, 100 ), 1 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 100, 100 ), 1 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 75, 100 ), 1 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 74, 100 ), 0.5 );
   } );
 } );
 
