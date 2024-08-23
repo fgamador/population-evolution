@@ -25,6 +25,9 @@ QUnit.module( 'TickSpacing', () => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 5000, 100 ), 50 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 7499, 100 ), 50 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 7500, 100 ), 100 );
+    // Next higher order of magnitude; same algorithm as above.
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 10000, 100 ), 100 );
+    assert.equal( TickSpacing.pleasingMinorTickSpacing( 15000, 100 ), 200 );
   } );
 } );
 
