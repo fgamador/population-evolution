@@ -37,9 +37,9 @@ export default class TickSpacing {
 
   public static pleasingMajorTickSpacing( range: number, minorTickSpacing: number, optimalMajorTickCount: number ): number {
     const minorTickCount = this.tickCount( range, minorTickSpacing );
-    const optimalSpacing = ( ( minorTickCount - 1 ) / optimalMajorTickCount ) * minorTickSpacing;
     // eslint-disable-next-line bad-sim-text
-    return Math.round( optimalSpacing );
+    const optimalSpacing = Math.round( ( minorTickCount - 1 ) / optimalMajorTickCount ) * minorTickSpacing;
+    return optimalSpacing;
   }
 
   private static tickCount( range: number, spacing: number ): number {

@@ -140,8 +140,8 @@ export default class PopulationHistogram extends Node {
   }
 
   private pleasingTickSpacing( maxCount: number ): [ number, number ] {
-    const minorSpacing = TickSpacing.pleasingMinorTickSpacing( maxCount, 25 );
-    const majorSpacing = TickSpacing.pleasingMajorTickSpacing( maxCount, minorSpacing, 5 );
+    const minorSpacing = TickSpacing.pleasingMinorTickSpacing( maxCount, 21 );
+    const majorSpacing = TickSpacing.pleasingMajorTickSpacing( maxCount, minorSpacing, 6 );
     return [ minorSpacing, majorSpacing ];
   }
 }
