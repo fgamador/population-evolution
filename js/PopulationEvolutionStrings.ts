@@ -9,7 +9,7 @@ import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProper
 import populationEvolution from './populationEvolution.js';
 
 type StringsType = {
-  'bird-controls': {
+  'birds-controls': {
     'titleStringProperty': LocalizedStringProperty;
     'variationControlLabelStringProperty': LocalizedStringProperty;
     'variationControlValueStringProperty': LocalizedStringProperty;

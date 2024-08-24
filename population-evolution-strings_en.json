@@ -1,11 +1,11 @@
 {
-  "bird-controls.title": {
+  "birds-controls.title": {
     "value": "Birds"
   },
-  "bird-controls.variationControlLabel": {
+  "birds-controls.variationControlLabel": {
     "value": "Variation:"
   },
-  "bird-controls.variationControlValue": {
+  "birds-controls.variationControlValue": {
     "value": "{0} mm"
   },
   "extinctionMessage": {

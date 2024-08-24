@@ -20,6 +20,7 @@ import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js'
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';
+import SeedsControlPanel from './SeedsControlPanel.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
@@ -102,7 +103,12 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.addChild( new BirdsControlPanel( model, {
       left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
-      top: diagrams.top
+      top: diagrams.top + this.histogram.top
+    } ) );
+
+    this.addChild( new SeedsControlPanel( model, {
+      left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
+      top: diagrams.top + this.seedDistributions.top
     } ) );
 
     const resetAllButton = new ResetAllButton( {

@@ -33,7 +33,7 @@ export default class BirdsControlPanel extends Panel {
       lineWidth: 3
     }, providedOptions );
 
-    const birdControlsTitleNode = new Text( PopulationEvolutionStrings[ 'bird-controls' ].titleStringProperty, {
+    const birdsControlsTitleNode = new Text( PopulationEvolutionStrings[ 'birds-controls' ].titleStringProperty, {
       font: new PhetFont( {
         size: 18,
         weight: 'bold'
@@ -52,7 +52,7 @@ export default class BirdsControlPanel extends Panel {
         textOptions: {
           font: new PhetFont( 20 )
         },
-        valuePattern: PopulationEvolutionStrings[ 'bird-controls' ].variationControlValueStringProperty
+        valuePattern: PopulationEvolutionStrings[ 'birds-controls' ].variationControlValueStringProperty
       },
       sliderOptions: {
         majorTicks: [
@@ -64,16 +64,15 @@ export default class BirdsControlPanel extends Panel {
       }
     };
 
-    const breedingVariationControl = new NumberControl( PopulationEvolutionStrings[ 'bird-controls' ].variationControlLabelStringProperty,
+    const breedingVariationControl = new NumberControl( PopulationEvolutionStrings[ 'birds-controls' ].variationControlLabelStringProperty,
       model.beakSizeStdDevProperty, variationRange, breedingVariationControlOptions );
 
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
-        birdControlsTitleNode,
+        birdsControlsTitleNode,
         breedingVariationControl
-        // breedingVariationSlider
       ]
     } );
 
