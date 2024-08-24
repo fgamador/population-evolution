@@ -87,8 +87,8 @@ export default class PopulationHistogram extends Node {
 
     const zoomButtonGroup = new PlusMinusZoomButtonGroup( zoomLevelProperty, {
       orientation: 'vertical',
-      left: chartRectangle.right + 10,
-      bottom: chartRectangle.bottom
+      right: chartRectangle.right - 10,
+      top: chartRectangle.top + 10
     } );
 
     zoomLevelProperty.link( zoomLevel => {
