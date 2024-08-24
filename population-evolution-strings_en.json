@@ -1,9 +1,12 @@
 {
-  "bird-controls.beakSizeStdDevSlider": {
-    "value": "Beak-size variation"
-  },
   "bird-controls.title": {
     "value": "Birds"
+  },
+  "bird-controls.variationControlLabel": {
+    "value": "Variation:"
+  },
+  "bird-controls.variationControlValue": {
+    "value": "{0} mm"
   },
   "extinctionMessage": {
     "value": "Extinct"

@@ -7,13 +7,13 @@
  */
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
-import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -39,33 +39,41 @@ export default class BirdsControlPanel extends Panel {
         weight: 'bold'
       } )
     } );
+    
+    const variationRange = new RangeWithValue( 0, 10, 1 ); // todo named constants?
+    // const enabledProperty = new Property( true );
 
-    const range = new Range( 0, 10 ); // todo upper limit as named constant?
-    const breedingVariationSlider = new HSlider( model.beakSizeStdDevProperty, range, {
-      labelContent: PopulationEvolutionStrings[ 'bird-controls' ].beakSizeStdDevSliderStringProperty
-    } );
+    const breedingVariationControlOptions: NumberControlOptions = {
+      // enabledProperty: enabledProperty,
+      titleNodeOptions: {
+        font: new PhetFont( 20 )
+      },
+      numberDisplayOptions: {
+        textOptions: {
+          font: new PhetFont( 20 )
+        },
+        valuePattern: PopulationEvolutionStrings[ 'bird-controls' ].variationControlValueStringProperty
+      },
+      sliderOptions: {
+        majorTicks: [
+          { value: variationRange.min, label: new Text( variationRange.min, { font: new PhetFont( 20 ) } ) },
+          { value: variationRange.getCenter(), label: new Text( variationRange.getCenter(), { font: new PhetFont( 20 ) } ) },
+          { value: variationRange.max, label: new Text( variationRange.max, { font: new PhetFont( 20 ) } ) }
+        ],
+        minorTickSpacing: 1 // todo
+      }
+    };
 
-    // Settable
-    // const enabledProperty = new BooleanProperty( true );
-    // breedingVariationSlider.enabledProperty = enabledProperty;
-
-    const tickLabelOptions = { font: new PhetFont( { size: 16 } ) };
-
-    // major ticks
-    breedingVariationSlider.addMajorTick( range.min, new Text( range.min, tickLabelOptions ) );
-    breedingVariationSlider.addMajorTick( range.getCenter(), new Text( range.getCenter(), tickLabelOptions ) );
-    breedingVariationSlider.addMajorTick( range.max, new Text( range.max, tickLabelOptions ) );
-
-    // minor ticks
-    breedingVariationSlider.addMinorTick( range.min + 0.25 * range.getLength() );
-    breedingVariationSlider.addMinorTick( range.min + 0.75 * range.getLength() );
+    const breedingVariationControl = new NumberControl( PopulationEvolutionStrings[ 'bird-controls' ].variationControlLabelStringProperty,
+      model.beakSizeStdDevProperty, variationRange, breedingVariationControlOptions );
 
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         birdControlsTitleNode,
-        breedingVariationSlider
+        breedingVariationControl
+        // breedingVariationSlider
       ]
     } );
 
