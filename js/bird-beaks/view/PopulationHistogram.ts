@@ -34,6 +34,8 @@ export default class PopulationHistogram extends Node {
 
   private histogramBars: PopulationHistogramBars;
 
+  private minorYTickMarks: TickMarkSet;
+
   private majorYTickMarks: TickMarkSet;
 
   private majorYTickLabels: TickLabelSet;
@@ -49,8 +51,7 @@ export default class PopulationHistogram extends Node {
 
     // todo calculate these
     const majorXTickSpacing = 2.0;
-    const majorYTickSpacing = TickSpacing.pleasingMajorTickSpacing( options.maxCount, 6 );
-    const minorYTickSpacing = 10;
+    const [ minorYTickSpacing, majorYTickSpacing ] = this.pleasingTickSpacing( options.maxCount );
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.histogramWidth,
@@ -67,6 +68,12 @@ export default class PopulationHistogram extends Node {
     } );
 
     this.histogramBars = new PopulationHistogramBars( options );
+
+      // Minor ticks on the y-axis
+    this.minorYTickMarks = new TickMarkSet( chartTransform, Orientation.VERTICAL, minorYTickSpacing, {
+      stroke: 'darkGray',
+      edge: 'min'
+    } );
 
     // Major ticks and grid lines for the y-axis
     this.majorYTickMarks = new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } );
@@ -87,7 +94,8 @@ export default class PopulationHistogram extends Node {
     zoomLevelProperty.link( zoomLevel => {
       const maxCount = zoomLevel * 10;
       this.histogramBars.setMaxCount( maxCount );
-      const majorYTickSpacing = TickSpacing.pleasingMajorTickSpacing( maxCount, 6 );
+      const [ minorYTickSpacing, majorYTickSpacing ] = this.pleasingTickSpacing( maxCount );
+      this.minorYTickMarks.setSpacing( minorYTickSpacing );
       this.majorYTickMarks.setSpacing( majorYTickSpacing );
       this.majorYTickLabels.setSpacing( majorYTickSpacing );
       this.majorYGridLines.setSpacing( majorYTickSpacing );
@@ -107,17 +115,12 @@ export default class PopulationHistogram extends Node {
         ]
       } ),
 
-      // Minor ticks on the y-axis
-      new TickMarkSet( chartTransform, Orientation.VERTICAL, minorYTickSpacing, {
-        stroke: 'darkGray',
-        edge: 'min'
-      } ),
-
-      // Major ticks on the y-axis
+      // Ticks on the y-axis
+      this.minorYTickMarks,
       this.majorYTickMarks,
       this.majorYTickLabels,
 
-      // Major ticks on the x-axis
+      // Ticks on the x-axis
       new TickMarkSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, { edge: 'min' } ),
       new TickLabelSet( chartTransform, Orientation.HORIZONTAL, majorXTickSpacing, {
         edge: 'min',
@@ -134,6 +137,12 @@ export default class PopulationHistogram extends Node {
 
   public cancelAnimation(): void {
     this.histogramBars.cancelAnimation();
+  }
+
+  private pleasingTickSpacing( maxCount: number ): [ number, number ] {
+    const minorSpacing = TickSpacing.pleasingMinorTickSpacing( maxCount, 25 );
+    const majorSpacing = TickSpacing.pleasingMajorTickSpacing( maxCount, minorSpacing, 5 );
+    return [ minorSpacing, majorSpacing ];
   }
 }
 
