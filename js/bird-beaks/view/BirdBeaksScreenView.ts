@@ -21,7 +21,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';
 import SeedsControlPanel from './SeedsControlPanel.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { Text, GridBox } from '../../../../scenery/js/imports.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
@@ -66,26 +66,36 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
 
-    this.histogram = new PopulationHistogram( {
-      minValue: 0.0,
-      maxValue: 20.0, // todo get this from model somehow
-      maxCount: 220,
-      numBars: 20,
-      barWidthFraction: 0.9,
-      histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-      histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
-    } );
-
-    this.seedDistributions = new SeedDistributionPlots( model.seeds, {
-      minValue: 0.0,
-      maxValue: 20.0,
-      diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-      diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
-    } );
-
-    const diagrams = new VBox( {
-      children: [ this.histogram, this.seedDistributions ],
-      align: 'right',
+    const diagrams = new GridBox( {
+      rows: [
+        [
+          this.histogram = new PopulationHistogram( {
+            layoutOptions: { xAlign: 'right', yAlign: 'top' },
+            minValue: 0.0,
+            maxValue: 20.0, // todo get this from model somehow
+            maxCount: 220,
+            numBars: 20,
+            barWidthFraction: 0.9,
+            histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+            histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
+          } ),
+          new BirdsControlPanel( model, {
+            layoutOptions: { xAlign: 'left', yAlign: 'top' }
+          } )
+        ],
+        [
+          this.seedDistributions = new SeedDistributionPlots( model.seeds, {
+            layoutOptions: { xAlign: 'right', yAlign: 'top' },
+            minValue: 0.0,
+            maxValue: 20.0,
+            diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+            diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
+          } ),
+          new SeedsControlPanel( model, {
+            layoutOptions: { xAlign: 'left', yAlign: 'top' }
+          } )
+        ]
+      ],
       spacing: 20
     } );
     this.addChild( diagrams );
@@ -100,16 +110,6 @@ export default class BirdBeaksScreenView extends ScreenView {
       visible: false
     } );
     this.addChild( this.extinctionMessage );
-
-    this.addChild( new BirdsControlPanel( model, {
-      left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
-      top: diagrams.top + this.histogram.top
-    } ) );
-
-    this.addChild( new SeedsControlPanel( model, {
-      left: diagrams.right + PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
-      top: diagrams.top + this.seedDistributions.top
-    } ) );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
