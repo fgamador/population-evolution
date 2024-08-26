@@ -123,8 +123,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // Time controls, used to play/pause the simulation
-    const timeControlNode = new TimeControlNode( this.isPlayingProperty, {
+    this.addChild( new TimeControlNode( this.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
           listener: () => this.singleStep()
@@ -134,8 +133,7 @@ export default class BirdBeaksScreenView extends ScreenView {
       timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ],
       right: resetAllButton.left - 40,
       bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN
-    } );
-    this.addChild( timeControlNode );
+    } ) );
 
     this.isPlayingProperty.link( value => {
       if ( !value ) {
