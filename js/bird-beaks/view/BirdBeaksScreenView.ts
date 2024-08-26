@@ -66,7 +66,10 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
 
-    const diagrams = new GridBox( {
+    this.addChild( new GridBox( {
+      centerX: this.layoutBounds.centerX,
+      top: this.layoutBounds.top + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
+      spacing: 20,
       rows: [
         [
           this.histogram = new PopulationHistogram( {
@@ -95,12 +98,8 @@ export default class BirdBeaksScreenView extends ScreenView {
             layoutOptions: { xAlign: 'left', yAlign: 'top' }
           } )
         ]
-      ],
-      spacing: 20
-    } );
-    this.addChild( diagrams );
-    diagrams.centerX = this.layoutBounds.centerX;
-    diagrams.top = this.layoutBounds.top + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN;
+      ]
+    } ) );
 
     this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
       font: MESSAGE_FONT,
