@@ -7,11 +7,15 @@
  */
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
+// import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import FineCoarseSpinner from '../../../../scenery-phet/js/FineCoarseSpinner.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -37,11 +41,22 @@ export default class SeedsControlPanel extends Panel {
       } )
     } );
 
+    const numberProperty = new NumberProperty( 0, {
+      range: new RangeWithValue( 0, 10, 1 )
+    } );
+
+    // const enabledProperty = new BooleanProperty( true );
+
+    const spinner = new FineCoarseSpinner( numberProperty, {
+      // enabledProperty: enabledProperty
+    } );
+    
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
-        seedsControlsTitleNode
+        seedsControlsTitleNode,
+        spinner
       ]
     } );
 
