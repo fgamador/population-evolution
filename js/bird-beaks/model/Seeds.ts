@@ -11,7 +11,7 @@ import SeedDistribution from './SeedDistribution.js';
 
 export default class Seeds {
 
-  public distributions: SeedDistribution[] = [];
+  private distributions: SeedDistribution[] = [];
 
   public constructor( distributions: SeedDistribution[] ) {
     this.distributions = distributions;
@@ -19,6 +19,14 @@ export default class Seeds {
 
   public addDistribution( distribution: SeedDistribution ): void {
     this.distributions.push( distribution );
+  }
+
+  public getDistribution( index: number ): SeedDistribution {
+    return this.distributions[ index ];
+  }
+
+  public numDistributions(): number {
+    return this.distributions.length;
   }
 
   public abundance( seedSize: number ): number {

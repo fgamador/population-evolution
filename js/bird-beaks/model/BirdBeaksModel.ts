@@ -45,7 +45,7 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createSeeds(): Seeds {
-    return new Seeds( [ new SeedDistribution( 4, 3, 50 ), new SeedDistribution( 16, 3, 50 ) ] );
+    return new Seeds( [ new SeedDistribution( 4, 3, 50 ), new SeedDistribution( 16, 3, 30 ) ] );
   }
 
   public update(): PopulationPhaseOutputs {

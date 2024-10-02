@@ -21,6 +21,7 @@ import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import SeedDistribution from '../model/SeedDistribution.js';
 
 type SelfOptions = {
   minValue: number;
@@ -28,6 +29,10 @@ type SelfOptions = {
   diagramWidth: number;
   diagramHeight: number;
 };
+
+// todo move these
+const minSeedSize = 0;
+const maxSeedSize = 20;
 
 export type SeedDistributionsOptions = SelfOptions & NodeOptions;
 
@@ -75,7 +80,10 @@ export default class SeedDistributionPlots extends Node {
           // Minor grid lines
           new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } ),
 
-          new LinePlot( chartTransform, toPlotDataSet( this.seeds ), { stroke: 'red', lineWidth: 2 } )
+          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 0 ) ), { stroke: 'gray', lineWidth: 2 } ),
+          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 1 ) ), { stroke: 'gray', lineWidth: 2 } ),
+
+          new LinePlot( chartTransform, toSeedsPlotDataSet( this.seeds ), { stroke: 'black', lineWidth: 2 } )
         ]
       } ),
 
@@ -102,10 +110,18 @@ export default class SeedDistributionPlots extends Node {
   }
 }
 
-function toPlotDataSet( seeds: Seeds ): Vector2[] {
+function toSeedsPlotDataSet( seeds: Seeds ): Vector2[] {
   const result = [];
-  for ( let x = 0; x <= 20; x += 0.1 ) {
+  for ( let x = minSeedSize; x <= maxSeedSize; x += 0.1 ) {
     result.push( new Vector2( x, seeds.abundance( x ) ) );
+  }
+  return result;
+}
+
+function toSeedDistributionPlotDataSet( seedDist: SeedDistribution ): Vector2[] {
+  const result = [];
+  for ( let x = minSeedSize; x <= maxSeedSize; x += 0.1 ) {
+    result.push( new Vector2( x, seedDist.abundance( x ) ) );
   }
   return result;
 }
