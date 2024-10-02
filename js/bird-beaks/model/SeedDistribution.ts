@@ -6,16 +6,20 @@
  * @author Franz Amador (open-source contributor)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NormalDistribution from '../../common/model/NormalDistribution.js';
 import populationEvolution from '../../populationEvolution.js';
 
 export default class SeedDistribution {
 
+  public enabledProperty: BooleanProperty;
+
   public distribution: NormalDistribution;
 
   public abundanceFactor: number;
 
-  public constructor( sizeMean: number, sizeStdDev: number, abundanceFactor: number ) {
+  public constructor( sizeMean: number, sizeStdDev: number, abundanceFactor: number, enabled: boolean ) {
+    this.enabledProperty = new BooleanProperty( enabled );
     this.distribution = new NormalDistribution( sizeMean, sizeStdDev );
     this.abundanceFactor = abundanceFactor;
   }

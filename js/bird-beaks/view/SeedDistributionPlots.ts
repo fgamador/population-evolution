@@ -82,6 +82,7 @@ export default class SeedDistributionPlots extends Node {
 
           new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 0 ) ), { stroke: 'gray', lineWidth: 2 } ),
           new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 1 ) ), { stroke: 'gray', lineWidth: 2 } ),
+          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 2 ) ), { stroke: 'gray', lineWidth: 2 } ),
 
           new LinePlot( chartTransform, toSeedsPlotDataSet( this.seeds ), { stroke: 'black', lineWidth: 2 } )
         ]
@@ -119,6 +120,10 @@ function toSeedsPlotDataSet( seeds: Seeds ): Vector2[] {
 }
 
 function toSeedDistributionPlotDataSet( seedDist: SeedDistribution ): Vector2[] {
+  if ( !seedDist.enabledProperty.value ) {
+    return [];
+  }
+
   const result = [];
   for ( let x = minSeedSize; x <= maxSeedSize; x += 0.1 ) {
     result.push( new Vector2( x, seedDist.abundance( x ) ) );

@@ -31,6 +31,7 @@ export default class Seeds {
 
   public abundance( seedSize: number ): number {
     return this.distributions
+      .filter( dist => dist.enabledProperty.value )
       .map( dist => dist.abundance( seedSize ) )
       .reduce( ( sum, value ) => sum + value, 0 );
   }
