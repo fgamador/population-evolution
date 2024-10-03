@@ -52,29 +52,20 @@ export default class SeedsControlPanel extends Panel {
       // enabledProperty: enabledProperty
     } );
 
-    const checkbox0 = new Checkbox( model.seeds.getDistribution( 0 ).enabledProperty, new Text( 'Seed type 1', {
-      font: new Font( { size: 30 } )
-    } ) );
-
-    const checkbox1 = new Checkbox( model.seeds.getDistribution( 1 ).enabledProperty, new Text( 'Seed type 2', {
-      font: new Font( { size: 30 } )
-    } ) );
-
-    const checkbox2 = new Checkbox( model.seeds.getDistribution( 2 ).enabledProperty, new Text( 'Seed type 3', {
-      font: new Font( { size: 30 } )
-    } ) );
-
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         seedsControlsTitleNode,
-        spinner,
-        checkbox0,
-        checkbox1,
-        checkbox2
+        spinner
       ]
     } );
+
+    for ( let i = 0; i < model.seeds.numDistributions(); ++i ) {
+      content.addChild( new Checkbox( model.seeds.getDistribution( i ).enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
+        font: new Font( { size: 18 } )
+      } ) ) );
+    }
 
     super( content, options );
   }
