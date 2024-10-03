@@ -109,9 +109,9 @@ export default class SeedDistributionPlots extends Node {
   }
 
   private addSeedDistributionPlots( chartTransform: ChartTransform ): void {
-    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 0 ) ), { stroke: 'gray', lineWidth: 2 } ) );
-    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 1 ) ), { stroke: 'gray', lineWidth: 2 } ) );
-    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 2 ) ), { stroke: 'gray', lineWidth: 2 } ) );
+    for ( let i = 0; i < this.seeds.numDistributions(); ++i ) {
+      this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( i ) ), { stroke: 'gray', lineWidth: 2 } ) );
+    }
 
     this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedsPlotDataSet( this.seeds ), { stroke: 'black', lineWidth: 2 } ) );
   }
