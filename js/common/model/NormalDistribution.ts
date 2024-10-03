@@ -9,9 +9,9 @@ import populationEvolution from '../../populationEvolution.js';
 
 export default class NormalDistribution {
 
-  public meanProperty: NumberProperty;
+  public readonly meanProperty: NumberProperty;
 
-  public stdDevProperty: NumberProperty;
+  public readonly stdDevProperty: NumberProperty;
 
   private variance = 0;
 
