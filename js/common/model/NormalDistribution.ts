@@ -4,13 +4,14 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import populationEvolution from '../../populationEvolution.js';
 
 export default class NormalDistribution {
 
-  public mean: number;
+  public meanProperty: NumberProperty;
 
-  public stdDev: number;
+  public stdDevProperty: NumberProperty;
 
   private variance = 0;
 
@@ -19,31 +20,23 @@ export default class NormalDistribution {
   private pdCoefficient = 0;
 
   public constructor( mean: number, stdDev: number ) {
-    this.mean = mean;
-    this.stdDev = stdDev;
-    this.updateConstants();
-  }
+    this.meanProperty = new NumberProperty( mean );
+    this.stdDevProperty = new NumberProperty( stdDev );
 
-  public setMean( value: number ): void {
-    this.mean = value;
-    this.updateConstants();
-  }
-
-  public setStdDev( value: number ): void {
-    this.stdDev = value;
-    this.updateConstants();
-  }
-
-  private updateConstants(): void {
-    this.variance = this.stdDev * this.stdDev;
-    this.twiceVariance = 2 * this.variance;
-    this.pdCoefficient = 1 / Math.sqrt( 2 * Math.PI * this.variance );
+    this.meanProperty.link( value => this.updateConstants() );
+    this.stdDevProperty.link( value => this.updateConstants() );
   }
 
   // https://en.wikipedia.org/wiki/Normal_distribution
   public probabilityDensity( x: number ): number {
-    const offsetFromMean = x - this.mean;
+    const offsetFromMean = x - this.meanProperty.value;
     return this.pdCoefficient * Math.exp( -( offsetFromMean * offsetFromMean ) / this.twiceVariance );
+  }
+
+  private updateConstants(): void {
+    this.variance = this.stdDevProperty.value * this.stdDevProperty.value;
+    this.twiceVariance = 2 * this.variance;
+    this.pdCoefficient = 1 / Math.sqrt( 2 * Math.PI * this.variance );
   }
 }
 
