@@ -8,7 +8,9 @@
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 // import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import FineCoarseSpinner from '../../../../scenery-phet/js/FineCoarseSpinner.js';
+import { Font, Text, VBox } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -16,7 +18,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
 export type SeedsControlPanelOptions = SelfOptions & PanelOptions;
@@ -50,13 +51,28 @@ export default class SeedsControlPanel extends Panel {
     const spinner = new FineCoarseSpinner( numberProperty, {
       // enabledProperty: enabledProperty
     } );
-    
+
+    const checkbox0 = new Checkbox( model.seeds.getDistribution( 0 ).enabledProperty, new Text( 'Seed type 1', {
+      font: new Font( { size: 30 } )
+    } ) );
+
+    const checkbox1 = new Checkbox( model.seeds.getDistribution( 1 ).enabledProperty, new Text( 'Seed type 2', {
+      font: new Font( { size: 30 } )
+    } ) );
+
+    const checkbox2 = new Checkbox( model.seeds.getDistribution( 2 ).enabledProperty, new Text( 'Seed type 3', {
+      font: new Font( { size: 30 } )
+    } ) );
+
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
         seedsControlsTitleNode,
-        spinner
+        spinner,
+        checkbox0,
+        checkbox1,
+        checkbox2
       ]
     } );
 
