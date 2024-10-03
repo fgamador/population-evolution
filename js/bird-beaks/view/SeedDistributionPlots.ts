@@ -40,6 +40,8 @@ export default class SeedDistributionPlots extends Node {
 
   private seeds: Seeds;
 
+  private clipAreaNode: Node;
+
   public constructor( seeds: Seeds, providedOptions: SeedDistributionsOptions ) {
 
     const options = optionize<SeedDistributionsOptions, SelfOptions, NodeOptions>()( {
@@ -72,19 +74,13 @@ export default class SeedDistributionPlots extends Node {
       chartRectangle,
 
       // Clipped contents
-      new Node( {
+      this.clipAreaNode = new Node( {
         clipArea: chartRectangle.getShape(),
 
         children: [
 
           // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } ),
-
-          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 0 ) ), { stroke: 'gray', lineWidth: 2 } ),
-          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 1 ) ), { stroke: 'gray', lineWidth: 2 } ),
-          new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 2 ) ), { stroke: 'gray', lineWidth: 2 } ),
-
-          new LinePlot( chartTransform, toSeedsPlotDataSet( this.seeds ), { stroke: 'black', lineWidth: 2 } )
+          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } )
         ]
       } ),
 
@@ -108,6 +104,16 @@ export default class SeedDistributionPlots extends Node {
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } )
     ];
+
+    this.addSeedDistributionPlots( chartTransform );
+  }
+
+  private addSeedDistributionPlots( chartTransform: ChartTransform ): void {
+    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 0 ) ), { stroke: 'gray', lineWidth: 2 } ) );
+    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 1 ) ), { stroke: 'gray', lineWidth: 2 } ) );
+    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedDistributionPlotDataSet( this.seeds.getDistribution( 2 ) ), { stroke: 'gray', lineWidth: 2 } ) );
+
+    this.clipAreaNode.addChild( new LinePlot( chartTransform, toSeedsPlotDataSet( this.seeds ), { stroke: 'black', lineWidth: 2 } ) );
   }
 }
 
