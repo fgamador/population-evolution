@@ -21,7 +21,7 @@ export default class SeedDistribution {
 
   public readonly abundanceFactorProperty: NumberProperty;
 
-  private distribution: NormalDistribution;
+  private readonly distribution: NormalDistribution;
 
   public constructor( sizeMean: number, sizeStdDev: number, abundanceFactor: number, enabled: boolean ) {
     this.enabledProperty = new BooleanProperty( enabled );
