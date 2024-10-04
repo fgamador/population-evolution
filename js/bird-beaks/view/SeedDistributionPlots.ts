@@ -114,7 +114,7 @@ export default class SeedDistributionPlots extends Node {
     for ( let i = 0; i < this.seeds.numDistributions(); ++i ) {
       const seedDist = this.seeds.getDistribution( i );
       const seedPlot = new LinePlot( chartTransform, [], { stroke: 'gray', lineWidth: 2 } );
-      seedDist.enabledProperty.link( enabled => {
+      seedDist.onChange( () => {
         seedPlot.setDataSet( toSeedDistributionPlotDataSet( seedDist ) );
         seedsPlot.setDataSet( toSeedsPlotDataSet( this.seeds ) );
       } );

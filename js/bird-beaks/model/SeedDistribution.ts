@@ -1,12 +1,14 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * A normally distributed collection of seeds for the birds to eat.
+ * A type of seeds for the birds to eat that has normally distributed sizes.
+ * It is available for consumption only if it is enabled.
  *
  * @author Franz Amador (open-source contributor)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import NormalDistribution from '../../common/model/NormalDistribution.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -35,6 +37,11 @@ export default class SeedDistribution {
   // at a specific seed size into a vaguely defined "abundance" of seeds near the specified size.
   public abundance( seedSize: number ): number {
     return this.abundanceFactorProperty.value * this.distribution.probabilityDensity( seedSize );
+  }
+
+  public onChange( callback: () => void ): void {
+    Multilink.multilink( [ this.enabledProperty, this.sizeMeanProperty, this.sizeStdDevProperty, this.abundanceFactorProperty ],
+      () => callback() );
   }
 }
 

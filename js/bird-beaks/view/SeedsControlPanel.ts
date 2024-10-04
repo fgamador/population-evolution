@@ -46,10 +46,8 @@ export default class SeedsControlPanel extends Panel {
       range: new RangeWithValue( 0, 10, 1 )
     } );
 
-    // const enabledProperty = new BooleanProperty( true );
-
     const spinner = new FineCoarseSpinner( numberProperty, {
-      // enabledProperty: enabledProperty
+      // enabledProperty: todo
     } );
 
     const content = new VBox( {
