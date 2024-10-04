@@ -40,8 +40,9 @@ export default class SeedDistribution {
   }
 
   public onChange( callback: () => void ): void {
-    Multilink.multilink( [ this.enabledProperty, this.sizeMeanProperty, this.sizeStdDevProperty, this.abundanceFactorProperty ],
-      () => callback() );
+    Multilink.multilink(
+      [ this.enabledProperty, this.sizeMeanProperty, this.sizeStdDevProperty, this.abundanceFactorProperty ],
+      callback );
   }
 }
 
