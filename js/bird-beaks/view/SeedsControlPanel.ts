@@ -42,27 +42,22 @@ export default class SeedsControlPanel extends Panel {
       } )
     } );
 
-    const numberProperty = new NumberProperty( 0, {
-      range: new RangeWithValue( 0, 10, 1 )
-    } );
-
-    const spinner = new FineCoarseSpinner( numberProperty, {
-      // enabledProperty: todo
-    } );
-
     const content = new VBox( {
       align: 'center',
       spacing: 10,
       children: [
-        seedsControlsTitleNode,
-        spinner
+        seedsControlsTitleNode
       ]
     } );
 
     for ( let i = 0; i < model.seeds.numDistributions(); ++i ) {
-      content.addChild( new Checkbox( model.seeds.getDistribution( i ).enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
+      const seedDist = model.seeds.getDistribution(i);
+      content.addChild( new Checkbox( seedDist.enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
         font: new Font( { size: 18 } )
       } ) ) );
+      content.addChild( new FineCoarseSpinner( seedDist.abundanceFactorProperty, {
+        enabledProperty: seedDist.enabledProperty
+      } ) );
     }
 
     super( content, options );
