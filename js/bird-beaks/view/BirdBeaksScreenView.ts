@@ -99,8 +99,31 @@ export default class BirdBeaksScreenView extends ScreenView {
             } ),
             new SeedsControlPanel( model, {
               layoutOptions: { stretch: true, topMargin: 20 }
+            } ),
+            new HBox( {
+              layoutOptions: { topMargin: 20 },
+              children: [
+                new TimeControlNode( this.isPlayingProperty, {
+                  playPauseStepButtonOptions: {
+                    stepForwardButtonOptions: {
+                      listener: () => this.singleStep()
+                    }
+                  },
+                  timeSpeedProperty: this.playingSpeedProperty,
+                  timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ]
+                } ),
+                new ResetAllButton( {
+                  layoutOptions: { leftMargin: 40 },
+                  listener: () => {
+                    this.interruptSubtreeInput(); // cancel interactions that may be in progress
+                    this.histogram.cancelAnimation();
+                    model.reset();
+                    this.reset();
+                  }
+                } )
+              ]
             } )
-        ]
+          ]
         } )
       ]
     } ) );
@@ -113,31 +136,6 @@ export default class BirdBeaksScreenView extends ScreenView {
       visible: false
     } );
     this.addChild( this.extinctionMessage );
-
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        this.histogram.cancelAnimation();
-        model.reset();
-        this.reset();
-      },
-      right: this.layoutBounds.maxX - PopulationEvolutionConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
-    } );
-    this.addChild( resetAllButton );
-
-    this.addChild( new TimeControlNode( this.isPlayingProperty, {
-      playPauseStepButtonOptions: {
-        stepForwardButtonOptions: {
-          listener: () => this.singleStep()
-        }
-      },
-      timeSpeedProperty: this.playingSpeedProperty,
-      timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ],
-      right: resetAllButton.left - 40,
-      bottom: this.layoutBounds.bottom - PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN
-    } ) );
 
     this.isPlayingProperty.link( value => {
       if ( !value ) {
