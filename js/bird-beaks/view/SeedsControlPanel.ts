@@ -7,7 +7,6 @@
  */
 
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
-// import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import FineCoarseSpinner from '../../../../scenery-phet/js/FineCoarseSpinner.js';
 import { Font, Text, VBox } from '../../../../scenery/js/imports.js';
@@ -49,7 +48,7 @@ export default class SeedsControlPanel extends Panel {
     } );
 
     for ( let i = 0; i < model.seeds.numDistributions(); ++i ) {
-      const seedDist = model.seeds.getDistribution(i);
+      const seedDist = model.seeds.getDistribution( i );
       content.addChild( new Checkbox( seedDist.enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
         font: new Font( { size: 18 } )
       } ) ) );
