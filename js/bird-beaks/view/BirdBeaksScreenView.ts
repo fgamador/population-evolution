@@ -130,9 +130,8 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
       font: MESSAGE_FONT,
-      // maxWidth: 115,
-      top: this.layoutBounds.minY + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: this.layoutBounds.centerX,
+      centerY: this.histogram.bounds.centerY,
+      centerX: this.histogram.bounds.centerX,
       visible: false
     } );
     this.addChild( this.extinctionMessage );
