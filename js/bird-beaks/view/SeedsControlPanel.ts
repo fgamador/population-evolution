@@ -12,12 +12,10 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import FineCoarseSpinner from '../../../../scenery-phet/js/FineCoarseSpinner.js';
 import { Font, Text, VBox } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 type SelfOptions = EmptySelfOptions;
 export type SeedsControlPanelOptions = SelfOptions & PanelOptions;
