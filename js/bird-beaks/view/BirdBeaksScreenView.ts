@@ -10,6 +10,7 @@ import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BirdsControlPanel from './BirdsControlPanel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -21,7 +22,6 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';
 import SeedsControlPanel from './SeedsControlPanel.js';
-import { Text, GridBox } from '../../../../scenery/js/imports.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
@@ -66,38 +66,42 @@ export default class BirdBeaksScreenView extends ScreenView {
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
 
-    this.addChild( new GridBox( {
+    this.addChild( new HBox( {
       centerX: this.layoutBounds.centerX,
       top: this.layoutBounds.top + PopulationEvolutionConstants.SCREEN_VIEW_Y_MARGIN,
-      spacing: 20,
-      rows: [
-        [
-          this.histogram = new PopulationHistogram( {
-            layoutOptions: { xAlign: 'right', yAlign: 'top' },
-            minValue: 0.0,
-            maxValue: 20.0, // todo get this from model somehow
-            maxCount: 220,
-            numBars: 20,
-            barWidthFraction: 0.9,
-            histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-            histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
-          } ),
-          new BirdsControlPanel( model, {
-            layoutOptions: { xAlign: 'left', yAlign: 'top' }
-          } )
-        ],
-        [
-          this.seedDistributions = new SeedDistributionPlots( model.seeds, {
-            layoutOptions: { xAlign: 'right', yAlign: 'top' },
-            minValue: 0.0,
-            maxValue: 20.0,
-            diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-            diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
-          } ),
-          new SeedsControlPanel( model, {
-            layoutOptions: { xAlign: 'left', yAlign: 'top' }
-          } )
+      children: [
+        new VBox( {
+          children: [
+            this.histogram = new PopulationHistogram( {
+              layoutOptions: { align: 'right' },
+              minValue: 0.0,
+              maxValue: 20.0, // todo get this from model somehow
+              maxCount: 220,
+              numBars: 20,
+              barWidthFraction: 0.9,
+              histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+              histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
+            } ),
+            this.seedDistributions = new SeedDistributionPlots( model.seeds, {
+              layoutOptions: { align: 'right' },
+              minValue: 0.0,
+              maxValue: 20.0,
+              diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
+              diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
+            } )
+          ]
+        } ),
+        new VBox( {
+          layoutOptions: { align: 'top', leftMargin: 20 },
+          children: [
+            new BirdsControlPanel( model, {
+              layoutOptions: { stretch: true }
+            } ),
+            new SeedsControlPanel( model, {
+              layoutOptions: { stretch: true, topMargin: 20 }
+            } )
         ]
+        } )
       ]
     } ) );
 
