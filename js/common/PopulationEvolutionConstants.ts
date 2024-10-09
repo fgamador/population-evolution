@@ -10,6 +10,7 @@ import populationEvolution from '../populationEvolution.js';
 
 const PopulationEvolutionConstants = {
 
+  SCREEN_VIEW_SPACING: 20,
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15
 };

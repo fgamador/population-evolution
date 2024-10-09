@@ -34,8 +34,12 @@ const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 0.5 ]
 ] );
 
-type SelfOptions = EmptySelfOptions;
+const minBeakSize = 0.0;
+const maxBeakSize = 20.0;
+const numHistogramBars = 20;
+const maxHistogramCount = 220;
 
+type SelfOptions = EmptySelfOptions;
 type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
@@ -71,34 +75,34 @@ export default class BirdBeaksScreenView extends ScreenView {
           children: [
             this.histogram = new PopulationHistogram( {
               layoutOptions: { align: 'right' },
-              minValue: 0.0,
-              maxValue: 20.0, // todo get this from model somehow
-              maxCount: 220,
-              numBars: 20,
+              minValue: minBeakSize,
+              maxValue: maxBeakSize,
+              maxCount: maxHistogramCount,
+              numBars: numHistogramBars,
               barWidthFraction: 0.9,
               histogramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-              histogramHeight: Math.floor( this.layoutBounds.height * 0.4 )
+              histogramHeight: Math.floor( this.layoutBounds.height * 0.45 )
             } ),
             this.seedDistributions = new SeedDistributionPlots( model.seeds, {
               layoutOptions: { align: 'right' },
-              minValue: 0.0,
-              maxValue: 20.0,
+              minValue: minBeakSize,
+              maxValue: maxBeakSize,
               diagramWidth: Math.floor( this.layoutBounds.width * 0.5 ),
-              diagramHeight: Math.floor( this.layoutBounds.height * 0.3 )
+              diagramHeight: Math.floor( this.layoutBounds.height * 0.35 )
             } )
           ]
         } ),
         new VBox( {
-          layoutOptions: { align: 'top', leftMargin: 20 },
+          layoutOptions: { align: 'top', leftMargin: PopulationEvolutionConstants.SCREEN_VIEW_SPACING },
           children: [
             new BirdsControlPanel( model, {
               layoutOptions: { stretch: true }
             } ),
             new SeedsControlPanel( model, {
-              layoutOptions: { stretch: true, topMargin: 20 }
+              layoutOptions: { stretch: true, topMargin: PopulationEvolutionConstants.SCREEN_VIEW_SPACING }
             } ),
             new HBox( {
-              layoutOptions: { topMargin: 20 },
+              layoutOptions: { topMargin: PopulationEvolutionConstants.SCREEN_VIEW_SPACING },
               children: [
                 new TimeControlNode( this.isPlayingProperty, {
                   playPauseStepButtonOptions: {
@@ -110,7 +114,7 @@ export default class BirdBeaksScreenView extends ScreenView {
                   timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ]
                 } ),
                 new ResetAllButton( {
-                  layoutOptions: { leftMargin: 40 },
+                  layoutOptions: { leftMargin: 2 * PopulationEvolutionConstants.SCREEN_VIEW_SPACING },
                   listener: () => {
                     this.interruptSubtreeInput(); // cancel interactions that may be in progress
                     this.histogram.cancelAnimation();

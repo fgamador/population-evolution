@@ -14,6 +14,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
+import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -32,27 +33,32 @@ export default class SeedsControlPanel extends Panel {
       lineWidth: 3
     }, providedOptions );
 
-    const seedsControlsTitleNode = new Text( PopulationEvolutionStrings[ 'seeds-controls' ].titleStringProperty, {
-      font: new PhetFont( {
-        size: 18,
-        weight: 'bold'
-      } )
-    } );
-
     const content = new VBox( {
-      align: 'center',
+      align: 'left',
       spacing: 10,
       children: [
-        seedsControlsTitleNode
+        new Text( PopulationEvolutionStrings[ 'seeds-controls' ].titleStringProperty, {
+          layoutOptions: { align: 'center' },
+          font: new PhetFont( {
+            size: 18,
+            weight: 'bold'
+          } )
+        } )
       ]
     } );
 
     for ( let i = 0; i < model.seeds.numDistributions(); ++i ) {
       const seedDist = model.seeds.getDistribution( i );
+
+      // todo text constant
       content.addChild( new Checkbox( seedDist.enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
         font: new Font( { size: 18 } )
-      } ) ) );
+      } ), {
+        layoutOptions: { topMargin: ( i === 0 ) ? 0 : PopulationEvolutionConstants.SCREEN_VIEW_SPACING }
+      } ) );
+
       content.addChild( new FineCoarseSpinner( seedDist.abundanceFactorProperty, {
+        layoutOptions: { leftMargin: PopulationEvolutionConstants.SCREEN_VIEW_SPACING },
         enabledProperty: seedDist.enabledProperty
       } ) );
     }
