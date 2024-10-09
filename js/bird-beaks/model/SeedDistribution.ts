@@ -23,20 +23,21 @@ export default class SeedDistribution {
 
   public readonly abundanceFactorProperty: NumberProperty;
 
-  private readonly distribution: NormalDistribution;
+  // the fraction of seeds whose sizes are in a specified range
+  private readonly sizeDistribution: NormalDistribution;
 
   public constructor( sizeMean: number, sizeStdDev: number, abundanceFactor: number, enabled: boolean ) {
     this.enabledProperty = new BooleanProperty( enabled );
-    this.distribution = new NormalDistribution( sizeMean, sizeStdDev );
-    this.sizeMeanProperty = this.distribution.meanProperty;
-    this.sizeStdDevProperty = this.distribution.stdDevProperty;
+    this.sizeDistribution = new NormalDistribution( sizeMean, sizeStdDev );
+    this.sizeMeanProperty = this.sizeDistribution.meanProperty;
+    this.sizeStdDevProperty = this.sizeDistribution.stdDevProperty;
     this.abundanceFactorProperty = new NumberProperty( abundanceFactor );
   }
 
   // A truly egregious abuse of the concept of probability density. Converts the probability density
   // at a specific seed size into a vaguely defined "abundance" of seeds near the specified size.
   public abundance( seedSize: number ): number {
-    return this.abundanceFactorProperty.value * this.distribution.probabilityDensity( seedSize );
+    return this.abundanceFactorProperty.value * this.sizeDistribution.probabilityDensity( seedSize );
   }
 
   public onChange( callback: () => void ): void {

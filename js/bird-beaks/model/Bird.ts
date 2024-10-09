@@ -13,11 +13,7 @@ import Seeds from './Seeds.js';
 
 export default class Bird {
 
-  // seed diameter for which beak is most effective, in mm
-  public readonly beakSize: number;
-
-  public constructor( beakSize: number ) {
-    this.beakSize = beakSize;
+  public constructor( public readonly beakSize: number ) {
   }
 
   // todo extract constants.

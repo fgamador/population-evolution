@@ -27,7 +27,6 @@ export default class BirdBeaksModel implements TModel {
   public readonly beakSizeStdDevProperty: Property<number>;
 
   public constructor() {
-
     this.rand = new RandomSource();
     this.population = this.createPopulation();
     this.seeds = this.createSeeds();

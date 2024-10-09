@@ -11,10 +11,7 @@ import SeedDistribution from './SeedDistribution.js';
 
 export default class Seeds {
 
-  private distributions: SeedDistribution[] = [];
-
-  public constructor( distributions: SeedDistribution[] ) {
-    this.distributions = distributions;
+  public constructor( private distributions: SeedDistribution[] ) {
   }
 
   public addDistribution( distribution: SeedDistribution ): void {
