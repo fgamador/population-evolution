@@ -7,7 +7,7 @@
  */
 
 import Bird from './Bird.js';
-import Population from './Population.js';
+import Population from '../../common/model/Population.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
 import Property from '../../../../axon/js/Property.js';

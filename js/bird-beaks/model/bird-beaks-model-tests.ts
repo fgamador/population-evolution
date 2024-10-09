@@ -7,7 +7,7 @@
  */
 
 import Bird from './Bird.js';
-import Population from './Population.js';
+import Population from '../../common/model/Population.js';
 import { TestRandomSource } from '../../common/model/RandomSource.js';
 
 function birdMatingProbability( bird1: Bird, bird2: Bird ): number {

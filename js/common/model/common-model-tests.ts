@@ -6,6 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import Population from '../../common/model/Population.js';
 import { TestRandomSource } from './RandomSource.js';
 
 QUnit.module( 'TestRandomSource', () => {
