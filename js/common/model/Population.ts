@@ -28,7 +28,7 @@ export default class Population<T> {
   }
 
   public breedingPhase( matedPairs: [ T, T ][], breed: ( individual1: T, individual2: T ) => T[] ): T[] {
-    const result = breedMatedPairs( matedPairs, breed );
+    const result = breedPairs( matedPairs, breed );
     this.individuals = this.individuals.concat( result );
     return result;
   }
@@ -79,10 +79,10 @@ function findMates<T>( rand: RandomSource, individuals: T[], rounds: number, mat
   return result;
 }
 
-function breedMatedPairs<T>( matedPairs: [ T, T ][], breed: ( individual1: T, individual2: T ) => T[] ): T[] {
+function breedPairs<T>( pairs: [ T, T ][], breed: ( individual1: T, individual2: T ) => T[] ): T[] {
   let result: T[] = [];
-  for ( const matedPair of matedPairs ) {
-    const offspring = breed( matedPair[ 0 ], matedPair[ 1 ] );
+  for ( const pair of pairs ) {
+    const offspring = breed( pair[ 0 ], pair[ 1 ] );
     result = result.concat( offspring );
   }
   return result;
