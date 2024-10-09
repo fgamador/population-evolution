@@ -1,7 +1,7 @@
 /* eslint-disable copyright */
 
 /**
- * Rectangle with a histogram of the population.
+ * The collection of bars that make up the population histogram.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */

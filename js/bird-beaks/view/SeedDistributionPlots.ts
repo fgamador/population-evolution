@@ -38,18 +38,14 @@ export type SeedDistributionsOptions = SelfOptions & NodeOptions;
 
 export default class SeedDistributionPlots extends Node {
 
-  private seeds: Seeds;
-
   private clipAreaNode: Node;
 
-  public constructor( seeds: Seeds, providedOptions: SeedDistributionsOptions ) {
+  public constructor( private readonly seeds: Seeds, providedOptions: SeedDistributionsOptions ) {
 
     const options = optionize<SeedDistributionsOptions, SelfOptions, NodeOptions>()( {
     }, providedOptions );
 
     super( options );
-
-    this.seeds = seeds;
 
     // todo calculate these
     const majorXTickSpacing = 2;
@@ -78,7 +74,6 @@ export default class SeedDistributionPlots extends Node {
         clipArea: chartRectangle.getShape(),
 
         children: [
-
           // Minor grid lines
           new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } )
         ]

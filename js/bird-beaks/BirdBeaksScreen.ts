@@ -1,7 +1,7 @@
 /* eslint-disable copyright */
 
 /**
- * todo
+ * Root container for the bird-beaks evolution sim model and view.
  *
  * @author Franz Amador
  */
@@ -23,16 +23,12 @@ export default class BirdBeaksScreen extends Screen<BirdBeaksModel, BirdBeaksScr
 
     const options = optionize<BirdBeaksScreenOptions, SelfOptions, ScreenOptions>()( {
       name: PopulationEvolutionStrings.screen.nameStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
       backgroundColorProperty: PopulationEvolutionColors.screenBackgroundColorProperty
     }, providedOptions );
 
     super(
-      () => new BirdBeaksModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new BirdBeaksScreenView( model, { tandem: options.tandem.createTandem( 'view' ) } ),
+      () => new BirdBeaksModel(),
+      model => new BirdBeaksScreenView( model, {} ),
       options
     );
   }

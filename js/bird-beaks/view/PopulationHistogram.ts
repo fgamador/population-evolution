@@ -11,7 +11,7 @@ import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
 import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -24,10 +24,7 @@ import TickSpacing from '../../common/view/TickSpacing.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Utils from '../../../../dot/js/Utils.js';
 
-type SelfOptions = {
-  // todo
-};
-
+type SelfOptions = EmptySelfOptions;
 export type PopulationHistogramOptions = SelfOptions & PopulationHistogramBarsOptions & NodeOptions;
 
 export default class PopulationHistogram extends Node {

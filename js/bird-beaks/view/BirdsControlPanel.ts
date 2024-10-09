@@ -1,7 +1,7 @@
 /* eslint-disable copyright */
 
 /**
- * todo
+ * Control panel for the bird population.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */
@@ -41,10 +41,8 @@ export default class BirdsControlPanel extends Panel {
     } );
     
     const variationRange = new RangeWithValue( 0, 10, 1 ); // todo named constants?
-    // const enabledProperty = new Property( true );
 
     const breedingVariationControlOptions: NumberControlOptions = {
-      // enabledProperty: enabledProperty,
       titleNodeOptions: {
         font: new PhetFont( 20 )
       },

@@ -1,7 +1,7 @@
 /* eslint-disable copyright */
 
 /**
- * todo
+ * Control panel for the seed distributions.
  *
  * @author Franz Amador <franzamador@gmail.com>
  */

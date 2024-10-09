@@ -40,8 +40,6 @@ type BirdBeaksScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BirdBeaksScreenView extends ScreenView {
 
-  private readonly model: BirdBeaksModel;
-
   private readonly isPlayingProperty: BooleanProperty;
 
   private readonly playingSpeedProperty: EnumerationProperty<TimeSpeed>;
@@ -54,14 +52,13 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private seedDistributions: SeedDistributionPlots;
 
-  public constructor( model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
+  public constructor( private readonly model: BirdBeaksModel, providedOptions: BirdBeaksScreenViewOptions ) {
 
     const options = optionize<BirdBeaksScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
     }, providedOptions );
 
     super( options );
 
-    this.model = model;
     this.isPlayingProperty = new BooleanProperty( true );
     this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
     this.secondsUntilNextUpdate = 0;
