@@ -20,7 +20,7 @@ export default class BirdBeaksModel implements TModel {
 
   private rand: RandomSource;
 
-  public population: Population;
+  public population: Population<Bird>;
 
   public seeds: Seeds;
 
@@ -40,7 +40,7 @@ export default class BirdBeaksModel implements TModel {
     this.beakSizeStdDevProperty.reset();
   }
 
-  private createPopulation(): Population {
+  private createPopulation(): Population<Bird> {
     // todo constants, or create in view?
     return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 5 ) );
   }
@@ -52,7 +52,7 @@ export default class BirdBeaksModel implements TModel {
 
   public update(): PopulationPhaseOutputs {
     const result = new PopulationPhaseOutputs();
-    result.initial = [ ...this.population.birds ];
+    result.initial = [ ...this.population.individuals ];
 
     const aliveDeadPair = this.population.survivalPhase( this.rand,
       bird => bird.survivalProbability( this.seeds ) );

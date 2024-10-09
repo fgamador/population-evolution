@@ -23,7 +23,7 @@ QUnit.module( 'Population', () => {
 
     assert.equal( JSON.stringify( alive ), '[{"beakSize":0.5},{"beakSize":0.6}]' );
     assert.equal( JSON.stringify( dead ), '[{"beakSize":0.3},{"beakSize":0.4}]' );
-    assert.equal( JSON.stringify( population.birds ), JSON.stringify( alive ) );
+    assert.equal( JSON.stringify( population.individuals ), JSON.stringify( alive ) );
   } );
 
   QUnit.test( 'mateFindingPhase no birds', assert => {

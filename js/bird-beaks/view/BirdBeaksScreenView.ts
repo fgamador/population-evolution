@@ -171,7 +171,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.updateModelAndHistogram();
-    this.extinctionMessage.visible = this.model.population.birds.length === 0;
+    this.extinctionMessage.visible = this.model.population.individuals.length === 0;
   }
 
   private singleStep(): void {

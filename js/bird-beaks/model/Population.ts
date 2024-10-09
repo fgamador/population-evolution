@@ -9,51 +9,47 @@
  * @author Franz Amador (open-source contributor)
  */
 
-import Bird from './Bird.js';
 import populationEvolution from '../../populationEvolution.js';
 import RandomSource, { shuffle } from '../../common/model/RandomSource.js';
 
-export default class Population {
+export default class Population<T> {
 
-  public birds: Bird[];
-
-  public constructor( birds: Bird[] ) {
-    this.birds = birds;
+  public constructor( public individuals: T[] ) {
   }
 
-  public survivalPhase( rand: RandomSource, survivalProbability: ( bird: Bird ) => number ): [ Bird[], Bird[] ] {
-    const alive: Bird[] = [];
-    const dead: Bird[] = [];
+  public survivalPhase( rand: RandomSource, survivalProbability: ( individual: T ) => number ): [ T[], T[] ] {
+    const alive: T[] = [];
+    const dead: T[] = [];
 
-    this.birds.forEach( bird => {
-      if ( rand.nextValue() <= survivalProbability( bird ) ) {
-        alive.push( bird );
+    this.individuals.forEach( individual => {
+      if ( rand.nextValue() <= survivalProbability( individual ) ) {
+        alive.push( individual );
       }
       else {
-        dead.push( bird );
+        dead.push( individual );
       }
     } );
     
-    this.birds = alive;
+    this.individuals = alive;
     return [ alive, dead ];
   }
 
-  public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( bird1: Bird, bird2: Bird ) => number ): [ Bird, Bird ][] {
-    const result: [ Bird, Bird ][] = [];
-    let unmated = [ ...this.birds ];
+  public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( individual1: T, individual2: T ) => number ): [ T, T ][] {
+    const result: [ T, T ][] = [];
+    let unmated = [ ...this.individuals ];
 
     for ( let round = 1; round <= rounds && unmated.length >= 2; round++ ) {
       shuffle( rand, unmated );
 
-      const leftovers: Bird[] = [];
+      const leftovers: T[] = [];
 
       for ( let i = 1; i < unmated.length; i += 2 ) {
-        const [ bird1, bird2 ] = [ unmated[ i - 1 ], unmated[ i ] ];
-        if ( rand.nextValue() <= matingProbability( bird1, bird2 ) ) {
-          result.push( [ bird1, bird2 ] );
+        const [ individual1, individual2 ] = [ unmated[ i - 1 ], unmated[ i ] ];
+        if ( rand.nextValue() <= matingProbability( individual1, individual2 ) ) {
+          result.push( [ individual1, individual2 ] );
         }
         else {
-          leftovers.push( bird1, bird2 );
+          leftovers.push( individual1, individual2 );
         }
       }
 
@@ -67,11 +63,11 @@ export default class Population {
     return result;
   }
 
-  public breedingPhase( matedPairs: [ Bird, Bird ][], breed: ( bird1: Bird, bird2: Bird ) => Bird[] ): Bird[] {
-    let result: Bird[] = [];
+  public breedingPhase( matedPairs: [ T, T ][], breed: ( individual1: T, individual2: T ) => T[] ): T[] {
+    let result: T[] = [];
     for ( const matedPair of matedPairs ) {
       const offspring = breed( matedPair[ 0 ], matedPair[ 1 ] );
-      this.birds = this.birds.concat( offspring );
+      this.individuals = this.individuals.concat( offspring );
       result = result.concat( offspring );
     }
     return result;
