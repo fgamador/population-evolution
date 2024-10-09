@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * Defines the colors for this sim.

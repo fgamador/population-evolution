@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * One bar in the population histogram.

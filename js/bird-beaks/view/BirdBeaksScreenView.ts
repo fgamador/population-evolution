@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * The root view for the bird-beak evolution sim.

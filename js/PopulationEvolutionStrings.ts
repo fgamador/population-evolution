@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.

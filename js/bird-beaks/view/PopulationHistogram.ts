@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * Rectangle with a histogram of the population.

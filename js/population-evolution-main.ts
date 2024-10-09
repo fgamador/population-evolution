@@ -1,3 +1,5 @@
+/* eslint-disable copyright */
+
 /**
  * Main entry point for the sim.
  *

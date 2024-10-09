@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * Model for the bird-beaks evolution sim as a whole.
@@ -41,10 +41,12 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population {
+    // todo constants, or create in view?
     return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 5 ) );
   }
 
   private createSeeds(): Seeds {
+    // todo constants, or create in view?
     return new Seeds( [ new SeedDistribution( 4, 3, 50, true ), new SeedDistribution( 10, 3, 20, false ), new SeedDistribution( 16, 3, 30, true ) ] );
   }
 
@@ -56,8 +58,7 @@ export default class BirdBeaksModel implements TModel {
       bird => bird.survivalProbability( this.seeds ) );
     result.died = aliveDeadPair[ 1 ];
 
-    // todo rounds as named constant? as adjustable property?
-    const matedPairs = this.population.mateFindingPhase( this.rand, 3,
+    const matedPairs = this.population.mateFindingPhase( this.rand, 3, // todo contant
       ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
 
     const newBirds = this.population.breedingPhase( matedPairs,

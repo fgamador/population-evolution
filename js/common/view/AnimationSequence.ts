@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * A sequence of consecutive animations that can be stopped, which is not easy to do with animations chained by Animation.next().

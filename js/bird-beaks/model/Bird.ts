@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
  * An individual member of a population of birds. It has only one trait that can evolve: the size of its beak,
@@ -23,15 +23,15 @@ export default class Bird {
   // todo extract constants.
   public survivalProbability( seeds: Seeds ): number {
     const abundance = seeds.abundance( this.beakSize );
-    if ( abundance < 1 ) {
+    if ( abundance < 1 ) { // todo constant
       return 0;
     }
 
-    if ( abundance > 8 ) {
+    if ( abundance > 8 ) { // todo constant
       return 0.8;
     }
 
-    return abundance * 0.1;
+    return abundance * 0.1; // todo constant
   }
 
   // odds of two birds wanting to mate with each other

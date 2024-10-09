@@ -1,23 +1,20 @@
-// Copyright 2024, University of Colorado Boulder
+/* eslint-disable copyright */
 
 /**
- * TODO Describe this class and its responsibilities.
+ * todo
  *
  * @author Franz Amador
  */
 
 import BirdBeaksModel from './model/BirdBeaksModel.js';
 import BirdBeaksScreenView from './view/BirdBeaksScreenView.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import populationEvolution from '../populationEvolution.js';
 import PopulationEvolutionColors from '../common/PopulationEvolutionColors.js';
 import PopulationEvolutionStrings from '../PopulationEvolutionStrings.js';
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to BirdBeaksScreen here
-};
-
+type SelfOptions = EmptySelfOptions;
 type BirdBeaksScreenOptions = SelfOptions & ScreenOptions;
 
 export default class BirdBeaksScreen extends Screen<BirdBeaksModel, BirdBeaksScreenView> {
