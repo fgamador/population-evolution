@@ -7,8 +7,8 @@
 */
 
 import populationEvolution from '../../populationEvolution.js';
-import Bird from '../model/Bird.js';
-import PopulationPhaseOutputs from '../model/PopulationPhaseOutputs.js';
+import Bird from './Bird.js';
+import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
 
 export default class PopulationPhaseOutputBeakSizes {
 

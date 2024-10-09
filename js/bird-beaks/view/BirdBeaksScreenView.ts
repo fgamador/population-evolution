@@ -17,7 +17,7 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';

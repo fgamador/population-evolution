@@ -16,7 +16,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBars, { PopulationHistogramBarsOptions } from './PopulationHistogramBars.js';
-import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';

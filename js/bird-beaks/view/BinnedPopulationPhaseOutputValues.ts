@@ -7,7 +7,7 @@
 */
 
 import populationEvolution from '../../populationEvolution.js';
-import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
 import PopulationPhaseOutputValuesBin from './PopulationPhaseOutputValuesBin.js';
 
 export default class BinnedPopulationPhaseOutputValues {

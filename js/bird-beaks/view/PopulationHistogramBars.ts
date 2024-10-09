@@ -11,7 +11,7 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
-import PopulationPhaseOutputBeakSizes from './PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
