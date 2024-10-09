@@ -1,31 +1,21 @@
 /* eslint-disable copyright */
 
 /**
- * todo
+ * PopulationPhaseOutputBeakSizes collected into bins for display in a histogram.
  *
  * @author Franz Amador <franzamador@gmail.com>
 */
 
 import populationEvolution from '../../populationEvolution.js';
 import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
-import PopulationPhaseOutputValuesBin from './PopulationPhaseOutputValuesBin.js';
 
 export default class BinnedPopulationPhaseOutputValues {
-
-  public readonly numBins: number;
-  public readonly minValue: number;
-  public readonly maxValue: number;
 
   public readonly binnedInitial: number[];
   public readonly binnedDied: number[];
   public readonly binnedAdded: number[];
 
-  public constructor( phaseOutputs: PopulationPhaseOutputBeakSizes, numBins: number, minValue: number, maxValue: number ) {
-
-    this.numBins = numBins;
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-
+  public constructor( phaseOutputs: PopulationPhaseOutputBeakSizes, public readonly numBins: number, public readonly minValue: number, public readonly maxValue: number ) {
     this.binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
     this.binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
     this.binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
@@ -41,17 +31,6 @@ export default class BinnedPopulationPhaseOutputValues {
     return result;
   }
 
-  // private valuePairsToHistogramBins( valuePairs: [ number, number ][] ): number[] {
-  //   const result = this.createEmptyHistogramBins();
-
-  //   for ( const valuePair of valuePairs ) {
-  //     result[ this.valueToBinIndex( valuePair[ 0 ] ) ]++;
-  //     result[ this.valueToBinIndex( valuePair[ 1 ] ) ]++;
-  //   }
-
-  //   return result;
-  // }
-
   private createEmptyHistogramBins(): number[] {
     return new Array( this.numBins ).fill( 0 );
   }
@@ -62,6 +41,12 @@ export default class BinnedPopulationPhaseOutputValues {
 
   public bin( index: number ): PopulationPhaseOutputValuesBin {
     return new PopulationPhaseOutputValuesBin( this.binnedInitial[ index ], this.binnedDied[ index ], this.binnedAdded[ index ] );
+  }
+}
+
+export class PopulationPhaseOutputValuesBin {
+
+  public constructor( public readonly initialCount: number, public readonly diedCount: number, public readonly addedCount: number ) {
   }
 }
 

@@ -27,8 +27,4 @@ function birdsToBeakSizes( birds: Bird[] ): number[] {
   return birds.map( bird => bird.beakSize );
 }
 
-// function birdPairsToBeakSizePairs( pairs: [ Bird, Bird ][] ): [ number, number ][] {
-//   return pairs.map( pair => [ pair[ 0 ].beakSize, pair[ 1 ].beakSize ] );
-// }
-
 populationEvolution.register( 'PopulationPhaseOutputBeakSizes', PopulationPhaseOutputBeakSizes );

@@ -12,7 +12,7 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
-import PopulationPhaseOutputValuesBin from './PopulationPhaseOutputValuesBin.js';
+import { PopulationPhaseOutputValuesBin } from './BinnedPopulationPhaseOutputValues.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
