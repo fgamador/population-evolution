@@ -24,32 +24,7 @@ export default class Population<T> {
   }
 
   public mateFindingPhase( rand: RandomSource, rounds: number, matingProbability: ( individual1: T, individual2: T ) => number ): [ T, T ][] {
-    const result: [ T, T ][] = [];
-    let unmated = [ ...this.individuals ];
-
-    for ( let round = 1; round <= rounds && unmated.length >= 2; round++ ) {
-      shuffle( rand, unmated );
-
-      const leftovers: T[] = [];
-
-      for ( let i = 1; i < unmated.length; i += 2 ) {
-        const [ individual1, individual2 ] = [ unmated[ i - 1 ], unmated[ i ] ];
-        if ( rand.nextValue() <= matingProbability( individual1, individual2 ) ) {
-          result.push( [ individual1, individual2 ] );
-        }
-        else {
-          leftovers.push( individual1, individual2 );
-        }
-      }
-
-      if ( unmated.length % 2 === 1 ) {
-        leftovers.push( unmated[ unmated.length - 1 ] );
-      }
-
-      unmated = leftovers;
-    }
-
-    return result;
+    return findMates( rand, this.individuals, rounds, matingProbability );
   }
 
   public breedingPhase( matedPairs: [ T, T ][], breed: ( individual1: T, individual2: T ) => T[] ): T[] {
@@ -77,6 +52,35 @@ function findSurvivors<T>( rand: RandomSource, individuals: T[], survivalProbabi
   } );
   
   return [ alive, dead ];
+}
+
+function findMates<T>( rand: RandomSource, individuals: T[], rounds: number, matingProbability: ( individual1: T, individual2: T ) => number ): [ T, T ][] {
+  const result: [ T, T ][] = [];
+  let unmated = [ ...individuals ];
+
+  for ( let round = 1; round <= rounds && unmated.length >= 2; round++ ) {
+    shuffle( rand, unmated );
+
+    const leftovers: T[] = [];
+
+    for ( let i = 1; i < unmated.length; i += 2 ) {
+      const [ individual1, individual2 ] = [ unmated[ i - 1 ], unmated[ i ] ];
+      if ( rand.nextValue() <= matingProbability( individual1, individual2 ) ) {
+        result.push( [ individual1, individual2 ] );
+      }
+      else {
+        leftovers.push( individual1, individual2 );
+      }
+    }
+
+    if ( unmated.length % 2 === 1 ) {
+      leftovers.push( unmated[ unmated.length - 1 ] );
+    }
+
+    unmated = leftovers;
+  }
+
+  return result;
 }
 
 populationEvolution.register( 'Population', Population );
