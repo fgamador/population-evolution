@@ -21,16 +21,19 @@ QUnit.module( 'TickSpacing.pleasingMinorTickSpacing', () => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 1000, 100 ), 10 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 1499, 100 ), 10 );
   } );
+
   QUnit.test( 'Twice order-of-magnitude spacing', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 1500, 100 ), 20 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 2000, 100 ), 20 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 3499, 100 ), 20 );
   } );
+
   QUnit.test( 'Five-times order-of-magnitude spacing', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 3500, 100 ), 50 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 5000, 100 ), 50 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 7499, 100 ), 50 );
   } );
+
   QUnit.test( 'Ten-times order-of-magnitude spacing and up', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 7500, 100 ), 100 );
     // Next higher order of magnitude of optimal spacing; same algorithm as above.
@@ -38,21 +41,25 @@ QUnit.module( 'TickSpacing.pleasingMinorTickSpacing', () => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 14999, 100 ), 100 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 15000, 100 ), 200 );
   } );
+
   QUnit.test( 'Order-of-magnitude spacing with decreasing range', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 1000, 100 ), 10 );
     // Next lower order of magnitude of optimal spacing.
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 750, 100 ), 10 );
   } );
+
   QUnit.test( 'Five-times lower-order-of-magnitude spacing', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 749, 100 ), 5 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 500, 100 ), 5 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 350, 100 ), 5 );
   } );
+
   QUnit.test( 'Two-times lower-order-of-magnitude spacing', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 349, 100 ), 2 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 200, 100 ), 2 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 150, 100 ), 2 );
   } );
+
   QUnit.test( 'Lower-order-of-magnitude spacing and below', assert => {
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 149, 100 ), 1 );
     assert.equal( TickSpacing.pleasingMinorTickSpacing( 100, 100 ), 1 );

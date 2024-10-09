@@ -1,7 +1,7 @@
 /* eslint-disable copyright */
 
 /**
- * todo
+ * Static methods for calculating graph tick spacing.
  *
  * @author Franz Amador <franzamador@gmail.com>
 */

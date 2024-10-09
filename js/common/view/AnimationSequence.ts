@@ -1,7 +1,8 @@
 /* eslint-disable copyright */
 
 /**
- * A sequence of consecutive animations that can be stopped, which is not easy to do with animations chained by Animation.next().
+ * A sequence of consecutive animations that can be stopped,
+ * which is not easy to do with animations chained by Animation.next().
  *
  * @author Franz Amador <franzamador@gmail.com>
 */

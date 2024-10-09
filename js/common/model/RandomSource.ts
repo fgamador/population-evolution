@@ -1,7 +1,8 @@
 /* eslint-disable copyright */
 
 /**
- * Wrap random-number generator to support deterministic testing.
+ * Wrap random-number generator to support deterministic testing
+ * and provide normally distributed random values.
  *
  * @author Franz Amador (open-source contributor)
  */
