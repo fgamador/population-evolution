@@ -43,8 +43,8 @@ export default class Bird {
 
   public breed( rand: RandomSource, partner: Bird, beakSizeStdDev: number ): Bird[] {
     const beakSizeMean = ( this.beakSize + partner.beakSize ) / 2;
-    const beakSize = rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev );
     // todo random number of offspring
+    const beakSize = rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev );
     return [ new Bird( beakSize ) ];
   }
 
