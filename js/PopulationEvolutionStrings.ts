@@ -1,4 +1,4 @@
-/* eslint-disable copyright */
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.
@@ -22,6 +22,7 @@ type StringsType = {
     'nameStringProperty': LocalizedStringProperty;
   };
   'seeds-controls': {
+    'distributionEnabledLabelStringProperty': LocalizedStringProperty;
     'titleStringProperty': LocalizedStringProperty;
   }
 };

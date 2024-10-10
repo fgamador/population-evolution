@@ -16,6 +16,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 type SelfOptions = EmptySelfOptions;
 export type SeedsControlPanelOptions = SelfOptions & PanelOptions;
@@ -50,8 +51,11 @@ export default class SeedsControlPanel extends Panel {
     for ( let i = 0; i < model.seeds.numDistributions(); ++i ) {
       const seedDist = model.seeds.getDistribution( i );
 
-      // todo text constant
-      content.addChild( new Checkbox( seedDist.enabledProperty, new Text( 'Seed type ' + ( i + 1 ), {
+      const enabledLabelTemplate = PopulationEvolutionStrings[ 'seeds-controls' ].distributionEnabledLabelStringProperty;
+      const enabledLabel = StringUtils.fillIn( enabledLabelTemplate, {
+        ordinal: i + 1
+      } );
+      content.addChild( new Checkbox( seedDist.enabledProperty, new Text( enabledLabel, {
         font: new Font( { size: 18 } )
       } ), {
         layoutOptions: { topMargin: ( i === 0 ) ? 0 : PopulationEvolutionConstants.SCREEN_VIEW_SPACING }

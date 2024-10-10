@@ -17,6 +17,9 @@
   "screen.name": {
     "value": "Population Evolution"
   },
+  "seeds-controls.distributionEnabledLabel": {
+    "value": "Seed type {{ordinal}}"
+  },
   "seeds-controls.title": {
     "value": "Seeds"
   }
