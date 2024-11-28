@@ -32,22 +32,6 @@
     "sha": "98d20de43c3360cb8e10109401ab44b6e6bc6986",
     "branch": "main"
   },
-  "phet-io": {
-    "sha": "de3ba60fc9c2359d1ef3dac7cc413edbe2435dad",
-    "branch": "main"
-  },
-  "phet-io-wrapper-classroom-activity": {
-    "sha": "248958109c8d3b73b5f9d6c31015b2c8b5016571",
-    "branch": "main"
-  },
-  "phet-io-wrapper-lab-book": {
-    "sha": "e5309c0d655079dede0616b5aa637e624e978242",
-    "branch": "main"
-  },
-  "phet-io-wrappers": {
-    "sha": "160f6c61f3533694a8c2b8fc58e29622381014da",
-    "branch": "main"
-  },
   "phetcommon": {
     "sha": "6d7cec347b7c30faff7e99956a87eb10e535dafa",
     "branch": "main"

@@ -5,7 +5,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"/>
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="phet-sim-level" content="development">
 
   <title>population-evolution</title>
@@ -36,7 +36,6 @@
         "requirejsNamespace": "POPULATION_EVOLUTION",
         "simulation": true,
         "runnable": true,
-        "readmeCreatedManually": true,
         "supportedBrands": [
           "phet",
           "adapted-from-phet"
@@ -75,12 +74,12 @@
         "requirejsNamespace": "JOIST"
       },
       {
-        "repo": "scenery-phet",
-        "requirejsNamespace": "SCENERY_PHET"
-      },
-      {
         "repo": "population-evolution",
         "requirejsNamespace": "POPULATION_EVOLUTION"
+      },
+      {
+        "repo": "scenery-phet",
+        "requirejsNamespace": "SCENERY_PHET"
       },
       {
         "repo": "sun",
@@ -117,13 +116,11 @@
     '../sherpa/lib/seedrandom-2.4.2.js',
     '../sherpa/lib/base64-js-1.2.0.js',
     '../sherpa/lib/TextEncoderLite-3c9f6f0.js',
-    '../tandem/js/PhetioIDUtils.js',
-    '../perennial-alias/js/common/SimVersion.js'
+    '../tandem/js/PhetioIDUtils.js'
   ];
 
   if ( brand === 'phet-io' ) {
     preloads = preloads.concat( [
-      '../chipper/js/phet-io/phetioCompareAPIs.js',
       '../phet-io/js/phet-io-initialize-globals.js',
       '../population-evolution/js/population-evolution-phet-io-overrides.js'
     ] );
