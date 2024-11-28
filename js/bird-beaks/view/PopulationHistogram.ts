@@ -8,8 +8,10 @@
 
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
+import finchBigBeak_png from '../../../images/finchBigBeak_png.js';
+import finchSmallBeak_png from '../../../images/finchSmallBeak_png.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
-import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
@@ -99,6 +101,16 @@ export default class PopulationHistogram extends Node {
       chartTransform.setModelYRange( new Range( 0, maxCount ) );
     } );
 
+    const finchSmallBeak = new Image( finchSmallBeak_png, {
+      left: chartRectangle.left + 10,
+      centerY: chartRectangle.centerY
+    } );
+
+    const finchBigBeak = new Image( finchBigBeak_png, {
+      right: chartRectangle.right - 10,
+      centerY: chartRectangle.centerY
+    } );
+
     this.children = [
       chartRectangle,
 
@@ -124,7 +136,9 @@ export default class PopulationHistogram extends Node {
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } ),
 
-      zoomButtonGroup
+      zoomButtonGroup,
+      finchSmallBeak,
+      finchBigBeak
     ];
   }
 
