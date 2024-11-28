@@ -1,3 +1,10 @@
 {
-
+  "finchBigBeak.png": {
+    "license": "public domain",
+    "notes": "cropped from wikimedia file 'Darwin's finches by Gould.jpg'"
+  },
+  "finchSmallBeak.png": {
+    "license": "public domain",
+    "notes": "cropped from wikimedia file 'Darwin's finches by Gould.jpg'"
+  }
 }
