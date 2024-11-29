@@ -113,6 +113,8 @@ export default class PopulationHistogram extends Node {
 
     this.children = [
       chartRectangle,
+      finchSmallBeak,
+      finchBigBeak,
 
       // Clipped contents
       new Node( {
@@ -136,9 +138,7 @@ export default class PopulationHistogram extends Node {
         createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
       } ),
 
-      zoomButtonGroup,
-      finchSmallBeak,
-      finchBigBeak
+      zoomButtonGroup
     ];
   }
 
