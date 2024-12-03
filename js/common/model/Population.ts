@@ -46,7 +46,7 @@ function findSurvivors<T>( rand: RandomSource, individuals: T[], survivalProbabi
       dead.push( individual );
     }
   } );
-  
+
   return [ alive, dead ];
 }
 

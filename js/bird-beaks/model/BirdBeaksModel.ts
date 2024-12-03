@@ -9,6 +9,7 @@
 import Bird from './Bird.js';
 import Population from '../../common/model/Population.js';
 import populationEvolution from '../../populationEvolution.js';
+import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
 import Property from '../../../../axon/js/Property.js';
 import RandomSource from '../../common/model/RandomSource.js';
@@ -41,7 +42,8 @@ export default class BirdBeaksModel implements TModel {
 
   private createPopulation(): Population<Bird> {
     // todo constants, or create in view?
-    return new Population( Bird.normallyDistributed( this.rand, 1000, 10, 5 ) );
+    return new Population( Bird.normallyDistributed( this.rand, PopulationEvolutionConstants.BIRD_INITIAL_COUNT,
+      PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_MEAN, PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_STDEV ) );
   }
 
   private createSeeds(): Seeds {
@@ -57,7 +59,8 @@ export default class BirdBeaksModel implements TModel {
       bird => bird.survivalProbability( this.seeds ) );
     result.died = aliveDeadPair[ 1 ];
 
-    const matedPairs = this.population.mateFindingPhase( this.rand, 3, // todo contant
+    // todo constant
+    const matedPairs = this.population.mateFindingPhase( this.rand, 3,
       ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
 
     const newBirds = this.population.breedingPhase( matedPairs,
