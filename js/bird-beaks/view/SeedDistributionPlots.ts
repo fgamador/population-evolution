@@ -50,7 +50,7 @@ export default class SeedDistributionPlots extends Node {
     // todo calculate these
     const majorXTickSpacing = 2;
     const minorYTickSpacing = 100;
-    const majorYTickSpacing = 250;
+    const majorYTickSpacing = 200;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.diagramWidth,
