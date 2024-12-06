@@ -42,11 +42,21 @@ export default class Bird {
     return Math.max( 1 - maxRelativeBeakSizeDifference, 0 );
   }
 
-  public breed( rand: RandomSource, partner: Bird, beakSizeStdDev: number ): Bird[] {
-    const beakSizeMean = ( this.beakSize + partner.beakSize ) / 2;
-    // todo random number of offspring
-    const beakSize = rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev );
-    return [ new Bird( beakSize ) ];
+  public breed( rand: RandomSource, mate: Bird, beakSizeStdDev: number ): Bird[] {
+    const numOffspring = this.calcNumOffspring( rand );
+    const beakSizeMean = ( this.beakSize + mate.beakSize ) / 2;
+
+    let result: Bird[] = [];
+    for ( let i = 0; i < numOffspring; ++i ) {
+      const beakSize = rand.nextNonNegativeNormalValue( beakSizeMean, beakSizeStdDev );
+      result.push( new Bird( beakSize ) );
+    }
+    return result;
+  }
+
+  private calcNumOffspring( rand: RandomSource ): number {
+    // todo
+    return 1;
   }
 
   public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
