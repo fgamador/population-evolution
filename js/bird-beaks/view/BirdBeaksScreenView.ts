@@ -34,6 +34,7 @@ const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 0.5 ]
 ] );
 
+// todo move to constants file
 const minBeakSize = 0.0;
 const maxBeakSize = 20.0;
 const numHistogramBars = 20;

@@ -49,14 +49,14 @@ export default class SeedDistributionPlots extends Node {
 
     // todo calculate these
     const majorXTickSpacing = 2;
-    const minorYTickSpacing = 1;
-    const majorYTickSpacing = 5;
+    const minorYTickSpacing = 10;
+    const majorYTickSpacing = 50;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.diagramWidth,
       viewHeight: options.diagramHeight,
       modelXRange: new Range( options.minValue, options.maxValue ),
-      modelYRange: new Range( 0, 10 ) // todo max height
+      modelYRange: new Range( 0, 200 ) // todo max height
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
