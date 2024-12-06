@@ -49,14 +49,14 @@ export default class SeedDistributionPlots extends Node {
 
     // todo calculate these
     const majorXTickSpacing = 2;
-    const minorYTickSpacing = 10;
-    const majorYTickSpacing = 50;
+    const minorYTickSpacing = 100;
+    const majorYTickSpacing = 250;
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.diagramWidth,
       viewHeight: options.diagramHeight,
       modelXRange: new Range( options.minValue, options.maxValue ),
-      modelYRange: new Range( 0, 200 ) // todo max height
+      modelYRange: new Range( 0, 1000 ) // todo max height
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
@@ -74,8 +74,8 @@ export default class SeedDistributionPlots extends Node {
         clipArea: chartRectangle.getShape(),
 
         children: [
-          // Minor grid lines
-          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing * 2, { stroke: 'lightGray' } )
+          // Major grid lines
+          new GridLineSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { stroke: 'lightGray' } )
         ]
       } ),
 
@@ -89,7 +89,7 @@ export default class SeedDistributionPlots extends Node {
       new TickMarkSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, { edge: 'min' } ),
       new TickLabelSet( chartTransform, Orientation.VERTICAL, majorYTickSpacing, {
         edge: 'min',
-        createLabel: ( value: number ) => new Text( Utils.toFixed( value, 1 ), { fontSize: 12 } )
+        createLabel: ( value: number ) => new Text( value, { fontSize: 12 } )
       } ),
 
       // Major ticks on the x-axis
