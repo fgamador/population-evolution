@@ -7,6 +7,7 @@
  */
 
 import Bird from './Bird.js';
+import BirdNiche from './BirdNiche.js';
 import Population from '../../common/model/Population.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
@@ -55,8 +56,10 @@ export default class BirdBeaksModel implements TModel {
     const result = new PopulationPhaseOutputs();
     result.initial = [ ...this.population.individuals ];
 
+    BirdNiche.updateAll( this.population.individuals, this.seeds );
+
     const aliveDeadPair = this.population.survivalPhase( this.rand,
-      bird => bird.survivalProbability( this.seeds ) );
+      bird => bird.survivalProbability() );
     result.died = aliveDeadPair[ 1 ];
 
     // todo constant

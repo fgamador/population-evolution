@@ -7,27 +7,32 @@
  * @author Franz Amador (open-source contributor)
  */
 
+import BirdNiche from './BirdNiche.js';
 import populationEvolution from '../../populationEvolution.js';
 import RandomSource from '../../common/model/RandomSource.js';
 import Seeds from './Seeds.js';
 
 export default class Bird {
 
+  public readonly niche: BirdNiche;
+
   public constructor( public readonly beakSize: number ) {
+    this.niche = new BirdNiche( beakSize );
   }
 
   // todo extract constants.
-  public survivalProbability( seeds: Seeds ): number {
-    const abundance = seeds.abundance( this.beakSize );
-    if ( abundance < 1 ) { // todo constant
+  public survivalProbability(): number {
+    const food = this.niche.occupantFood;
+
+    if ( food < 1 ) { // todo constant
       return 0;
     }
 
-    if ( abundance > 8 ) { // todo constant
+    if ( food > 8 ) { // todo constant
       return 0.8;
     }
 
-    return abundance * 0.1; // todo constant
+    return food * 0.1; // todo constant
   }
 
   // odds of two birds wanting to mate with each other
