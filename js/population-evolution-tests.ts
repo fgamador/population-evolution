@@ -7,6 +7,7 @@
  */
 
 import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
+import './bird-beaks/model/bird-beaks-model-tests.js';
 import './common/model/common-model-tests.js';
 import './common/view/common-view-tests.js';
 
