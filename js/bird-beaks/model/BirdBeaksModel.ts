@@ -56,7 +56,7 @@ export default class BirdBeaksModel implements TModel {
     const result = new PopulationPhaseOutputs();
     result.initial = [ ...this.population.individuals ];
 
-    BirdNiche.updateAll( this.population.individuals, this.seeds );
+    BirdNiche.updateAllNiches( this.population.individuals, this.seeds );
 
     const aliveDeadPair = this.population.survivalPhase( this.rand,
       bird => bird.survivalProbability() );

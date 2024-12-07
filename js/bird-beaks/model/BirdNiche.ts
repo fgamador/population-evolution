@@ -25,7 +25,7 @@ export default class BirdNiche {
     this.occupantFood = this.totalFood / this.occupantCount;
   }
 
-  public static updateAll( birds: Bird[], seeds: Seeds ) {
+  public static updateAllNiches( birds: Bird[], seeds: Seeds ) {
     BirdNiche.updateAllOccupantCounts( birds, PopulationEvolutionConstants.BIRD_NICHE_SIZE );
 
     birds.forEach( bird => {
