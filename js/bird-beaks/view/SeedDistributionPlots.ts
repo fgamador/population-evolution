@@ -16,12 +16,12 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import populationEvolution from '../../populationEvolution.js';
 // import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import Range from '../../../../dot/js/Range.js';
+import SeedDistribution from '../model/SeedDistribution.js';
 import Seeds from '../model/Seeds.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import SeedDistribution from '../model/SeedDistribution.js';
 
 type SelfOptions = {
   minValue: number;
