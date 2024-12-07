@@ -62,6 +62,8 @@ export default class SeedsControlPanel extends Panel {
       } ) );
 
       content.addChild( new FineCoarseSpinner( seedDist.abundanceFactorProperty, {
+        deltaFine: 10,
+        deltaCoarse: 100,
         layoutOptions: { leftMargin: PopulationEvolutionConstants.SCREEN_VIEW_SPACING },
         enabledProperty: seedDist.enabledProperty
       } ) );
