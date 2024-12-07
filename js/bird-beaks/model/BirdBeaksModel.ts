@@ -64,10 +64,10 @@ export default class BirdBeaksModel implements TModel {
 
     // todo constant
     const matedPairs = this.population.mateFindingPhase( this.rand, 3,
-      ( bird1, bird2 ) => bird1.matingProbability( bird2 ) );
+      ( bird1, bird2 ) => Bird.matingProbability( bird1, bird2 ) );
 
     const newBirds = this.population.breedingPhase( matedPairs,
-      ( bird1, bird2 ) => bird1.breed( this.rand, bird2, this.beakSizeStdDevProperty.value ) );
+      ( bird1, bird2 ) => Bird.breed( this.rand, bird1, bird2, this.beakSizeStdDevProperty.value ) );
     result.added = newBirds;
 
     return result;
