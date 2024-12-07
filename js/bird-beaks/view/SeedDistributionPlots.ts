@@ -9,15 +9,16 @@
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
+import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import LinePlot from '../../../../bamboo/js/LinePlot.js';
-import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import populationEvolution from '../../populationEvolution.js';
-// import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
 import Range from '../../../../dot/js/Range.js';
 import SeedDistribution from '../model/SeedDistribution.js';
 import Seeds from '../model/Seeds.js';
+import seedsBig_png from '../../../images/seedsBig_png.js';
+import seedsTiny_png from '../../../images/seedsTiny_png.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -66,8 +67,20 @@ export default class SeedDistributionPlots extends Node {
       cornerYRadius: 6
     } );
 
+    const seedsTiny = new Image( seedsTiny_png, {
+      left: chartRectangle.left + 10,
+      bottom: chartRectangle.bottom - 10
+    } );
+
+    const seedsBig = new Image( seedsBig_png, {
+      right: chartRectangle.right - 10,
+      bottom: chartRectangle.bottom - 10
+    } );
+
     this.children = [
       chartRectangle,
+      seedsTiny,
+      seedsBig,
 
       // Clipped contents
       this.clipAreaNode = new Node( {
