@@ -29,8 +29,8 @@ const MESSAGE_FONT = new PhetFont( 24 );
 
 // Seconds to wait for next call to model.update.
 const updateIntervalForTimeSpeed = new Map<TimeSpeed, number>( [
-  [ TimeSpeed.SLOW, 4.0 ],
-  [ TimeSpeed.NORMAL, 1.0 ],
+  [ TimeSpeed.SLOW, 8.0 ], // currently unused
+  [ TimeSpeed.NORMAL, 4.0 ],
   [ TimeSpeed.FAST, 0.5 ]
 ] );
 
@@ -65,7 +65,7 @@ export default class BirdBeaksScreenView extends ScreenView {
     super( options );
 
     this.isPlayingProperty = new BooleanProperty( true );
-    this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.SLOW );
+    this.playingSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
     this.secondsUntilNextUpdate = 0;
 
     this.addChild( new HBox( {
@@ -112,7 +112,7 @@ export default class BirdBeaksScreenView extends ScreenView {
                     }
                   },
                   timeSpeedProperty: this.playingSpeedProperty,
-                  timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.SLOW ]
+                  timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.NORMAL ]
                 } ),
                 new ResetAllButton( {
                   layoutOptions: { leftMargin: 2 * PopulationEvolutionConstants.SCREEN_VIEW_SPACING },

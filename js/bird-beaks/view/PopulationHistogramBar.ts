@@ -35,7 +35,7 @@ export default class PopulationHistogramBar extends Node {
   private addedRect: Rectangle;
 
   private animation: AnimationSequence | null = null;
-  
+
   private finalCount = 0;
 
   public constructor( providedOptions: PopulationHistogramBarOptions ) {
@@ -65,32 +65,32 @@ export default class PopulationHistogramBar extends Node {
     this.jumpToEnd();
   }
 
-  // todo So far this handles just the TimeSpeed.SLOW case, so the animations
-  // must fit within the time alloted in BirdScreenView's updateIntervalForTimeSpeed.
   public update( bin: PopulationPhaseOutputValuesBin, playingSpeed: TimeSpeed ): void {
     this.mainRect.rectHeightFromBottom = bin.initialCount * this.pixelsPerCount;
     this.mainRect.opacity = 1.0;
 
     this.finalCount = bin.initialCount - bin.diedCount + bin.addedCount;
 
-    switch( playingSpeed ) {
+    switch ( playingSpeed ) {
       case TimeSpeed.FAST: {
         this.jumpToEnd();
         break;
       }
-      case TimeSpeed.SLOW: {
-        this.startSlowAnimation( bin );
+      case TimeSpeed.NORMAL: {
+        this.startNormalAnimation( bin );
         break;
       }
       default: {
-        this.startSlowAnimation( bin );
+        this.startNormalAnimation( bin );
         break;
       }
     }
   }
 
-  private startSlowAnimation( bin: PopulationPhaseOutputValuesBin ): void {
+  private startNormalAnimation( bin: PopulationPhaseOutputValuesBin ): void {
     const survivedCount = bin.initialCount - bin.diedCount;
+    // Animations must fit within the time alloted in BirdBeaksScreenView's
+    // updateIntervalForTimeSpeed for TimeSpeed.NORMAL.
     this.animation = new AnimationSequence( [
       this.fadeInDiedRect( bin.diedCount, 1.0 ),
       this.shrinkDiedAndMainRects( survivedCount, 1.0 ),
