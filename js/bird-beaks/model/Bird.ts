@@ -24,18 +24,17 @@ export default class Bird {
   public survivalProbability(): number {
     const food = this.niche.occupantFood;
 
-    if ( food < 1 ) { // todo constant
+    if ( food < 1 ) {
       return 0;
     }
 
-    if ( food > 8 ) { // todo constant
+    if ( food > 8 ) {
       return 0.8;
     }
 
-    return food * 0.1; // todo constant
+    return food * 0.1;
   }
 
-  // odds of two birds wanting to mate with each other
   public matingProbability( candidate: Bird ): number {
     const beakSizeDifference = Math.abs( this.beakSize - candidate.beakSize );
     const maxRelativeBeakSizeDifference = beakSizeDifference / Math.min( this.beakSize, candidate.beakSize );
@@ -43,7 +42,7 @@ export default class Bird {
   }
 
   public breed( rand: RandomSource, mate: Bird, beakSizeStdDev: number ): Bird[] {
-    const numOffspring = this.calcNumOffspring( rand );
+    const numOffspring = this.calcNumOffspring( rand, mate );
     const beakSizeMean = ( this.beakSize + mate.beakSize ) / 2;
 
     let result: Bird[] = [];
@@ -54,8 +53,8 @@ export default class Bird {
     return result;
   }
 
-  private calcNumOffspring( rand: RandomSource ): number {
-    // todo
+  private calcNumOffspring( rand: RandomSource, mate: Bird ): number {
+    // todo more if niches have more food
     return 1;
   }
 
