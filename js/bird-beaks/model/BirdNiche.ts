@@ -11,11 +11,11 @@ import Seeds from './Seeds.js';
 
 export default class BirdNiche {
 
-  public occupantCount: number;
+  public occupantCount: number = 0;
 
-  public totalFood: number;
+  public totalFood: number = 0;
 
-  public occupantFood: number;
+  public occupantFood: number = 0;
 
   public constructor( public readonly beakSize: number ) {
   }
