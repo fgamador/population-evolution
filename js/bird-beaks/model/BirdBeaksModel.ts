@@ -49,7 +49,7 @@ export default class BirdBeaksModel implements TModel {
 
   private createSeeds(): Seeds {
     // todo constants, or create in view?
-    return new Seeds( [ new SeedDistribution( 4, 3, 5000, true ), new SeedDistribution( 10, 3, 3000, false ), new SeedDistribution( 16, 3, 4000, true ) ] );
+    return new Seeds( [ new SeedDistribution( 4, 1, 2000, true ), new SeedDistribution( 10, 1, 1000, false ), new SeedDistribution( 16, 1, 1000, false ) ] );
   }
 
   public update(): PopulationPhaseOutputs {
