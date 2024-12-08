@@ -7,6 +7,18 @@
 import Bird from './Bird.js';
 import BirdNiche from './BirdNiche.js';
 
+QUnit.module( 'Bird', () => {
+  QUnit.test( 'matingProbability is not biased by beak size', assert => {
+    const smallBeakProb = Bird.matingProbability( new Bird( 0.9 ), new Bird( 1.1 ) );
+    assert.ok( 0.0 < smallBeakProb && smallBeakProb < 1.0 );
+
+    const bigBeakProb = Bird.matingProbability( new Bird( 18.9 ), new Bird( 19.1 ) );
+    assert.ok( 0.0 < bigBeakProb && bigBeakProb < 1.0 );
+
+    assert.ok( Math.abs( smallBeakProb - bigBeakProb ) < 0.0001 );
+  } );
+} );
+
 QUnit.module( 'BirdNiche', () => {
   QUnit.test( 'findMinNicheBirdIndex one bird', assert => {
     const birds = [ new Bird( 5.0 ) ];

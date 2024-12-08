@@ -20,7 +20,7 @@ export default class Bird {
     this.niche = new BirdNiche( beakSize );
   }
 
-  // todo extract constants.
+  // todo extract constants
   public survivalProbability(): number {
     const food = this.niche.occupantFood;
 
@@ -35,10 +35,10 @@ export default class Bird {
     return food * 0.1;
   }
 
+  // todo extract constant
   public static matingProbability( bird1: Bird, bird2: Bird ): number {
-    const beakSizeDifference = Math.abs( bird1.beakSize - bird2.beakSize );
-    const maxRelativeBeakSizeDifference = beakSizeDifference / Math.min( bird1.beakSize, bird2.beakSize );
-    return Math.max( 1 - maxRelativeBeakSizeDifference, 0 );
+    const scaledBeakSizeDifference = 0.1 * Math.abs( bird1.beakSize - bird2.beakSize );
+    return Math.max( 1.0 - scaledBeakSizeDifference, 0.0 );
   }
 
   public static breed( rand: RandomSource, bird1: Bird, bird2: Bird, beakSizeStdDev: number ): Bird[] {
