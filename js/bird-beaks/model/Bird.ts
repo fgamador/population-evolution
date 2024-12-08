@@ -28,11 +28,11 @@ export default class Bird {
       return 0;
     }
 
-    if ( food > 8 ) {
-      return 0.8;
+    if ( food <= 8 ) {
+      return food * 0.1;
     }
 
-    return food * 0.1;
+    return 0.8;
   }
 
   // todo extract constant
@@ -53,9 +53,19 @@ export default class Bird {
     return result;
   }
 
+  // todo extract constants
   private static calcNumOffspring( rand: RandomSource, bird1: Bird, bird2: Bird ): number {
-    // todo more if niches have more food
-    return 1;
+    const minFood = Math.min( bird1.niche.occupantFood, bird2.niche.occupantFood );
+
+    if ( minFood < 1 ) {
+      return 0;
+    }
+
+    if ( minFood <= 3 ) {
+      return Math.floor( minFood );
+    }
+
+    return 3;
   }
 
   public static normallyDistributed( rand: RandomSource, count: number, beakSizeMean: number, beakSizeStdDev: number ): Bird[] {
