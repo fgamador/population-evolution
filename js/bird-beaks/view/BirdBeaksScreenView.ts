@@ -9,8 +9,9 @@
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BirdsControlPanel from './BirdsControlPanel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Dialog from '../../../../sun/js/Dialog.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Font, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
@@ -50,8 +51,6 @@ export default class BirdBeaksScreenView extends ScreenView {
   private readonly playingSpeedProperty: EnumerationProperty<TimeSpeed>;
 
   private secondsUntilNextUpdate: number;
-
-  private readonly extinctionMessage: Text;
 
   private readonly histogram: PopulationHistogram;
 
@@ -130,14 +129,6 @@ export default class BirdBeaksScreenView extends ScreenView {
       ]
     } ) );
 
-    this.extinctionMessage = new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, {
-      font: MESSAGE_FONT,
-      centerY: this.histogram.bounds.centerY,
-      centerX: this.histogram.bounds.centerX,
-      visible: false
-    } );
-    this.addChild( this.extinctionMessage );
-
     this.isPlayingProperty.link( value => {
       if ( !value ) {
         this.histogram.cancelAnimation();
@@ -173,7 +164,18 @@ export default class BirdBeaksScreenView extends ScreenView {
 
     this.secondsUntilNextUpdate = updateIntervalForTimeSpeed.get( this.playingSpeedProperty.value ) || 1.0;
     this.updateModelAndHistogram();
-    this.extinctionMessage.visible = this.model.population.individuals.length === 0;
+    if ( this.model.population.individuals.length === 0 ) {
+      this.extinct();
+    }
+  }
+
+  private extinct(): void {
+    this.isPlayingProperty.set( false );
+    new Dialog( new Node( {} ), {
+      titleAlign: 'center',
+      isModal: true,
+      title: new Text( PopulationEvolutionStrings.extinctionMessageStringProperty, { font: new Font( { size: 32 } ) } )
+    } ).show();
   }
 
   private singleStep(): void {
