@@ -42,14 +42,18 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population<Bird> {
-    // todo constants, or create in view?
+    // todo constants
     return new Population( Bird.normallyDistributed( this.rand, PopulationEvolutionConstants.BIRD_INITIAL_COUNT,
       PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_MEAN, PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_STDEV ) );
   }
 
   private createSeeds(): Seeds {
-    // todo constants, or create in view?
-    return new Seeds( [ new SeedDistribution( 4, 1, 2000, true ), new SeedDistribution( 10, 1, 1000, false ), new SeedDistribution( 16, 1, 1000, false ) ] );
+    // todo constants
+    return new Seeds( [
+      new SeedDistribution( PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_MEAN, PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_STDEV, 2000, true ),
+      new SeedDistribution( 10, 1, 1000, false ),
+      new SeedDistribution( 16, 1, 1000, false )
+    ] );
   }
 
   public update(): PopulationPhaseOutputs {
