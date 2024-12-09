@@ -42,17 +42,15 @@ export default class BirdBeaksModel implements TModel {
   }
 
   private createPopulation(): Population<Bird> {
-    // todo constants
     return new Population( Bird.normallyDistributed( this.rand, PopulationEvolutionConstants.BIRD_INITIAL_COUNT,
       PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_MEAN, PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_STDEV ) );
   }
 
   private createSeeds(): Seeds {
-    // todo constants
     return new Seeds( [
-      new SeedDistribution( PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_MEAN, PopulationEvolutionConstants.BIRD_INITIAL_BEAK_SIZE_STDEV, 2000, true ),
-      new SeedDistribution( 10, 1, 1000, false ),
-      new SeedDistribution( 16, 1, 1000, false )
+      new SeedDistribution( PopulationEvolutionConstants.BIRD_SEED1_SIZE_MEAN, PopulationEvolutionConstants.BIRD_SEED1_SIZE_STDEV, PopulationEvolutionConstants.BIRD_SEED1_SIZE_ABUNDANCE, true ),
+      new SeedDistribution( PopulationEvolutionConstants.BIRD_SEED2_SIZE_MEAN, PopulationEvolutionConstants.BIRD_SEED2_SIZE_STDEV, PopulationEvolutionConstants.BIRD_SEED2_SIZE_ABUNDANCE, false ),
+      new SeedDistribution( PopulationEvolutionConstants.BIRD_SEED3_SIZE_MEAN, PopulationEvolutionConstants.BIRD_SEED3_SIZE_STDEV, PopulationEvolutionConstants.BIRD_SEED3_SIZE_ABUNDANCE, false )
     ] );
   }
 
@@ -66,8 +64,7 @@ export default class BirdBeaksModel implements TModel {
       bird => bird.survivalProbability() );
     result.died = aliveDeadPair[ 1 ];
 
-    // todo constant
-    const matedPairs = this.population.mateFindingPhase( this.rand, 3,
+    const matedPairs = this.population.mateFindingPhase( this.rand, PopulationEvolutionConstants.BIRD_MATE_FINDING_PHASE_ROUNDS,
       ( bird1, bird2 ) => Bird.matingProbability( bird1, bird2 ) );
 
     const newBirds = this.population.breedingPhase( matedPairs,
