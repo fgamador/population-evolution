@@ -6,14 +6,13 @@
  * @author Franz Amador <franzamador@gmail.com>
 */
 
-import Bird from './Bird.js';
 import populationEvolution from '../../populationEvolution.js';
 
-export default class PopulationPhaseOutputs {
+export default class PopulationPhaseOutputs<T> {
 
-  public initial: Bird[] = [];
-  public died: Bird[] = [];
-  public added: Bird[] = [];
+  public initial: T[] = [];
+  public died: T[] = [];
+  public added: T[] = [];
 }
 
 populationEvolution.register( 'PopulationPhaseOutputs', PopulationPhaseOutputs );

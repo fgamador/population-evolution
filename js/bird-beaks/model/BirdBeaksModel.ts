@@ -11,7 +11,7 @@ import BirdNiche from './BirdNiche.js';
 import Population from '../../common/model/Population.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
-import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
+import PopulationPhaseOutputs from '../../common/model/PopulationPhaseOutputs.js';
 import Property from '../../../../axon/js/Property.js';
 import RandomSource from '../../common/model/RandomSource.js';
 import SeedDistribution from './SeedDistribution.js';
@@ -54,8 +54,8 @@ export default class BirdBeaksModel implements TModel {
     ] );
   }
 
-  public update(): PopulationPhaseOutputs {
-    const result = new PopulationPhaseOutputs();
+  public update(): PopulationPhaseOutputs<Bird> {
+    const result = new PopulationPhaseOutputs<Bird>();
     result.initial = [ ...this.population.individuals ];
 
     BirdNiche.updateAllNiches( this.population.individuals, this.seeds );

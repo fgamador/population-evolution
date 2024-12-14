@@ -6,9 +6,9 @@
  * @author Franz Amador <franzamador@gmail.com>
 */
 
-import populationEvolution from '../../populationEvolution.js';
 import Bird from './Bird.js';
-import PopulationPhaseOutputs from './PopulationPhaseOutputs.js';
+import populationEvolution from '../../populationEvolution.js';
+import PopulationPhaseOutputs from '../../common/model/PopulationPhaseOutputs.js';
 
 export default class PopulationPhaseOutputBeakSizes {
 
@@ -16,7 +16,7 @@ export default class PopulationPhaseOutputBeakSizes {
   public died: number[];
   public added: number[];
 
-  public constructor( phaseOutputs: PopulationPhaseOutputs ) {
+  public constructor( phaseOutputs: PopulationPhaseOutputs<Bird> ) {
     this.initial = birdsToBeakSizes( phaseOutputs.initial );
     this.died = birdsToBeakSizes( phaseOutputs.died );
     this.added = birdsToBeakSizes( phaseOutputs.added );
