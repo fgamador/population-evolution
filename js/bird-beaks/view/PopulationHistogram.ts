@@ -6,6 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import Bird from '../model/Bird.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import finchBigBeak_png from '../../../images/finchBigBeak_png.js';
@@ -18,7 +19,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBars, { PopulationHistogramBarsOptions } from './PopulationHistogramBars.js';
-import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
@@ -68,7 +69,7 @@ export default class PopulationHistogram extends Node {
 
     this.histogramBars = new PopulationHistogramBars( options );
 
-      // Minor ticks on the y-axis
+    // Minor ticks on the y-axis
     this.minorYTickMarks = new TickMarkSet( chartTransform, Orientation.VERTICAL, minorYTickSpacing, {
       stroke: 'darkGray',
       edge: 'min'
@@ -142,7 +143,7 @@ export default class PopulationHistogram extends Node {
     ];
   }
 
-  public update( phaseOutputs: PopulationPhaseOutputBeakSizes, playingSpeed: TimeSpeed ): void {
+  public update( phaseOutputs: PopulationPhaseOutputValues<Bird>, playingSpeed: TimeSpeed ): void {
     this.histogramBars.update( phaseOutputs, playingSpeed );
   }
 

@@ -7,11 +7,12 @@
  */
 
 import BinnedPopulationPhaseOutputValues from './BinnedPopulationPhaseOutputValues.js';
+import Bird from '../model/Bird.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
-import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
@@ -69,7 +70,7 @@ export default class PopulationHistogramBars extends Node {
     }
   }
 
-  public update( phaseOutputs: PopulationPhaseOutputBeakSizes, playingSpeed: TimeSpeed ): void {
+  public update( phaseOutputs: PopulationPhaseOutputValues<Bird>, playingSpeed: TimeSpeed ): void {
     const binned = new BinnedPopulationPhaseOutputValues( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {

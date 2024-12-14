@@ -6,6 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
+import Bird from '../model/Bird.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
 import BirdsControlPanel from './BirdsControlPanel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -18,7 +19,7 @@ import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
 import PopulationHistogram from './PopulationHistogram.js';
-import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import SeedDistributionPlots from './SeedDistributionPlots.js';
@@ -185,7 +186,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private updateModelAndHistogram(): void {
     const phaseOutputs = this.model.update();
-    this.histogram.update( new PopulationPhaseOutputBeakSizes( phaseOutputs ), this.playingSpeedProperty.value );
+    this.histogram.update( new PopulationPhaseOutputValues<Bird>( phaseOutputs, bird => bird.beakSize ), this.playingSpeedProperty.value );
   }
 }
 

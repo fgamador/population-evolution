@@ -6,8 +6,9 @@
  * @author Franz Amador <franzamador@gmail.com>
 */
 
+import Bird from '../model/Bird.js';
 import populationEvolution from '../../populationEvolution.js';
-import PopulationPhaseOutputBeakSizes from '../model/PopulationPhaseOutputBeakSizes.js';
+import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 
 export default class BinnedPopulationPhaseOutputValues {
 
@@ -15,7 +16,7 @@ export default class BinnedPopulationPhaseOutputValues {
   public readonly binnedDied: number[];
   public readonly binnedAdded: number[];
 
-  public constructor( phaseOutputs: PopulationPhaseOutputBeakSizes, public readonly numBins: number, public readonly minValue: number, public readonly maxValue: number ) {
+  public constructor( phaseOutputs: PopulationPhaseOutputValues<Bird>, public readonly numBins: number, public readonly minValue: number, public readonly maxValue: number ) {
     this.binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
     this.binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
     this.binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
