@@ -1,29 +1,28 @@
 /* eslint-disable copyright */
 
 /**
- * PopulationPhaseOutputBeakSizes collected into bins for display in a histogram.
+ * Collects PopulationPhaseOutputValues into bins. Useful for display in a histogram.
  *
  * @author Franz Amador <franzamador@gmail.com>
 */
 
-import Bird from '../model/Bird.js';
 import populationEvolution from '../../populationEvolution.js';
-import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
+import PopulationPhaseOutputValues from './PopulationPhaseOutputValues.js';
 
-export default class BinnedPopulationPhaseOutputValues {
+export default class BinnedPopulationPhaseOutputValues<T> {
 
   public readonly binnedInitial: number[];
   public readonly binnedDied: number[];
   public readonly binnedAdded: number[];
 
-  public constructor( phaseOutputs: PopulationPhaseOutputValues<Bird>, public readonly numBins: number, public readonly minValue: number, public readonly maxValue: number ) {
-    this.binnedInitial = this.valuesToHistogramBins( phaseOutputs.initial );
-    this.binnedDied = this.valuesToHistogramBins( phaseOutputs.died );
-    this.binnedAdded = this.valuesToHistogramBins( phaseOutputs.added );
+  public constructor( phaseOutputs: PopulationPhaseOutputValues<T>, public readonly numBins: number, public readonly minValue: number, public readonly maxValue: number ) {
+    this.binnedInitial = this.valuesToBins( phaseOutputs.initial );
+    this.binnedDied = this.valuesToBins( phaseOutputs.died );
+    this.binnedAdded = this.valuesToBins( phaseOutputs.added );
   }
 
-  private valuesToHistogramBins( values: number[] ): number[] {
-    const result = this.createEmptyHistogramBins();
+  private valuesToBins( values: number[] ): number[] {
+    const result = this.createEmptyBins();
 
     for ( const value of values ) {
       result[ this.valueToBinIndex( value ) ]++;
@@ -32,7 +31,7 @@ export default class BinnedPopulationPhaseOutputValues {
     return result;
   }
 
-  private createEmptyHistogramBins(): number[] {
+  private createEmptyBins(): number[] {
     return new Array( this.numBins ).fill( 0 );
   }
 

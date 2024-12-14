@@ -6,7 +6,7 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
-import BinnedPopulationPhaseOutputValues from './BinnedPopulationPhaseOutputValues.js';
+import BinnedPopulationPhaseOutputValues from '../../common/model/BinnedPopulationPhaseOutputValues.js';
 import Bird from '../model/Bird.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -71,7 +71,7 @@ export default class PopulationHistogramBars extends Node {
   }
 
   public update( phaseOutputs: PopulationPhaseOutputValues<Bird>, playingSpeed: TimeSpeed ): void {
-    const binned = new BinnedPopulationPhaseOutputValues( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
+    const binned = new BinnedPopulationPhaseOutputValues<Bird>( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
       this.bars[ i ].update( binned.bin( i ), playingSpeed );
