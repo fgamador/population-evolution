@@ -8,6 +8,7 @@
 
 import Bird from '../model/Bird.js';
 import BirdBeaksModel from '../model/BirdBeaksModel.js';
+import BirdPopulationHistogram from './BirdPopulationHistogram.js';
 import BirdsControlPanel from './BirdsControlPanel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
@@ -18,7 +19,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationEvolutionConstants from '../../common/PopulationEvolutionConstants.js';
 import PopulationEvolutionStrings from '../../PopulationEvolutionStrings.js';
-import PopulationHistogram from './PopulationHistogram.js';
 import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
@@ -53,7 +53,7 @@ export default class BirdBeaksScreenView extends ScreenView {
 
   private secondsUntilNextUpdate: number;
 
-  private readonly histogram: PopulationHistogram;
+  private readonly histogram: BirdPopulationHistogram;
 
   private seedDistributions: SeedDistributionPlots;
 
@@ -74,7 +74,7 @@ export default class BirdBeaksScreenView extends ScreenView {
       children: [
         new VBox( {
           children: [
-            this.histogram = new PopulationHistogram( {
+            this.histogram = new BirdPopulationHistogram( {
               layoutOptions: { align: 'right' },
               minValue: minBeakSize,
               maxValue: maxBeakSize,

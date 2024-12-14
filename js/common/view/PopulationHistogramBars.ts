@@ -6,13 +6,12 @@
  * @author Franz Amador <franzamador@gmail.com>
  */
 
-import BinnedPopulationPhaseOutputValues from '../../common/model/BinnedPopulationPhaseOutputValues.js';
-import Bird from '../model/Bird.js';
+import BinnedPopulationPhaseOutputValues from '../model/BinnedPopulationPhaseOutputValues.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
 import PopulationHistogramBar from './PopulationHistogramBar.js';
-import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
+import PopulationPhaseOutputValues from '../model/PopulationPhaseOutputValues.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {
@@ -27,7 +26,7 @@ type SelfOptions = {
 
 export type PopulationHistogramBarsOptions = SelfOptions & NodeOptions;
 
-export default class PopulationHistogramBars extends Node {
+export default class PopulationHistogramBars<T> extends Node {
 
   private minValue: number;
   private maxValue: number;
@@ -70,8 +69,8 @@ export default class PopulationHistogramBars extends Node {
     }
   }
 
-  public update( phaseOutputs: PopulationPhaseOutputValues<Bird>, playingSpeed: TimeSpeed ): void {
-    const binned = new BinnedPopulationPhaseOutputValues<Bird>( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
+  public update( phaseOutputs: PopulationPhaseOutputValues<T>, playingSpeed: TimeSpeed ): void {
+    const binned = new BinnedPopulationPhaseOutputValues<T>( phaseOutputs, this.bars.length, this.minValue, this.maxValue );
 
     for ( let i = 0; i < this.bars.length; i++ ) {
       this.bars[ i ].update( binned.bin( i ), playingSpeed );

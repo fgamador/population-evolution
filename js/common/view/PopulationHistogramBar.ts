@@ -7,12 +7,12 @@
  */
 
 import Animation from '../../../../twixt/js/Animation.js';
-import AnimationSequence from '../../common/view/AnimationSequence.js';
+import AnimationSequence from './AnimationSequence.js';
 import { Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import populationEvolution from '../../populationEvolution.js';
-import PopulationEvolutionColors from '../../common/PopulationEvolutionColors.js';
-import { PopulationPhaseOutputValuesBin } from '../../common/model/BinnedPopulationPhaseOutputValues.js';
+import PopulationEvolutionColors from '../PopulationEvolutionColors.js';
+import { PopulationPhaseOutputValuesBin } from '../model/BinnedPopulationPhaseOutputValues.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 type SelfOptions = {

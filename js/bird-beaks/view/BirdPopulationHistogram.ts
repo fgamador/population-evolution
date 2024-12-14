@@ -18,7 +18,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 import populationEvolution from '../../populationEvolution.js';
-import PopulationHistogramBars, { PopulationHistogramBarsOptions } from './PopulationHistogramBars.js';
+import PopulationHistogramBars, { PopulationHistogramBarsOptions } from '../../common/view/PopulationHistogramBars.js';
 import PopulationPhaseOutputValues from '../../common/model/PopulationPhaseOutputValues.js';
 import Range from '../../../../dot/js/Range.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
@@ -30,9 +30,9 @@ import Utils from '../../../../dot/js/Utils.js';
 type SelfOptions = EmptySelfOptions;
 export type PopulationHistogramOptions = SelfOptions & PopulationHistogramBarsOptions & NodeOptions;
 
-export default class PopulationHistogram extends Node {
+export default class BirdPopulationHistogram extends Node {
 
-  private histogramBars: PopulationHistogramBars;
+  private histogramBars: PopulationHistogramBars<Bird>;
 
   private minorYTickMarks: TickMarkSet;
 
@@ -158,4 +158,4 @@ export default class PopulationHistogram extends Node {
   }
 }
 
-populationEvolution.register( 'PopulationHistogram', PopulationHistogram );
+populationEvolution.register( 'PopulationHistogram', BirdPopulationHistogram );
